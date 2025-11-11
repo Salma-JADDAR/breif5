@@ -132,67 +132,54 @@ section {
 }
 
 /* 2. Hero Section */
+/* page home */
 .hero-section {
-    background: url('placeholder-hero.jpg') no-repeat center center/cover; /* Remplacer par une image spatiale */
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    padding: 0;
-}
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 1s ease-in-out;
+      
+    }
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Overlay sombre pour le texte */
-}
+    .hero-section h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
 
-.hero-content {
-    z-index: 1;
-    max-width: 800px;
-}
+    .hero-section p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      font-weight: bold;
+    }
 
-.hero-content h1 {
-    font-size: 3rem;
-    margin-bottom: 2rem;
-    color: white;
-    text-shadow: 0 0 10px var(--color-primary);
-}
+    .buttons {
+      margin-top: 2rem;
+    }
 
-.search-form {
-    display: flex;
-    gap: 10px;
-    background-color: rgba(17, 34, 64, 0.8);
-    padding: 1rem;
-    border-radius: 8px;
-}
+    .buttons button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.8);
+      color: #333;
+      transition: 0.3s;
+    }
 
-.search-form input, .search-form select {
-    padding: 0.75rem;
-    border: 1px solid var(--color-secondary);
-    background-color: var(--color-dark);
-    color: var(--color-light);
-    border-radius: 4px;
-    flex-grow: 1;
-}
-
-.search-btn {
-    background-color: var(--color-primary);
-    color: var(--color-dark);
-    padding: 0.75rem 2rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 700;
-    transition: background-color 0.3s;
-}
-
+    .buttons button:hover {
+      background: white;
+      transform: scale(1.05);
+    }
 /* 3. Destinations Phares */
 .featured-destinations {
     background-color: var(--color-dark);
@@ -355,21 +342,15 @@ section {
 
 
     <main>
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1>Votre Aventure Interstellaire Commence Ici</h1>
-                <form class="search-form">
-                    <input type="text" placeholder="Destination (Lune, Mars, Orbite...)">
-                    <input type="date" placeholder="Date de Départ">
-                    <select>
-                        <option>Type de Voyage</option>
-                        <option>Tourisme</option>
-                        <option>Scientifique</option>
-                    </select>
-                    <button type="submit" class="search-btn">Rechercher un Vol Spatial</button>
-                </form>
-            </div>
-        </section>
+ <section class="hero-section">
+    <h1>Explore Beyond Earth</h1>
+    <p>Experience the final frontier with luxury space travel to destinations across our solar system..</p>
+    <div class="buttons">
+      <button>Book Now</button>
+      <button>View Destinations</button>
+    </div>
+  </section>
+
 
         <section class="featured-destinations">
             <h2>Destinations Populaires</h2>
@@ -429,6 +410,31 @@ section {
         </div>
         <p class="copyright">&copy; 2025 SpaceVoyager. Tous droits réservés.</p>
     </footer>
+ 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const images = [
+        
+        "images/baner.PNG",
+         "images/BB.PNG",
+         "images/bb2.PNG"
+        
+      ];
 
+      let current = 0;
+      const hero = document.querySelector(".hero-section");
+
+      function changeBackground() {
+        hero.style.backgroundImage = `url(${images[current]})`;
+        current = (current + 1) % images.length;
+      }
+
+      setInterval(changeBackground, 3000);
+      changeBackground();
+    });
+  </script>
+
+
+ 
 </body>
 </html>
