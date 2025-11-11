@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceVoyager - Book Your Space Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+       body {
+            background-color: var(--color-dark);
+            background-image: url('images/ss.PNG');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--color-light);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
+
+       
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.7);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+           .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: rgba(10, 25, 47, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-card);
+            padding: 10px 10px;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-left: 0;
+        }
+
+        .logo-img {
+            width: 300px;
+            height: 60px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: var(--color-secondary);
+            font-weight: 400;
+        }
+
+        .main-nav a.active {
+            color: var(--color-primary);
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--color-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        .cta-btn {
+            background-color: var(--color-primary);
+            color: var(--color-dark);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--color-light);
+        }
+
+     
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #e3f2fd;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: #b0bec5;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+        
+        /* Form Styles */
+        .booking-form {
+            background: 
+                linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%),
+                url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 60px;
+            border: 1px solid #2d3e50;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .booking-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(79, 195, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(79, 195, 247, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .form-section {
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-section h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #4fc3f7;
+            border-bottom: 2px solid #1e2a3a;
+            padding-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #e3f2fd;
+            font-size: 18px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            background-color: rgba(30, 42, 58, 0.8);
+            border: 2px solid #2d3e50;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            background-color: rgba(30, 42, 58, 0.9);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 25px;
+            margin-top: 10px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 12px 20px;
+            background: rgba(30, 42, 58, 0.8);
+            border-radius: 8px;
+            border: 2px solid #2d3e50;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .radio-option:hover {
+            border-color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.1);
+        }
+        
+        .radio-option input {
+            display: none;
+        }
+        
+        .radio-custom {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #4fc3f7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .radio-custom::after {
+            content: "";
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #4fc3f7;
+            display: none;
+        }
+        
+        .radio-option input:checked + .radio-custom::after {
+            display: block;
+        }
+        
+        .radio-option input:checked ~ span {
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+        
+        .accommodation-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 15px;
+        }
+        
+        .accommodation-option {
+            background: rgba(30, 42, 58, 0.8);
+            border: 2px solid #2d3e50;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .accommodation-option:hover {
+            border-color: #4fc3f7;
+            background: rgba(30, 42, 58, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .accommodation-option.selected {
+            border-color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.15);
+        }
+        
+        .accommodation-option h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #e3f2fd;
+        }
+        
+        .accommodation-option p {
+            font-size: 16px;
+            color: #b0bec5;
+            line-height: 1.6;
+        }
+        
+        .name-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: #4fc3f7;
+            color: #0a0e17;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #29b6f6;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #4fc3f7;
+            color: #4fc3f7;
+            margin-right: 20px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+        
+        .terms {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #b0bec5;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #b0bec5;
+            border-top: 1px solid #1e2a3a;
+            margin-top: 40px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .name-fields {
+                grid-template-columns: 1fr;
+            }
+            
+            .accommodation-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .booking-form {
+                padding: 30px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+          <header class="header" style="background-color: #000;">
+        <div class="logo">
+            <img src="images/LOGOSF.png" alt="Logo SpaceVoyager" class="logo-img">
+        </div>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html" >Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="booking.html" class="active">booking</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-actions">
+            <button class="icon-btn">🛒</button>
+            <button class="icon-btn">👤</button>
+            <button class="cta-btn"><a href="login.html">Connexion</a></button>
+        </div>
+    </header>
+        
+        <section class="hero">
+            <h1>Book Your Space Journey</h1>
+            <p>Begin your adventure to the stars. Fill out the form below to reserve your spot on our next space voyage.</p>
+        </section>
+        
+        <form class="booking-form">
+            <div class="form-section">
+                <h2>Journey Details</h2>
+                
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <select id="destination" class="form-control">
+                        <option>Select your destination</option>
+                        <option>Moon Base Alpha</option>
+                        <option>International Space Station</option>
+                        <option>Mars Colony One</option>
+                        <option>Venus Cloud City</option>
+                        <option>Jupiter's Europa</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="departure-date">Departure Date</label>
+                    <input type="text" id="departure-date" class="form-control" placeholder="mm/dd/yyyy">
+                </div>
+                
+                <div class="form-group">
+                    <label>Number of Passengers</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="passengers" value="solo">
+                            <span class="radio-custom"></span>
+                            <span>Solo Traveler</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="passengers" value="couple">
+                            <span class="radio-custom"></span>
+                            <span>Couple (2)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="passengers" value="group">
+                            <span class="radio-custom"></span>
+                            <span>Group (3-6)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Accommodation Type</label>
+                    <div class="accommodation-options">
+                        <div class="accommodation-option" data-type="standard">
+                            <h3>Standard Cabin</h3>
+                            <p>Comfortable private quarters with basic amenities</p>
+                        </div>
+                        <div class="accommodation-option" data-type="luxury">
+                            <h3>Luxury Suite</h3>
+                            <p>Spacious suite with premium amenities and viewports</p>
+                        </div>
+                        <div class="accommodation-option" data-type="zero-g">
+                            <h3>Zero-G Pod</h3>
+                            <p>Advanced accommodation with zero-gravity experience</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Personal Information</h2>
+                
+                <div class="form-group name-fields">
+                    <div>
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" class="form-control" placeholder="Enter your first name">
+                    </div>
+                    <div>
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" class="form-control" placeholder="Enter your last name">
+                    </div>
+                </div>
+                
+                <div class="form-group name-fields">
+                    <div>
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                    </div>
+                    <div>
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="requirements">Special Requirements</label>
+                    <textarea id="requirements" class="form-control" rows="4" placeholder="Any special requirements or notes..."></textarea>
+                </div>
+                
+                <button type="button" class="btn btn-secondary">Add Passenger</button>
+            </div>
+            
+            <div style="text-align: center;">
+                <button type="button" class="btn">Confirm Booking</button>
+                <p class="terms">By confirming, you agree to our Terms of Service and Space Travel Agreement.</p>
+            </div>
+        </form>
+        
+        <footer>
+            <p>&copy; 2023 SpaceVoyager. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Accommodation selection
+        const accommodationOptions = document.querySelectorAll('.accommodation-option');
+        
+        accommodationOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected class from all options
+                accommodationOptions.forEach(opt => opt.classList.remove('selected'));
+                // Add selected class to clicked option
+                option.classList.add('selected');
+            });
+        });
+        
+        // Date input formatting
+        const departureDateInput = document.getElementById('departure-date');
+        
+        departureDateInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2);
+            }
+            if (value.length >= 5) {
+                value = value.substring(0, 5) + '/' + value.substring(5, 9);
+            }
+            
+            e.target.value = value;
+        });
+        
+        // Form validation on submit
+        const confirmButton = document.querySelector('.btn');
+        
+        confirmButton.addEventListener('click', function() {
+            // Basic validation
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const email = document.getElementById('email').value;
+            const destination = document.getElementById('destination').value;
+            
+            if (!firstName || !lastName || !email || destination === 'Select your destination') {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // If validation passes
+            alert('Booking confirmed! We will contact you with further details.');
+        });
+    </script>
+</body>
+</html>

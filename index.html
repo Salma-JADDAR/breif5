@@ -331,7 +331,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');
+    background-image: url('images/fee.PNG');
     background-size: cover;
     background-position: center;
     z-index: 0;
@@ -624,63 +624,476 @@
         font-size: 0.9rem;
     }
 }
-        /* 5. Section Comment ça marche */
-        .how-it-works {
-            background-color: var(--color-card);
-            padding: 4rem 2%;
-        }
+/* Section Témoignages Seule */
+.testimonials-section-alone {
+    min-height: 60vh;
+    padding: 80px 5%;
+    position: relative;
+    /* Supprimé le background pour laisser voir le body */
+}
 
-        .steps-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
+.testimonials-section-alone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Supprimé le background pour la transparence totale */
+    
+    z-index: -1;
+}
 
-        .step {
-            background-color: var(--color-dark);
-            padding: 2rem;
-            border-radius: 10px;
-            width: 200px;
-            margin: 1rem;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
+.testimonials-container-alone {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-        /* 6. Témoignages */
-        .traveler-say {
-            background-color: var(--color-dark);
-        }
+.testimonials-title-alone {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 60px;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+}
 
-        .testimonial-box {
-            background-color: var(--color-card);
-            padding: 2rem;
-            max-width: 600px;
-            margin: 2rem auto;
-            border-left: 5px solid var(--color-primary);
-            text-align: left;
-        }
+.testimonials-cards-alone {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-        .traveler-info {
-            margin-top: 1rem;
-            color: var(--color-primary);
-            font-weight: 700;
-        }
+.testimonial-card-alone {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(124, 77, 255, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 350px;
+}
 
-        .secondary-btn {
-            background: none;
-            border: 1px solid var(--color-primary);
-            color: var(--color-primary);
-            padding: 0.75rem 2rem;
-            transition: background-color 0.3s, color 0.3s;
-        }
+.testimonial-card-alone:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 229, 255, 0.25);
+    border-color: var(--color-primary);
+}
 
-        .secondary-btn:hover {
-            background-color: var(--color-primary);
-            color: var(--color-dark);
-        }
+.testimonial-image-alone {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--color-primary);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+    margin-bottom: 20px;
+}
 
+.testimonial-image-alone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-content-alone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.testimonial-header-alone {
+    margin-bottom: 15px;
+}
+
+.user-name-alone {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--color-light);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.stars-alone {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    margin-bottom: 15px;
+}
+
+.star-alone {
+    font-size: 1.1rem;
+    color: var(--color-secondary);
+}
+
+.star-alone.yellow {
+    color: #FFD700;
+    text-shadow: 0 2px 8px rgba(255, 215, 0, 0.6);
+}
+
+.testimonial-text-alone {
+    color: white;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    font-style: italic;
+    margin: 0;
+    flex: 1;
+}
+
+/* Responsive Design pour cartes côte à côte */
+@media (max-width: 1024px) {
+    .testimonials-cards-alone {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonials-title-alone {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+    
+    .testimonials-cards-alone {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        gap: 20px;
+    }
+    
+    .testimonial-card-alone {
+        min-height: 300px;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonials-section-alone {
+        padding: 60px 3%;
+        min-height: 50vh;
+    }
+    
+    .testimonials-title-alone {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    
+    .testimonial-card-alone {
+        min-height: 280px;
+        padding: 15px;
+    }
+    
+    .testimonial-image-alone {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 15px;
+    }
+    
+    .user-name-alone {
+        font-size: 1.2rem;
+    }
+    
+    .testimonial-text-alone {
+        font-size: 0.9rem;
+    }
+}
+/* Section Processus de Voyage Seule */
+/* Section Processus de Voyage Seule */
+.journey-section-alone {
+    min-height: 80vh;
+    padding: 80px 5%;
+    position: relative;
+    
+}
+
+.journey-background-alone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/sd.PNG');
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    opacity: 0.4;
+}
+
+.journey-background-alone::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    z-index: -1;
+}
+
+.journey-container-alone {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.journey-title-alone {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 80px;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+}
+
+/* Conteneur des étapes avec ligne de connexion */
+.journey-steps-alone {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Ligne de connexion entre les numéros */
+.journey-steps-alone::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: linear-gradient(to right, 
+        var(--color-primary) 0%, 
+        rgba(124, 77, 255, 0.5) 100%);
+    z-index: 0;
+}
+
+/* Cartes des étapes */
+.step-item-alone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(124, 77, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    width: 200px;
+   height: 300px;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Arrière-plan de chaque carte avec image */
+.step-item-alone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+}
+
+/* Images d'arrière-plan pour chaque carte */
+.step-item-alone:nth-child(1)::before {
+    background-image: url('images/r.PNG');
+}
+
+
+
+.step-item-alone:nth-child(3)::before {
+    background-image: url('images/pr.PNG');
+}
+
+
+
+.step-item-alone:nth-child(5)::before {
+    background-image: url('images/d.PNG');
+}
+
+/* Overlay sombre pour mieux lire le texte */
+.step-item-alone::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    z-index: -1;
+}
+
+.step-item-alone:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.step-item-alone:hover::before {
+    opacity: 0.5;
+}
+
+/* Numéro de l'étape au-dessus de la carte */
+.step-number-alone {
+    width: 60px;
+    height: 60px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    top: 0%;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+    border: 3px solid white;
+}
+
+/* Supprimer l'image séparée - maintenant c'est l'arrière-plan */
+.step-image-alone {
+    display: none;
+}
+
+/* Contenu de la carte */
+.step-content-alone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.step-content-alone h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: white;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    font-weight: bold;
+}
+
+.step-content-alone p {
+    color: var(--color-secondary);
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .journey-steps-alone {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 60px;
+    }
+    
+    .journey-steps-alone::before {
+        display: none;
+    }
+    
+    .step-item-alone {
+        width: 220px;
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .journey-title-alone {
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+    }
+    
+    .journey-steps-alone {
+        gap: 50px;
+        padding: 0 10px;
+    }
+    
+    .step-item-alone {
+        width: 200px;
+        min-height: 250px;
+        padding: 70px 20px 25px;
+    }
+    
+    .step-number-alone {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+        top: -25px;
+    }
+    
+    .step-content-alone h3 {
+        font-size: 1.2rem;
+    }
+    
+    .step-content-alone p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .journey-section-alone {
+        padding: 60px 3%;
+    }
+    
+    .journey-title-alone {
+        font-size: 2rem;
+        margin-bottom: 50px;
+    }
+    
+    .journey-steps-alone {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .step-item-alone {
+        width: 250px;
+        min-height: 220px;
+        padding: 60px 25px 20px;
+    }
+    
+    .step-number-alone {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+        top: -22px;
+    }
+    
+    .step-content-alone h3 {
+        font-size: 1.1rem;
+    }
+    
+    .step-content-alone p {
+        font-size: 0.85rem;
+    }
+}
         /* 7. Modal */
         .modal {
             display: none;
@@ -716,86 +1129,324 @@
             color: var(--color-primary);
         }
 
-        /* 8. Footer */
-        .footer {
-            background-color: #000;
-            padding: 3rem 10%;
-            text-align: left;
-            border-top: 1px solid var(--color-card);
+        /* 8. Footer - MODIFIÉ POUR ÊTRE NOIR COMPLET */
+        .pro-footer {
+            background: #000000 !important; /* Noir complet */
+            color: #e0e0e0;
+            font-family: "Poppins", sans-serif;
+            padding: 70px 8% 20px;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
+        .pro-footer::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("https://www.transparenttextures.com/patterns/stardust.png");
+            opacity: 0.12;
         }
 
-        .footer-links h3 {
-            color: var(--color-light);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 50px;
+            z-index: 2;
+            position: relative;
         }
 
-        .footer-links ul {
+        .footer-logo {
+            height: 70px;
+            margin-bottom: 10px;
+        }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            color: #bdbdbd;
+            line-height: 1.6;
+        }
+
+        .footer-nav h4,
+        .footer-contact h4,
+        .footer-newsletter h4 {
+            color: #00c6ff;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .footer-nav ul,
+        .footer-contact ul {
             list-style: none;
+            padding: 0;
         }
 
-        .footer-links li {
-            margin-bottom: 0.5rem;
+        .footer-nav a {
+            text-decoration: none;
+            color: #ccc;
+            display: inline-block;
+            margin-bottom: 10px;
+            transition: 0.3s;
         }
 
-        .newsletter input {
-            padding: 0.75rem;
-            border: 1px solid var(--color-secondary);
-            background-color: var(--color-dark);
-            color: var(--color-light);
-            border-radius: 4px;
-            margin-right: 10px;
+        .footer-nav a:hover {
+            color: #00c6ff;
+            transform: translateX(5px);
         }
 
-        .copyright {
+        .footer-contact li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+        }
+
+        .footer-contact i {
+            color: #00c6ff;
+        }
+
+        .footer-newsletter p {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 10px;
+        }
+
+        .footer-newsletter form {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .footer-newsletter input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            padding: 10px;
+            flex: 1;
+        }
+
+        .footer-newsletter button {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            border: none;
+            color: #fff;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .footer-newsletter button:hover {
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0 20px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .footer-social a {
+            color: #fff;
+            font-size: 1.3rem;
+            transition: 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: #00c6ff;
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            color: var(--color-secondary);
-            padding-top: 1rem;
-            border-top: 1px solid var(--color-card);
+            padding-top: 15px;
+            font-size: 0.85rem;
+            color: #aaa;
+            position: relative;
+            z-index: 2;
         }
 
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .section-title {
-                font-size: 3rem;
-            }
-            
-            .section-description {
-                font-size: 1.3rem;
-            }
-            
-            .floating-element {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .future-cards-container {
+        @media (max-width: 768px) {
+            .footer-container {
                 grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-newsletter form {
+                flex-direction: column;
+            }
+            
+            .footer-newsletter input {
+                width: 100%;
+                margin-bottom: 10px;
             }
         }
+
+        /* ========== RESPONSIVE DESIGN ========== */
         
-        @media (max-width: 768px) {
+        /* Tablettes */
+        @media (max-width: 1024px) {
+            .header {
+                padding: 1rem 3%;
+            }
+            
+            .logo-img {
+                width: 250px;
+            }
+            
+            .main-nav ul {
+                gap: 1.5rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.1rem;
+                max-width: 500px;
+            }
+            
+            .destinations-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cards-container {
+                gap: 20px;
+            }
+            
+            .card {
+                width: 250px;
+                height: 380px;
+            }
+            
+            .card img {
+                height: 250px;
+            }
+            
             .section-title {
                 font-size: 2.5rem;
             }
             
-            .section-description {
-                font-size: 1.2rem;
+            .future-cards-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
             }
             
-            .floating-element {
+            .testimonials-cards-alone {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .journey-steps-alone {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 60px;
+            }
+            
+            .journey-steps-alone::before {
                 display: none;
             }
             
+            .step-item-alone {
+                width: 220px;
+                min-height: 280px;
+            }
+        }
+        
+        /* Mobiles */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .logo-img {
+                width: 200px;
+                height: 50px;
+            }
+            
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                margin-bottom: 15px;
+            }
+            
+            .user-actions {
+                display: flex;
+                justify-content: center;
+            }
+            
+            .hero-section {
+                height: 80vh;
+                padding: 0 5%;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            section {
+                padding: 4rem 5%;
+            }
+            
+            .destinations-section h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-container {
+                gap: 15px;
+                padding: 10px;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+            }
+            
+            .card img {
+                height: 200px;
+            }
+            
+            .card-title {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .section-description {
+                font-size: 0.9rem;
+            }
+            
+            .future-cards-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
             .future-card {
-                height: 450px;
+                height: 250px;
+                max-width: 100%;
             }
             
             .future-card-content {
@@ -803,17 +1454,212 @@
             }
             
             .future-card-title {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
             
             .future-card-description {
                 font-size: 1rem;
+            }
+            
+            .testimonials-title-alone {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+            
+            .testimonials-cards-alone {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .testimonial-card-alone {
+                min-height: 300px;
+                padding: 20px;
+            }
+            
+            .journey-title-alone {
+                font-size: 2rem;
+                margin-bottom: 60px;
+            }
+            
+            .journey-steps-alone {
+                flex-direction: column;
+                align-items: center;
+                gap: 50px;
+            }
+            
+            .step-item-alone {
+                width: 250px;
+                min-height: 250px;
+                padding: 70px 20px 25px;
+            }
+            
+            .step-number-alone {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+                top: -25px;
+            }
+            
+            .step-content-alone h3 {
+                font-size: 1.2rem;
+            }
+            
+            .step-content-alone p {
+                font-size: 0.9rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .newsletter input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        
+        /* Petits mobiles */
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-section p {
+                font-size: 0.9rem;
+            }
+            
+            .buttons button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .destinations-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                max-width: 100%;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .future-card {
+                height: 220px;
+            }
+            
+            .future-card-content {
+                padding: 15px;
+            }
+            
+            .future-card-title {
+                font-size: 1.3rem;
+            }
+            
+            .future-card-description {
+                font-size: 0.9rem;
+            }
+            
+            .learn {
+                width: 130px;
+                height: 45px;
+                font-size: 0.9rem;
+            }
+            
+            .testimonials-title-alone {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+            
+            .testimonial-card-alone {
+                min-height: 280px;
+                padding: 15px;
+            }
+            
+            .testimonial-image-alone {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 15px;
+            }
+            
+            .user-name-alone {
+                font-size: 1.2rem;
+            }
+            
+            .testimonial-text-alone {
+                font-size: 0.9rem;
+            }
+            
+            .journey-title-alone {
+                font-size: 1.8rem;
+                margin-bottom: 50px;
+            }
+            
+            .step-item-alone {
+                width: 220px;
+                min-height: 220px;
+                padding: 60px 15px 20px;
+            }
+            
+            .step-number-alone {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+                top: -22px;
+            }
+            
+            .step-content-alone h3 {
+                font-size: 1.1rem;
+            }
+            
+            .step-content-alone p {
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* Très petits écrans */
+        @media (max-width: 360px) {
+            .logo-img {
+                width: 180px;
+            }
+            
+            .main-nav ul {
+                gap: 0.8rem;
+            }
+            
+            .main-nav a {
+                font-size: 0.9rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 1.6rem;
+            }
+            
+            .destinations-section h1 {
+                font-size: 1.6rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .testimonials-title-alone {
+                font-size: 1.6rem;
+            }
+            
+            .journey-title-alone {
+                font-size: 1.6rem;
             }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <header class="header" style="background-color: #000;">
@@ -823,18 +1669,18 @@
 
         <nav class="main-nav">
             <ul>
-                <li><a href="#" class="active">Voyages</a></li>
-                <li><a href="#">Destinations</a></li>
-                <li><a href="#">Missions</a></li>
-                <li><a href="#">À Propos</a></li>
-                <li><a href="#">Support</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="support.html">Support</a></li>
             </ul>
         </nav>
 
         <div class="user-actions">
             <button class="icon-btn">🛒</button>
             <button class="icon-btn">👤</button>
-            <button class="cta-btn">Connexion</button>
+            <button class="cta-btn"><a href="login.html">Connexion</a></button>
         </div>
     </header>
 
@@ -982,43 +1828,165 @@
         </div>
         
 
-        <section class="how-it-works">
-            <h2>Réservez votre Voyage en 3 Étapes Simples</h2>
-            <div class="steps-container">
-                <div class="step">🔍 Rechercher</div>
-                <div class="step">⚙️ Personnaliser</div>
-                <div class="step">🚀 Lancer</div>
+        <!-- Section Témoignages -->
+<!-- Section Témoignages -->
+<section class="testimonials-section-alone">
+    <div class="testimonials-container-alone">
+        <h2 class="testimonials-title-alone">What Our Travelers Say</h2>
+        <div class="testimonials-cards-alone">
+            <!-- Carte témoignage 1 -->
+            <div class="testimonial-card-alone">
+                <div class="testimonial-image-alone">
+                    <img src="images/p1.PNG" alt="Alex Johnson">
+                </div>
+                <div class="testimonial-content-alone">
+                    <div class="testimonial-header-alone">
+                        <h3 class="user-name-alone">Alex Johnson</h3>
+                        <div class="stars-alone">
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone">★</span>
+                            <span class="star-alone">★</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text-alone">"The most incredible experience of my life. Seeing Earth from space changed my perspective forever."</p>
+                </div>
             </div>
-        </section>
 
-        <section class="traveler-say">
-            <h2>Ce que disent nos Explorateurs</h2>
-            <div class="testimonial-box">
-                <blockquote>"Le voyage le plus incroyable de ma vie ! Service impeccable."</blockquote>
-                <div class="traveler-info">⭐️⭐️⭐️⭐️⭐️ - Alex K.</div>
+            <!-- Carte témoignage 2 -->
+            <div class="testimonial-card-alone">
+                <div class="testimonial-image-alone">
+                    <img src="images/p2.PNG" alt="Sarah Chen">
+                </div>
+                <div class="testimonial-content-alone">
+                    <div class="testimonial-header-alone">
+                        <h3 class="user-name-alone">Sarah Chen</h3>
+                        <div class="stars-alone">
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone">★</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text-alone">"The Mars base was beyond expectations. The guides were knowledgeable and the facilities were top-notch."</p>
+                </div>
             </div>
-            <button class="cta-btn secondary-btn">Voir plus d'avis</button>
-        </section>
-    </main>
 
-    <footer class="footer">
-        <div class="footer-links">
-            <div>
-                <h3>Liens Utiles</h3>
-                <ul>
-                    <li><a href="#">Conditions Générales</a></li>
-                    <li><a href="#">Politique de Confidentialité</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="newsletter">
-                <h3>Newsletter</h3>
-                <input type="email" placeholder="Entrez votre email">
-                <button>S'abonner</button>
+            <!-- Carte témoignage 3 -->
+            <div class="testimonial-card-alone">
+                <div class="testimonial-image-alone">
+                    <img src="images/p3.PNG" alt="Marcus Rodriguez">
+                </div>
+                <div class="testimonial-content-alone">
+                    <div class="testimonial-header-alone">
+                        <h3 class="user-name-alone">Marcus Rodriguez</h3>
+                        <div class="stars-alone">
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                            <span class="star-alone yellow">★</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text-alone">"A once-in-a-lifetime adventure. The zero-gravity experience was worth every penny. Can't wait to go again!"</p>
+                </div>
             </div>
         </div>
-        <p class="copyright">&copy; 2025 SpaceVoyager. Tous droits réservés.</p>
-    </footer>
+    </div>
+</section>
+<!-- Section Processus de Voyage -->
+<section class="journey-section-alone">
+    <div class="journey-background-alone"></div>
+    <div class="journey-container-alone">
+        <h2 class="journey-title-alone">Your Journey in 3 Steps</h2>
+        <div class="journey-steps-alone">
+            <!-- Étape 1 -->
+            <div class="step-item-alone">
+                <div class="step-number-alone">1</div>
+                <div class="step-image-alone">
+                    <img src="images/step1-booking.jpg" alt="Réservation">
+                </div>
+                <div class="step-content-alone">
+                    <h3>Réservation</h3>
+                    <p>Choisissez votre destination et réservez en ligne</p>
+                </div>
+            </div>
+
+            <!-- Ligne de connexion -->
+            <div class="step-connector-alone"></div>
+
+            <!-- Étape 2 -->
+            <div class="step-item-alone">
+                <div class="step-number-alone">2</div>
+                <div class="step-image-alone">
+                    <img src="images/step2-training.jpg" alt="Préparation">
+                </div>
+                <div class="step-content-alone">
+                    <h3>Préparation</h3>
+                    <p>Entraînement et briefing avec nos experts</p>
+                </div>
+            </div>
+
+            <!-- Ligne de connexion -->
+            <div class="step-connector-alone"></div>
+
+            <!-- Étape 3 -->
+            <div class="step-item-alone">
+                <div class="step-number-alone">3</div>
+                <div class="step-image-alone">
+                    <img src="images/step3-launch.jpg" alt="Décollage">
+                </div>
+                <div class="step-content-alone">
+                    <h3>Décollage</h3>
+                    <p>Embarquement et lancement vers l'espace</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    </main>
+
+  <footer class="pro-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <img src="images/LOGOSF.png" alt="SpaceVoyager" class="footer-logo">
+      <p>Embark on journeys beyond imagination — experience the infinite.</p>
+    </div>
+
+
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <ul>
+        <li><i class="fas fa-map-marker-alt"></i> Space Station HQ, Orbit 3</li>
+        <li><i class="fas fa-envelope"></i> contact@SpaceVoyager.com</li>
+        <li><i class="fas fa-phone-alt"></i> +00 123 456 789</li>
+      </ul>
+    </div>
+
+    <div class="footer-newsletter">
+      <h4>Newsletter</h4>
+      <p>Get the latest cosmic updates and travel offers.</p>
+      <form>
+        <input type="email" placeholder="Enter your email">
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Space Voyager — All Rights Reserved.</p>
+  </div>
+</footer>
+
 
     <script>
         // Background slider pour la section hero
@@ -1088,37 +2056,6 @@
                 }
             });
 
-            // Create stars for background
-            function createStars() {
-                const starsContainer = document.getElementById('stars-container');
-                const starCount = 100;
-                
-                for (let i = 0; i < starCount; i++) {
-                    const star = document.createElement('div');
-                    star.classList.add('star');
-                    
-                    // Random position
-                    const x = Math.random() * 100;
-                    const y = Math.random() * 100;
-                    
-                    // Random size
-                    const size = Math.random() * 3 + 1;
-                    
-                    // Random animation delay
-                    const delay = Math.random() * 5;
-                    
-                    star.style.left = `${x}%`;
-                    star.style.top = `${y}%`;
-                    star.style.width = `${size}px`;
-                    star.style.height = `${size}px`;
-                    star.style.animationDelay = `${delay}s`;
-                    
-                    starsContainer.appendChild(star);
-                }
-            }
-            
-            // Initialize when page loads
-            createStars();
             
             // Add hover effect to future cards
             document.querySelectorAll('.future-card').forEach(card => {
@@ -1133,3 +2070,4 @@
         });
     </script>
 </body>
+</html>
