@@ -897,8 +897,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
   <body class="text-white font-exo min-h-screen">
-    <!-- Stars Background -->
-    <div id="stars-container"></div>
+
 
     <!-- Navigation -->
     <header class="header" style="background-color: #000;">
@@ -978,6 +977,7 @@
                 <option value="mars">Mars - Mission scientifique (6 mois)</option>
                 <option value="europa">Europe - Lune de Jupiter (8 mois)</option>
                 <option value="titan">Titan - Exploration (7 jours)</option>
+                <option value="venus">Cités Nuageuses de Vénus (5 mois)</option>
               </select>
 
               <!-- Destination Info Display -->
@@ -1147,7 +1147,7 @@
 
             <!-- Passenger Forms Container -->
             <div id="passenger-forms-container">
-              <!-- Primary Passenger Form -->
+              <!-- Primary Passenger Form (toujours présent) -->
               <div class="passenger-form" id="passenger-form-0">
                 <div class="passenger-header">
                   <h3 class="font-orbitron text-neon-blue">
@@ -1229,8 +1229,8 @@
               </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <!-- Action Buttons - Seulement pour Groupe -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6 hidden" id="add-passenger-container">
               <button
                 type="button"
                 id="add-passenger-btn"
@@ -1408,45 +1408,183 @@
         destinationSelect.addEventListener('change', function() {
           if (this.value) {
             // Simuler des données de destination
-            const destinations = {
-              moon: {
-                name: "Lune",
-                description: "Voyage touristique lunaire - Découvrez notre satellite naturel avec un voyage de 3 jours. Profitez de vues imprenables sur la Terre depuis la surface lunaire.",
-                duration: "3 jours",
-                distance: "384,400 km",
-                gravity: "0.16g",
-                temperature: "-173°C à 127°C",
-                price: "25,000 €"
-              },
-              mars: {
-                name: "Mars",
-                description: "Mission scientifique sur Mars - Un voyage de 6 mois vers la planète rouge. Participez à des expériences scientifiques uniques et explorez les paysages martiens.",
-                duration: "6 mois",
-                distance: "225 million km",
-                gravity: "0.38g",
-                temperature: "-87°C à -5°C",
-                price: "75,000 €"
-              },
-              europa: {
-                name: "Europe",
-                description: "Lune de Jupiter - Un voyage de 8 mois vers cette lune glacée. Explorez les océans souterrains et les paysages uniques d'Europe.",
-                duration: "8 mois",
-                distance: "670 million km",
-                gravity: "0.13g",
-                temperature: "-160°C",
-                price: "120,000 €"
-              },
-              titan: {
-                name: "Titan",
-                description: "Exploration de Titan - Un voyage de 7 jours vers la plus grande lune de Saturne. Découvrez ses lacs d'hydrocarbures et son atmosphère unique.",
-                duration: "7 jours",
-                distance: "1.2 billion km",
-                gravity: "0.14g",
-                temperature: "-179°C",
-                price: "150,000 €"
-              }
-            };
-            
+           const destinations = {
+  moon: {
+    name: "Lune",
+    description: "Voyage touristique lunaire - Découvrez notre satellite naturel avec un voyage de 3 jours. Profitez de vues imprenables sur la Terre depuis la surface lunaire.",
+    duration: "3 jours",
+    distance: "384,400 km",
+    gravity: "0.16g",
+    temperature: "-173°C à 127°C",
+    price: "25,000 €",
+    planet: "Lune de la Terre",
+    image: "/images/destinations/lune.jpg",
+    thumbnail: "/images/destinations/lune-thumb.jpg",
+    shortDescription: "Aventures en faible gravité avec des vues époustouflantes sur la Terre",
+    atmosphere: "Traces",
+    diameter: "3,474 km",
+    dayLength: "27.3 jours terrestres",
+    highlights: [
+      "Base de la Tranquillité - site d'atterrissage d'Apollo 11",
+      "Levers de soleil lunaires",
+      "Activités en faible gravité",
+      "Observations du lever de Terre"
+    ],
+    currency: "EUR",
+    departureFrequency: "Hebdomadaire",
+    bestTimeToVisit: "Toute l'année",
+    activities: [
+      "Exploration en rover lunaire",
+      "Sports en faible gravité",
+      "Visite de base lunaire",
+      "Expérience de marche spatiale"
+    ],
+    accommodations: ["standard", "luxe", "zero-g"],
+    popularity: 5,
+    safetyRating: 5,
+    bookingCode: "SV-LUNE"
+  },
+  mars: {
+    name: "Mars",
+    description: "Mission scientifique sur Mars - Un voyage de 6 mois vers la planète rouge. Participez à des expériences scientifiques uniques et explorez les paysages martiens.",
+    duration: "6 mois",
+    distance: "225 million km",
+    gravity: "0.38g",
+    temperature: "-87°C à -5°C",
+    price: "75,000 €",
+    planet: "Mars",
+    image: "/images/destinations/mars.jpg",
+    thumbnail: "/images/destinations/mars-thumb.jpg",
+    shortDescription: "Explorez les canyons et les anciennes vallées de la planète rouge",
+    atmosphere: "CO₂ mince (95%)",
+    diameter: "6,779 km",
+    dayLength: "24.6 heures",
+    highlights: [
+      "Olympus Mons - plus grand volcan du système solaire",
+      "Système de canyons Valles Marineris",
+      "Couchés de soleil bleus",
+      "Tempêtes de poussière martiennes"
+    ],
+    currency: "EUR",
+    departureFrequency: "Tous les 26 mois",
+    bestTimeToVisit: "Pendant l'été martien",
+    activities: [
+      "Expéditions en rover martien",
+      "Camp de base d'Olympus Mons",
+      "Observation des tempêtes de poussière",
+      "Expérience d'habitat souterrain"
+    ],
+    accommodations: ["standard", "luxe", "zero-g"],
+    popularity: 4,
+    safetyRating: 4,
+    bookingCode: "SV-MARS"
+  },
+  europa: {
+    name: "Europe",
+    description: "Lune de Jupiter - Un voyage de 8 mois vers cette lune glacée. Explorez les océans souterrains et les paysages uniques d'Europe.",
+    duration: "8 mois",
+    distance: "670 million km",
+    gravity: "0.13g",
+    temperature: "-160°C",
+    price: "120,000 €",
+    planet: "Lune de Jupiter",
+    image: "/images/destinations/europe.jpg",
+    thumbnail: "/images/destinations/europe-thumb.jpg",
+    shortDescription: "Lune glacée de Jupiter avec des océans souterrains potentiels",
+    atmosphere: "Oxygène mince",
+    diameter: "3,122 km",
+    dayLength: "3.5 jours terrestres",
+    highlights: [
+      "Exploration des océans souterrains",
+      "Observation des geysers de glace",
+      "Vue sur la Grande Tache Rouge de Jupiter",
+      "Activité cryovolcanique"
+    ],
+    currency: "EUR",
+    departureFrequency: "Tous les 3 ans",
+    bestTimeToVisit: "Pendant l'alignement orbital",
+    activities: [
+      "Opérations de forage de glace",
+      "Exploration sous-glaciaire",
+      "Observation de Jupiter",
+      "Excursions protégées contre les radiations"
+    ],
+    accommodations: ["standard", "luxe"],
+    popularity: 3,
+    safetyRating: 3,
+    bookingCode: "SV-EUROPE"
+  },
+  titan: {
+    name: "Titan",
+    description: "Exploration de Titan - Un voyage de 7 jours vers la plus grande lune de Saturne. Découvrez ses lacs d'hydrocarbures et son atmosphère unique.",
+    duration: "7 jours",
+    distance: "1.2 billion km",
+    gravity: "0.14g",
+    temperature: "-179°C",
+    price: "150,000 €",
+    planet: "Lune de Saturne",
+    image: "/images/destinations/titan.jpg",
+    thumbnail: "/images/destinations/titan-thumb.jpg",
+    shortDescription: "Lune de Saturne avec atmosphère épaisse et lacs de méthane",
+    atmosphere: "Azote épais avec méthane",
+    diameter: "5,150 km",
+    dayLength: "16 jours terrestres",
+    highlights: [
+      "Lacs et rivières de méthane",
+      "Atmosphère orange épaisse",
+      "Cryovolcans",
+      "Vues sur les anneaux de Saturne"
+    ],
+    currency: "EUR",
+    departureFrequency: "Tous les 5 ans",
+    bestTimeToVisit: "Pendant l'été de Titan",
+    activities: [
+      "Navigation sur les lacs de méthane",
+      "Exploration atmosphérique",
+      "Études de chimie organique",
+      "Observation du système d'anneaux"
+    ],
+    accommodations: ["standard", "luxe"],
+    popularity: 2,
+    safetyRating: 3,
+    bookingCode: "SV-TITAN"
+  },
+  venus: {
+    name: "Cités Nuageuses de Vénus",
+    description: "Flottez parmi les nuages de Vénus dans nos cités nuageuses de pointe. Vivez des conditions similaires à la Terre à 50km d'altitude tout en observant l'atmosphère mystérieuse de Vénus.",
+    duration: "5 mois",
+    distance: "41 million km (minimum)",
+    gravity: "0.91g",
+    temperature: "30°C (au niveau des nuages)",
+    price: "300,000 €",
+    planet: "Vénus",
+    image: "/images/destinations/venus.jpg",
+    thumbnail: "/images/destinations/venus-thumb.jpg",
+    shortDescription: "Cités nuageuses flottantes dans l'atmosphère supérieure de Vénus",
+    atmosphere: "CO₂ avec nuages d'acide sulfurique",
+    diameter: "12,104 km",
+    dayLength: "243 jours terrestres",
+    highlights: [
+      "Cités nuageuses flottantes",
+      "Pression atmosphérique similaire à la Terre",
+      "Couchés de soleil vénusiens",
+      "Observation des vents de super-rotation"
+    ],
+    currency: "EUR",
+    departureFrequency: "Tous les 19 mois",
+    bestTimeToVisit: "Pendant l'alignement orbital optimal",
+    activities: [
+      "Exploration des cités nuageuses",
+      "Études atmosphériques",
+      "Observation solaire",
+      "Loisirs en gravité zéro"
+    ],
+    accommodations: ["luxe", "zero-g"],
+    popularity: 3,
+    safetyRating: 4,
+    bookingCode: "SV-VENUS"
+  }
+};
             const dest = destinations[this.value];
             document.getElementById('destination-name').textContent = dest.name;
             document.getElementById('destination-description').textContent = dest.description;
@@ -1489,36 +1627,22 @@
 
         // Gestion des options de passagers
         const passengerOptions = document.querySelectorAll('.radio-option');
-        
-        passengerOptions.forEach(option => {
-          option.addEventListener('click', function() {
-            passengerOptions.forEach(o => o.classList.remove('selected'));
-            this.classList.add('selected');
-            const radio = this.querySelector('input[type="radio"]');
-            radio.checked = true;
-            bookingData.passengers = radio.value;
-            
-            // Afficher la section d'hébergement si nécessaire
-            const accommodationsSection = document.getElementById('accommodations-section');
-            accommodationsSection.classList.add('visible');
-          });
-        });
-
-        // Gestion de l'ajout de passagers
+        const addPassengerContainer = document.getElementById('add-passenger-container');
         const addPassengerBtn = document.getElementById('add-passenger-btn');
         const passengerFormsContainer = document.getElementById('passenger-forms-container');
-        let passengerCount = 1;
         
-        addPassengerBtn.addEventListener('click', function() {
+        let passengerCount = 1;
+        const MAX_PASSENGERS = 6;
+
+        // Fonction pour créer un formulaire de passager
+        function createPassengerForm(index) {
           const newPassengerForm = document.createElement('div');
           newPassengerForm.className = 'passenger-form';
-          newPassengerForm.id = `passenger-form-${passengerCount}`;
+          newPassengerForm.id = `passenger-form-${index}`;
           newPassengerForm.innerHTML = `
             <div class="passenger-header">
-              <h3 class="font-orbitron text-neon-blue">Passager ${passengerCount + 1}</h3>
-              <div class="remove-passenger">
-                <i class="fas fa-times"></i>
-              </div>
+              <h3 class="font-orbitron text-neon-blue">Passager ${index + 1}</h3>
+              ${index > 0 ? '<div class="remove-passenger"><i class="fas fa-times"></i></div>' : ''}
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
@@ -1579,17 +1703,110 @@
             </div>
           `;
           
-          passengerFormsContainer.appendChild(newPassengerForm);
-          passengerCount++;
-          bookingData.passengerCount = passengerCount;
+          return newPassengerForm;
+        }
+
+        // Fonction pour mettre à jour les formulaires de passagers selon le choix
+        function updatePassengerForms(passengerType) {
+          // Supprimer tous les formulaires sauf le premier
+          const existingForms = document.querySelectorAll('.passenger-form');
+          for (let i = 1; i < existingForms.length; i++) {
+            existingForms[i].remove();
+          }
+
+          let targetCount = 1;
           
-          // Ajouter l'événement de suppression
-          const removeBtn = newPassengerForm.querySelector('.remove-passenger');
-          removeBtn.addEventListener('click', function() {
-            newPassengerForm.remove();
-            passengerCount--;
-            bookingData.passengerCount = passengerCount;
+          switch(passengerType) {
+            case 'solo':
+              targetCount = 1;
+              addPassengerContainer.classList.add('hidden');
+              break;
+            case 'couple':
+              targetCount = 2;
+              addPassengerContainer.classList.add('hidden');
+              break;
+            case 'group':
+              targetCount = 3;
+              addPassengerContainer.classList.remove('hidden');
+              break;
+          }
+
+          // Réinitialiser le compteur à 1 (le premier formulaire existe déjà)
+          passengerCount = 1;
+
+          // Ajouter les formulaires manquants
+          for (let i = passengerCount; i < targetCount; i++) {
+            const newForm = createPassengerForm(i);
+            passengerFormsContainer.appendChild(newForm);
+            
+            // Ajouter l'événement de suppression si ce n'est pas le premier formulaire
+            if (i > 0) {
+              const removeBtn = newForm.querySelector('.remove-passenger');
+              removeBtn.addEventListener('click', function() {
+                newForm.remove();
+                passengerCount--;
+                bookingData.passengerCount = passengerCount;
+                updateAddButtonState();
+              });
+            }
+            
+            passengerCount++;
+          }
+
+          bookingData.passengerCount = passengerCount;
+          updateAddButtonState();
+        }
+
+        // Fonction pour mettre à jour l'état du bouton d'ajout
+        function updateAddButtonState() {
+          if (passengerCount >= MAX_PASSENGERS) {
+            addPassengerBtn.disabled = true;
+            addPassengerBtn.innerHTML = '<i class="fas fa-ban mr-2"></i>Maximum atteint (6)';
+            addPassengerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          } else {
+            addPassengerBtn.disabled = false;
+            addPassengerBtn.innerHTML = '<i class="fas fa-plus mr-2"></i>Ajouter un passager';
+            addPassengerBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          }
+        }
+
+        // Gestion du choix du type de passagers
+        passengerOptions.forEach(option => {
+          option.addEventListener('click', function() {
+            passengerOptions.forEach(o => o.classList.remove('selected'));
+            this.classList.add('selected');
+            const radio = this.querySelector('input[type="radio"]');
+            radio.checked = true;
+            bookingData.passengers = radio.value;
+            
+            // Mettre à jour les formulaires de passagers
+            updatePassengerForms(radio.value);
+            
+            // Afficher la section d'hébergement si nécessaire
+            const accommodationsSection = document.getElementById('accommodations-section');
+            accommodationsSection.classList.add('visible');
           });
+        });
+
+        // Gestion de l'ajout de passagers (seulement pour groupe)
+        addPassengerBtn.addEventListener('click', function() {
+          if (passengerCount < MAX_PASSENGERS) {
+            const newPassengerForm = createPassengerForm(passengerCount);
+            passengerFormsContainer.appendChild(newPassengerForm);
+            passengerCount++;
+            bookingData.passengerCount = passengerCount;
+            
+            // Ajouter l'événement de suppression
+            const removeBtn = newPassengerForm.querySelector('.remove-passenger');
+            removeBtn.addEventListener('click', function() {
+              newPassengerForm.remove();
+              passengerCount--;
+              bookingData.passengerCount = passengerCount;
+              updateAddButtonState();
+            });
+            
+            updateAddButtonState();
+          }
         });
 
         // Gestion de la date de départ
@@ -1751,6 +1968,9 @@
         
         // Initialiser le background de l'étape 1
         updateFormBackground(1);
+        
+        // Initialiser l'état du bouton d'ajout
+        updateAddButtonState();
       });
     </script>
   </body>  
