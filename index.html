@@ -314,8 +314,7 @@
             transform: scale(1.05);
         }
 
-        /* 4. Section Future of Space Travel */
-/* 4. Section Future of Space Travel */
+      /* 4. Section Future of Space Travel */
 .future-section {
     min-height: 100vh;
     padding: 100px 5% 80px;
@@ -358,32 +357,34 @@
 
 .section-header {
     margin-bottom: 80px;
-}
+}   
 
 .section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 4rem;
-    font-weight: 900;
-    background: linear-gradient(90deg, var(--color-primary), #7C4DFF);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: 3px;
-    text-transform: uppercase;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: white;
+    font-weight: bold;
 }
 
 .section-description {
-    font-size: 1.5rem;
-    color: var(--color-secondary);
+    font-size: 1rem;
+    color: white;
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.8;
+    font-weight: bold;
 }
 
 .future-cards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* 3 cartes côte à côte */
     gap: 30px;
+    padding: 5px;
+    align-items: stretch; /* Assurer que toutes les cartes ont la même hauteur */
+    justify-items: center; /* Centrer les cartes horizontalement */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Cartes avec image sur toute la hauteur et texte superposé */
@@ -398,6 +399,8 @@
     height: 300px;
     display: flex;
     flex-direction: column;
+    width: 100%; /* Assurer que les cartes prennent toute la largeur disponible */
+    max-width: 380px; /* Largeur maximale pour un bon affichage */
 }
 
 .future-card::before {
@@ -457,6 +460,7 @@
     align-items: center; /* Centrer horizontalement */
 }
 
+
 .future-card-title {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.8rem;
@@ -464,66 +468,113 @@
     color: var(--color-light);
     margin-bottom: 15px;
     text-align: center;
+    font-weight: bold;
 }
 
 .future-card-description {
     font-size: 1.1rem;
-    color: var(--color-secondary);
+    color: white;
     line-height: 1.6;
     text-align: center;
     max-width: 90%; /* Limiter la largeur pour une meilleure lisibilité */
+    font-weight: bold;
 }
 
-/* Stars animation */
-.stars {
-    position: absolute;
-    top: 0;
-    left: 0;
+
+          
+
+      
+/* Conteneur du bouton unique */
+.learn-more-container {
+    text-align: center;
+    margin-top: 50px;
     width: 100%;
-    height: 100%;
-    z-index: 0;
 }
 
-.star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle 5s infinite ease-in-out;
+/* Bouton unique */
+.learn {
+     margin-top: 10px;
+            padding: 5px 12px;
+            background: white;
+            color: #0b0f26;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 150px;
+            height: 50px;
+             font-family: 'Orbitron', sans-serif;
 }
 
-@keyframes twinkle {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 1; }
+.learn:hover {
+     background: #00b8cc;
+            transform: scale(1.05);
 }
 
+/* Responsive pour le bouton */
+@media (max-width: 768px) {
+    .learn-more-container {
+        margin-top: 40px;
+    }
+    
+    .learn {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+    }
+}
 
+@media (max-width: 480px) {
+    .learn-more-container {
+        margin-top: 30px;
+    }
+    
+    .learn {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+}
 /* Responsive Design */
+@media (max-width: 1200px) {
+    .future-cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+    }
+}
+
 @media (max-width: 992px) {
     .section-title {
-        font-size: 3rem;
+        font-size: 2.8rem;
     }
     
     .section-description {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
+    }
+    
+    .future-cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
     }
     
     .floating-element {
         width: 120px;
         height: 120px;
     }
-    
-    .future-cards-container {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 768px) {
     .section-title {
-        font-size: 2.5rem;
+        font-size: 2.3rem;
     }
     
     .section-description {
-        font-size: 1.2rem;
+        font-size: 1rem;
+    }
+    
+    .future-cards-container {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
     }
     
     .floating-element {
@@ -532,10 +583,11 @@
     
     .future-card {
         height: 280px;
+        max-width: 100%;
     }
     
     .future-card-content {
-        padding: 20px;
+        padding: 25px;
     }
     
     .future-card-title {
@@ -547,6 +599,31 @@
     }
 }
 
+@media (max-width: 480px) {
+    .future-section {
+        padding: 80px 3% 60px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .future-card {
+        height: 250px;
+    }
+    
+    .future-card-content {
+        padding: 20px;
+    }
+    
+    .future-card-title {
+        font-size: 1.4rem;
+    }
+    
+    .future-card-description {
+        font-size: 0.9rem;
+    }
+}
         /* 5. Section Comment ça marche */
         .how-it-works {
             background-color: var(--color-card);
@@ -858,34 +935,38 @@
                 <div class="future-cards-container">
                     <!-- Carte 1 -->
                     <div class="future-card">
-                        <img src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="Propulsion Spatiale" class="future-card-image">
+                        <img src="images/111.PNG" alt="Propulsion Spatiale" class="future-card-image">
                         <div class="future-card-content">
                            
-                            <h3 class="future-card-title">Propulsion Avancée</h3>
-                            <p class="future-card-description">Des systèmes de propulsion révolutionnaires comme les moteurs à fusion et les voiles solaires réduiront les temps de voyage interplanétaires de plusieurs mois à seulement quelques semaines.</p>
+                            <h3 class="future-card-title">Safety First</h3>
+                            <p class="future-card-description">Advanced safety systems with 99.97% success rate.</p>
                         </div>
                     </div>
                     
                     <!-- Carte 2 -->
                     <div class="future-card">
-                        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Habitats Spatiaux" class="future-card-image">
+                        <img src="images/113.PNG" alt="Habitats Spatiaux" class="future-card-image">
                         <div class="future-card-content">
                           
-                            <h3 class="future-card-title">Habitats Orbitaux</h3>
-                            <p class="future-card-description">Des stations spatiales luxueuses en orbite terrestre offriront des séjours avec vue imprenable sur la Terre et expériences en apesanteur pour les touristes et chercheurs.</p>
+                            <h3 class="future-card-title">Cutting-Edge Tech</h3>
+                            <p class="future-card-description">Latest spacecraft technology for comfortable journeys.</p>
                         </div>
                     </div>
                     
                     <!-- Carte 3 -->
                     <div class="future-card">
-                        <img src="https://images.unsplash.com/photo-1502136969935-8d8eef54d77b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Colonisation Spatiale" class="future-card-image">
+                        <img src="images/114.PNG" alt="Colonisation Spatiale" class="future-card-image">
                         <div class="future-card-content">
                             
-                            <h3 class="future-card-title">Terraformation</h3>
-                            <p class="future-card-description">Des projets ambitieux pour rendre Mars habitable en modifiant son atmosphère et sa température à l'échelle planétaire, créant ainsi un second foyer pour l'humanité.</p>
+                            <h3 class="future-card-title">Expert Guides</h3>
+                            <p class="future-card-description">Trained astronauts with years of space experience.</p>
                         </div>
                     </div>
+                   
                 </div>
+                  <div class="learn-more-container">
+            <button class="learn">Learn More </button>
+        </div>
             </div>
         </section>
 
