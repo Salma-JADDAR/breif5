@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceVoyager | Votre Aventure Interstellaire</title>
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        /* Importation des Polices - (Assurez-vous que l'URL dans le HTML est correcte) */
+/* Police futuriste pour les titres: Orbitron, Police de corps de texte: Roboto */
+
+:root {
+    --color-dark: #0A192F; /* Arrière-plan très sombre, presque noir */
+    --color-primary: #00bcd4; /* Bleu cyan futuriste (pour les CTAs et accents) */
+    --color-light: #CCD6F6; /* Texte clair */
+    --color-secondary: #8892B0; /* Texte secondaire/gris */
+    --color-card: #112240; /* Couleur pour les cartes et les zones de contenu */
+}
+
+/* Réinitialisation de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--color-light);
+}
+
+/* Conteneur principal */
+main {
+    padding-top: 80px; /* Espace pour le header fixe */
+}
+
+section {
+    padding: 6rem 10%;
+    text-align: center;
+}
+
+/* 1. Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background-color: rgba(10, 25, 47, 0.95); /* Semi-transparent */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--color-card);
+    
+      padding: 10px 10px;
+  height: 80px;
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+
+    justify-content: flex-start; /* باش يجي فاليسار */
+  margin-left: 0; /* نأكد ماكاينش فراغ *//* هادي كتخلي اللوغو يجي فاليسار */
+}
+
+.logo-img {
+  width: 300px;
+  height: 60px;
+  object-fit: contain;
+  display: block;
+}
+
+
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.main-nav a {
+    color: var(--color-secondary);
+    font-weight: 400;
+}
+
+.main-nav a.active {
+    color: var(--color-primary);
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.cta-btn {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.cta-btn:hover {
+    background-color: var(--color-light);
+}
+
+/* 2. Hero Section */
+.hero-section {
+    background: url('placeholder-hero.jpg') no-repeat center center/cover; /* Remplacer par une image spatiale */
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 0;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Overlay sombre pour le texte */
+}
+
+.hero-content {
+    z-index: 1;
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: white;
+    text-shadow: 0 0 10px var(--color-primary);
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    background-color: rgba(17, 34, 64, 0.8);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.search-form input, .search-form select {
+    padding: 0.75rem;
+    border: 1px solid var(--color-secondary);
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+.search-btn {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+/* 3. Destinations Phares */
+.featured-destinations {
+    background-color: var(--color-dark);
+}
+
+.destination-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.destination-card {
+    background-color: var(--color-card);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: left;
+    border-top: 5px solid var(--color-primary);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.destination-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+}
+
+.destination-card h3 {
+    font-size: 1.5rem;
+    color: var(--color-light);
+}
+
+.destination-card p {
+    color: var(--color-secondary);
+    margin: 1rem 0;
+}
+
+/* 4. Processus de Réservation */
+.how-it-works {
+    background-color: var(--color-card);
+}
+
+.steps-container {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    margin-top: 2rem;
+}
+
+.step {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-light);
+    border-bottom: 2px dashed var(--color-secondary);
+    padding-bottom: 0.5rem;
+}
+
+/* 5. Témoignages */
+.traveler-say {
+    background-color: var(--color-dark);
+}
+
+.testimonial-box {
+    background-color: var(--color-card);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    border-left: 5px solid var(--color-primary);
+    text-align: left;
+}
+
+.traveler-info {
+    margin-top: 1rem;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.secondary-btn {
+    background: none;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    padding: 0.75rem 2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.secondary-btn:hover {
+    background-color: var(--color-primary);
+    color: var(--color-dark);
+}
+
+/* 6. Footer */
+.footer {
+    background-color: #000;
+    padding: 3rem 10%;
+    text-align: left;
+    border-top: 1px solid var(--color-card);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.footer-links h3 {
+    color: var(--color-light);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.footer-links ul {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.newsletter input {
+    padding: 0.75rem;
+    border: 1px solid var(--color-secondary);
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.copyright {
+    text-align: center;
+    color: var(--color-secondary);
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-card);
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+ <header class="header" style="background-color: #000;">
+  <div class="logo">
+    <img src="images/LOGOSF.png" alt="Logo SpaceVoyager" class="logo-img">
+  </div>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="#" class="active">Voyages</a></li>
+      <li><a href="#">Destinations</a></li>
+      <li><a href="#">Missions</a></li>
+      <li><a href="#">À Propos</a></li>
+      <li><a href="#">Support</a></li>
+    </ul>
+  </nav>
+
+  <div class="user-actions">
+    <button class="icon-btn">🛒</button>
+    <button class="icon-btn">👤</button>
+    <button class="cta-btn">Connexion</button>
+  </div>
+</header>
+
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Votre Aventure Interstellaire Commence Ici</h1>
+                <form class="search-form">
+                    <input type="text" placeholder="Destination (Lune, Mars, Orbite...)">
+                    <input type="date" placeholder="Date de Départ">
+                    <select>
+                        <option>Type de Voyage</option>
+                        <option>Tourisme</option>
+                        <option>Scientifique</option>
+                    </select>
+                    <button type="submit" class="search-btn">Rechercher un Vol Spatial</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="featured-destinations">
+            <h2>Destinations Populaires</h2>
+            <div class="destination-grid">
+                <article class="destination-card">
+                    <h3>Base Lunaire Alpha</h3>
+                    <p>Découvrez le berceau de l'humanité spatiale.</p>
+                    <a href="#">Explorer</a>
+                </article>
+                <article class="destination-card">
+                    <h3>Hôtel en Orbite Geostationnaire</h3>
+                    <p>Le luxe avec une vue imprenable sur la Terre.</p>
+                    <a href="#">Explorer</a>
+                </article>
+                <article class="destination-card">
+                    <h3>Exploration Martienne</h3>
+                    <p>Faites partie des premiers à marcher sur la planète rouge.</p>
+                    <a href="#">Explorer</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <h2>Réservez votre Voyage en 3 Étapes Simples</h2>
+            <div class="steps-container">
+                <div class="step">🔍 Rechercher</div>
+                <div class="step">⚙️ Personnaliser</div>
+                <div class="step">🚀 Lancer</div>
+            </div>
+        </section>
+
+        <section class="traveler-say">
+            <h2>Ce que disent nos Explorateurs</h2>
+            <div class="testimonial-box">
+                <blockquote>"Le voyage le plus incroyable de ma vie ! Service impeccable."</blockquote>
+                <div class="traveler-info">⭐️⭐️⭐️⭐️⭐️ - Alex K.</div>
+            </div>
+            <button class="cta-btn secondary-btn">Voir plus d'avis</button>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <div>
+                <h3>Liens Utiles</h3>
+                <ul>
+                    <li><a href="#">Conditions Générales</a></li>
+                    <li><a href="#">Politique de Confidentialité</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <h3>Newsletter</h3>
+                <input type="email" placeholder="Entrez votre email">
+                <button>S'abonner</button>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2025 SpaceVoyager. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>
