@@ -889,6 +889,51 @@
               font-size: 0.9rem;
           }
       }
+
+      /* Styles pour l'affichage détaillé des destinations */
+      .destination-details {
+          background: rgba(10, 10, 24, 0.8);
+          border: 1px solid rgba(14, 165, 233, 0.3);
+          border-radius: 10px;
+          padding: 1.5rem;
+          margin-top: 1rem;
+      }
+
+      .info-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+      }
+
+      .info-card {
+          background: rgba(14, 165, 233, 0.1);
+          border: 1px solid rgba(14, 165, 233, 0.2);
+          border-radius: 8px;
+          padding: 1rem;
+          text-align: center;
+      }
+
+      .info-card .label {
+          font-size: 0.875rem;
+          color: #0ea5e9;
+          margin-bottom: 0.5rem;
+      }
+
+      .info-card .value {
+          font-size: 1rem;
+          font-weight: bold;
+          color: white;
+      }
+
+      .destination-image {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+          border: 2px solid rgba(14, 165, 233, 0.3);
+      }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -897,7 +942,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
   <body class="text-white font-exo min-h-screen">
-
 
     <!-- Navigation -->
     <header class="header" style="background-color: #000;">
@@ -978,44 +1022,91 @@
                 <option value="europa">Europe - Lune de Jupiter (8 mois)</option>
                 <option value="titan">Titan - Exploration (7 jours)</option>
                 <option value="venus">Cités Nuageuses de Vénus (5 mois)</option>
+                <option value="orbital">Station Orbitale (2 jours)</option>
               </select>
 
-              <!-- Destination Info Display -->
-              <div id="destination-info" class="destination-info hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Destination Info Display - TOUTES LES CARACTÉRISTIQUES REGROUPÉES -->
+              <div id="destination-info" class="destination-details hidden">
+                <!-- Image de la destination -->
+                <div class="mb-4">
+                  <img id="destination-image" class="destination-image" src="" alt="Image de la destination">
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                  <!-- Informations principales -->
                   <div>
-                    <h3
-                      class="font-orbitron text-neon-blue mb-2"
-                      id="destination-name"
-                    ></h3>
-                    <p
-                      class="text-sm text-gray-300"
-                      id="destination-description"
-                    ></p>
+                    <h3 class="font-orbitron text-neon-blue text-2xl mb-3" id="destination-name"></h3>
+                    <p class="text-gray-300 mb-4 text-lg" id="destination-description"></p>
                   </div>
-                  <div class="text-sm">
-                    <div class="flex justify-between mb-1">
-                      <span class="text-gray-400">Durée du voyage:</span>
-                      <span id="destination-duration"></span>
+
+                  <!-- Informations secondaires -->
+                  <div class="space-y-4">
+                    <div class="bg-space-blue p-4 rounded-lg text-center">
+                      <div class="text-3xl font-orbitron text-neon-cyan mb-2" id="destination-price"></div>
+                      <div class="text-sm text-gray-400 mb-1" id="destination-bookingCode"></div>
+                      <div class="text-xs text-gray-500">
+                        <i class="fas fa-star text-yellow-400 mr-1"></i>
+                        Popularité: <span id="destination-popularity"></span>/5
+                      </div>
+                      <div class="text-xs text-gray-500 mt-1">
+                        <i class="fas fa-shield-alt text-green-400 mr-1"></i>
+                        Sécurité: <span id="destination-safetyRating"></span>/5
+                      </div>
                     </div>
-                    <div class="flex justify-between mb-1">
-                      <span class="text-gray-400">Distance:</span>
-                      <span id="destination-distance"></span>
+                  </div>
+                </div>
+
+                <!-- TOUTES LES CARACTÉRISTIQUES REGROUPÉES -->
+                <div class="bg-space-blue p-4 rounded-lg">
+                  <h4 class="font-orbitron text-neon-purple mb-4 text-lg text-center">Caractéristiques de la Destination</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-clock mr-2"></i>Durée du voyage
+                      </div>
+                      <div class="value" id="destination-duration"></div>
                     </div>
-                    <div class="flex justify-between mb-1">
-                      <span class="text-gray-400">Gravité:</span>
-                      <span id="destination-gravity"></span>
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-ruler-combined mr-2"></i>Distance
+                      </div>
+                      <div class="value" id="destination-distance"></div>
                     </div>
-                    <div class="flex justify-between mb-1">
-                      <span class="text-gray-400">Température:</span>
-                      <span id="destination-temperature"></span>
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-weight-hanging mr-2"></i>Gravité
+                      </div>
+                      <div class="value" id="destination-gravity"></div>
                     </div>
-                    <div class="flex justify-between">
-                      <span class="text-gray-400">Prix:</span>
-                      <span
-                        class="font-bold text-neon-cyan"
-                        id="destination-price"
-                      ></span>
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-thermometer-half mr-2"></i>Température
+                      </div>
+                      <div class="value" id="destination-temperature"></div>
+                    </div>
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-globe-americas mr-2"></i>Planète
+                      </div>
+                      <div class="value" id="destination-planet"></div>
+                    </div>
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-arrows-alt-h mr-2"></i>Diamètre
+                      </div>
+                      <div class="value" id="destination-diameter"></div>
+                    </div>
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-sun mr-2"></i>Longueur du jour
+                      </div>
+                      <div class="value" id="destination-dayLength"></div>
+                    </div>
+                    <div class="info-card">
+                      <div class="label">
+                        <i class="fas fa-wind mr-2"></i>Atmosphère
+                      </div>
+                      <div class="value" id="destination-atmosphere"></div>
                     </div>
                   </div>
                 </div>
@@ -1356,24 +1447,7 @@
     </footer>
 
     <script>
-      // Script pour créer les étoiles en arrière-plan
       document.addEventListener("DOMContentLoaded", function() {
-        
-
-        // Fonction pour changer le background selon l'étape
-        function updateFormBackground(stepNumber) {
-          // Retirer la classe active de tous les backgrounds
-          document.querySelectorAll('.form-bg').forEach(bg => {
-            bg.classList.remove('active');
-          });
-          
-          // Activer le background correspondant à l'étape
-          const activeBg = document.querySelector(`.form-bg-${stepNumber}`);
-          if (activeBg) {
-            activeBg.classList.add('active');
-          }
-        }
-
         // Variables globales pour stocker les données du formulaire
         let bookingData = {
           destination: '',
@@ -1407,192 +1481,28 @@
         
         destinationSelect.addEventListener('change', function() {
           if (this.value) {
-            // Simuler des données de destination
-           const destinations = {
-  moon: {
-    name: "Lune",
-    description: "Voyage touristique lunaire - Découvrez notre satellite naturel avec un voyage de 3 jours. Profitez de vues imprenables sur la Terre depuis la surface lunaire.",
-    duration: "3 jours",
-    distance: "384,400 km",
-    gravity: "0.16g",
-    temperature: "-173°C à 127°C",
-    price: "25,000 €",
-    planet: "Lune de la Terre",
-    image: "/images/destinations/lune.jpg",
-    thumbnail: "/images/destinations/lune-thumb.jpg",
-    shortDescription: "Aventures en faible gravité avec des vues époustouflantes sur la Terre",
-    atmosphere: "Traces",
-    diameter: "3,474 km",
-    dayLength: "27.3 jours terrestres",
-    highlights: [
-      "Base de la Tranquillité - site d'atterrissage d'Apollo 11",
-      "Levers de soleil lunaires",
-      "Activités en faible gravité",
-      "Observations du lever de Terre"
-    ],
-    currency: "EUR",
-    departureFrequency: "Hebdomadaire",
-    bestTimeToVisit: "Toute l'année",
-    activities: [
-      "Exploration en rover lunaire",
-      "Sports en faible gravité",
-      "Visite de base lunaire",
-      "Expérience de marche spatiale"
-    ],
-    accommodations: ["standard", "luxe", "zero-g"],
-    popularity: 5,
-    safetyRating: 5,
-    bookingCode: "SV-LUNE"
-  },
-  mars: {
-    name: "Mars",
-    description: "Mission scientifique sur Mars - Un voyage de 6 mois vers la planète rouge. Participez à des expériences scientifiques uniques et explorez les paysages martiens.",
-    duration: "6 mois",
-    distance: "225 million km",
-    gravity: "0.38g",
-    temperature: "-87°C à -5°C",
-    price: "75,000 €",
-    planet: "Mars",
-    image: "/images/destinations/mars.jpg",
-    thumbnail: "/images/destinations/mars-thumb.jpg",
-    shortDescription: "Explorez les canyons et les anciennes vallées de la planète rouge",
-    atmosphere: "CO₂ mince (95%)",
-    diameter: "6,779 km",
-    dayLength: "24.6 heures",
-    highlights: [
-      "Olympus Mons - plus grand volcan du système solaire",
-      "Système de canyons Valles Marineris",
-      "Couchés de soleil bleus",
-      "Tempêtes de poussière martiennes"
-    ],
-    currency: "EUR",
-    departureFrequency: "Tous les 26 mois",
-    bestTimeToVisit: "Pendant l'été martien",
-    activities: [
-      "Expéditions en rover martien",
-      "Camp de base d'Olympus Mons",
-      "Observation des tempêtes de poussière",
-      "Expérience d'habitat souterrain"
-    ],
-    accommodations: ["standard", "luxe", "zero-g"],
-    popularity: 4,
-    safetyRating: 4,
-    bookingCode: "SV-MARS"
-  },
-  europa: {
-    name: "Europe",
-    description: "Lune de Jupiter - Un voyage de 8 mois vers cette lune glacée. Explorez les océans souterrains et les paysages uniques d'Europe.",
-    duration: "8 mois",
-    distance: "670 million km",
-    gravity: "0.13g",
-    temperature: "-160°C",
-    price: "120,000 €",
-    planet: "Lune de Jupiter",
-    image: "/images/destinations/europe.jpg",
-    thumbnail: "/images/destinations/europe-thumb.jpg",
-    shortDescription: "Lune glacée de Jupiter avec des océans souterrains potentiels",
-    atmosphere: "Oxygène mince",
-    diameter: "3,122 km",
-    dayLength: "3.5 jours terrestres",
-    highlights: [
-      "Exploration des océans souterrains",
-      "Observation des geysers de glace",
-      "Vue sur la Grande Tache Rouge de Jupiter",
-      "Activité cryovolcanique"
-    ],
-    currency: "EUR",
-    departureFrequency: "Tous les 3 ans",
-    bestTimeToVisit: "Pendant l'alignement orbital",
-    activities: [
-      "Opérations de forage de glace",
-      "Exploration sous-glaciaire",
-      "Observation de Jupiter",
-      "Excursions protégées contre les radiations"
-    ],
-    accommodations: ["standard", "luxe"],
-    popularity: 3,
-    safetyRating: 3,
-    bookingCode: "SV-EUROPE"
-  },
-  titan: {
-    name: "Titan",
-    description: "Exploration de Titan - Un voyage de 7 jours vers la plus grande lune de Saturne. Découvrez ses lacs d'hydrocarbures et son atmosphère unique.",
-    duration: "7 jours",
-    distance: "1.2 billion km",
-    gravity: "0.14g",
-    temperature: "-179°C",
-    price: "150,000 €",
-    planet: "Lune de Saturne",
-    image: "/images/destinations/titan.jpg",
-    thumbnail: "/images/destinations/titan-thumb.jpg",
-    shortDescription: "Lune de Saturne avec atmosphère épaisse et lacs de méthane",
-    atmosphere: "Azote épais avec méthane",
-    diameter: "5,150 km",
-    dayLength: "16 jours terrestres",
-    highlights: [
-      "Lacs et rivières de méthane",
-      "Atmosphère orange épaisse",
-      "Cryovolcans",
-      "Vues sur les anneaux de Saturne"
-    ],
-    currency: "EUR",
-    departureFrequency: "Tous les 5 ans",
-    bestTimeToVisit: "Pendant l'été de Titan",
-    activities: [
-      "Navigation sur les lacs de méthane",
-      "Exploration atmosphérique",
-      "Études de chimie organique",
-      "Observation du système d'anneaux"
-    ],
-    accommodations: ["standard", "luxe"],
-    popularity: 2,
-    safetyRating: 3,
-    bookingCode: "SV-TITAN"
-  },
-  venus: {
-    name: "Cités Nuageuses de Vénus",
-    description: "Flottez parmi les nuages de Vénus dans nos cités nuageuses de pointe. Vivez des conditions similaires à la Terre à 50km d'altitude tout en observant l'atmosphère mystérieuse de Vénus.",
-    duration: "5 mois",
-    distance: "41 million km (minimum)",
-    gravity: "0.91g",
-    temperature: "30°C (au niveau des nuages)",
-    price: "300,000 €",
-    planet: "Vénus",
-    image: "/images/destinations/venus.jpg",
-    thumbnail: "/images/destinations/venus-thumb.jpg",
-    shortDescription: "Cités nuageuses flottantes dans l'atmosphère supérieure de Vénus",
-    atmosphere: "CO₂ avec nuages d'acide sulfurique",
-    diameter: "12,104 km",
-    dayLength: "243 jours terrestres",
-    highlights: [
-      "Cités nuageuses flottantes",
-      "Pression atmosphérique similaire à la Terre",
-      "Couchés de soleil vénusiens",
-      "Observation des vents de super-rotation"
-    ],
-    currency: "EUR",
-    departureFrequency: "Tous les 19 mois",
-    bestTimeToVisit: "Pendant l'alignement orbital optimal",
-    activities: [
-      "Exploration des cités nuageuses",
-      "Études atmosphériques",
-      "Observation solaire",
-      "Loisirs en gravité zéro"
-    ],
-    accommodations: ["luxe", "zero-g"],
-    popularity: 3,
-    safetyRating: 4,
-    bookingCode: "SV-VENUS"
-  }
-};
             const dest = destinations[this.value];
+            
+            // Mettre à jour toutes les informations
             document.getElementById('destination-name').textContent = dest.name;
             document.getElementById('destination-description').textContent = dest.description;
             document.getElementById('destination-duration').textContent = dest.duration;
             document.getElementById('destination-distance').textContent = dest.distance;
             document.getElementById('destination-gravity').textContent = dest.gravity;
             document.getElementById('destination-temperature').textContent = dest.temperature;
-            document.getElementById('destination-price').textContent = dest.price;
+            document.getElementById('destination-price').textContent = dest.price + " " + dest.currency;
+            document.getElementById('destination-planet').textContent = dest.planet;
+            document.getElementById('destination-diameter').textContent = dest.diameter;
+            document.getElementById('destination-dayLength').textContent = dest.dayLength;
+            document.getElementById('destination-atmosphere').textContent = dest.atmosphere;
+            document.getElementById('destination-bookingCode').textContent = "Code: " + dest.bookingCode;
+            document.getElementById('destination-popularity').textContent = dest.popularity;
+            document.getElementById('destination-safetyRating').textContent = dest.safetyRating;
+            
+            // Mettre à jour l'image
+            const destinationImage = document.getElementById('destination-image');
+            destinationImage.src = dest.image;
+            destinationImage.alt = `Image de ${dest.name}`;
             
             destinationInfo.classList.remove('hidden');
             bookingData.destination = dest.name;
@@ -1963,6 +1873,20 @@
           // Ici, vous pourriez ajouter une redirection ou d'autres actions
         });
 
+        // Fonction pour changer le background selon l'étape
+        function updateFormBackground(stepNumber) {
+          // Retirer la classe active de tous les backgrounds
+          document.querySelectorAll('.form-bg').forEach(bg => {
+            bg.classList.remove('active');
+          });
+          
+          // Activer le background correspondant à l'étape
+          const activeBg = document.querySelector(`.form-bg-${stepNumber}`);
+          if (activeBg) {
+            activeBg.classList.add('active');
+          }
+        }
+
         // Initialisation : sélectionner automatiquement le premier hébergement
         selectDefaultAccommodation();
         
@@ -1972,6 +1896,118 @@
         // Initialiser l'état du bouton d'ajout
         updateAddButtonState();
       });
+
+      // Données des destinations avec images
+      const destinations = {
+        moon: {
+          name: "Lune",
+          description: "Voyage touristique lunaire - Découvrez notre satellite naturel avec un voyage de 3 jours. Profitez de vues imprenables sur la Terre depuis la surface lunaire et visitez les sites historiques d'atterrissage Apollo.",
+          duration: "3 jours",
+          distance: "384,400 km",
+          gravity: "0.16g",
+          temperature: "-173°C à 127°C",
+          price: "25,000",
+          currency: "€",
+          planet: "Lune de la Terre",
+          diameter: "3,474 km",
+          dayLength: "27.3 jours terrestres",
+          atmosphere: "Traces",
+          bookingCode: "SV-LUNE",
+          popularity: 5,
+          safetyRating: 5,
+          image: "images/MM.PNG"
+        },
+        mars: {
+          name: "Mars",
+          description: "Mission scientifique sur Mars - Un voyage de 6 mois vers la planète rouge. Participez à des expériences scientifiques uniques et explorez les paysages martiens, ses canyons massifs et ses volcans imposants.",
+          duration: "6 mois",
+          distance: "225 million km",
+          gravity: "0.38g",
+          temperature: "-87°C à -5°C",
+          price: "75,000",
+          currency: "€",
+          planet: "Mars",
+          diameter: "6,779 km",
+          dayLength: "24.6 heures",
+          atmosphere: "CO₂ mince (95%)",
+          bookingCode: "SV-MARS",
+          popularity: 4,
+          safetyRating: 4,
+          image: "images/mars.PNG"
+        },
+        europa: {
+          name: "Europe",
+          description: "Lune de Jupiter - Un voyage de 8 mois vers cette lune glacée. Explorez les océans souterrains et les paysages uniques d'Europe, qui pourraient abriter la vie.",
+          duration: "8 mois",
+          distance: "670 million km",
+          gravity: "0.13g",
+          temperature: "-160°C",
+          price: "120,000",
+          currency: "€",
+          planet: "Lune de Jupiter",
+          diameter: "3,122 km",
+          dayLength: "3.5 jours terrestres",
+          atmosphere: "Oxygène mince",
+          bookingCode: "SV-EUROPE",
+          popularity: 3,
+          safetyRating: 3,
+          image: "images/EY.PNG"
+        },
+        titan: {
+          name: "Titan",
+          description: "Exploration de Titan - Un voyage de 7 jours vers la plus grande lune de Saturne. Découvrez ses lacs d'hydrocarbures, son atmosphère unique et sa chimie organique complexe.",
+          duration: "7 jours",
+          distance: "1.2 billion km",
+          gravity: "0.14g",
+          temperature: "-179°C",
+          price: "150,000",
+          currency: "€",
+          planet: "Lune de Saturne",
+          diameter: "5,150 km",
+          dayLength: "16 jours terrestres",
+          atmosphere: "Azote épais avec méthane",
+          bookingCode: "SV-TITAN",
+          popularity: 2,
+          safetyRating: 3,
+          image: "images/TITAN.PNG"
+        },
+        venus: {
+          name: "Cités Nuageuses de Vénus",
+          description: "Flottez parmi les nuages de Vénus dans nos cités nuageuses de pointe. Vivez des conditions similaires à la Terre à 50km d'altitude tout en observant l'atmosphère mystérieuse de Vénus.",
+          duration: "5 mois",
+          distance: "41 million km (minimum)",
+          gravity: "0.91g",
+          temperature: "30°C (au niveau des nuages)",
+          price: "300,000",
+          currency: "€",
+          planet: "Vénus",
+          diameter: "12,104 km",
+          dayLength: "243 jours terrestres",
+          atmosphere: "CO₂ avec nuages d'acide sulfurique",
+          bookingCode: "SV-VENUS",
+          popularity: 3,
+          safetyRating: 4,
+          image: "images/VENUS.PNG"
+        },
+        orbital: {
+          name: "Station Orbitale",
+          description: "Vivez l'expérience de la vie dans notre habitat orbital luxueux avec une vue à 360 degrés sur la Terre. Parfait pour les premiers voyageurs spatiaux cherchant une expérience spatiale plus courte et accessible.",
+          duration: "2 jours",
+          distance: "400 km",
+          gravity: "Microgravité",
+          temperature: "21°C contrôlé",
+          price: "50,000",
+          currency: "€",
+          planet: "Orbite Terrestre Basse",
+          diameter: "N/A",
+          dayLength: "90 minutes (période orbitale)",
+          atmosphere: "Similaire à la Terre (contrôlé)",
+          bookingCode: "SV-ORBITAL",
+          popularity: 4,
+          safetyRating: 5,
+          image: "images/STA.PNG"
+        }
+      };
     </script>
   </body>  
 </html>
