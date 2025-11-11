@@ -5,373 +5,901 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpaceVoyager | Votre Aventure Interstellaire</title>
     <link href="styles.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <style>
-        /* Importation des Polices - (Assurez-vous que l'URL dans le HTML est correcte) */
-/* Police futuriste pour les titres: Orbitron, Police de corps de texte: Roboto */
+        /* Importation des Polices */
+        :root {
+            --color-dark: #0A192F;
+            --color-primary: #00bcd4;
+            --color-light: #CCD6F6;
+            --color-secondary: #8892B0;
+            --color-card: #112240;
+        }
 
-:root {
-    --color-dark: #0A192F; /* Arrière-plan très sombre, presque noir */
-    --color-primary: #00bcd4; /* Bleu cyan futuriste (pour les CTAs et accents) */
-    --color-light: #CCD6F6; /* Texte clair */
-    --color-secondary: #8892B0; /* Texte secondaire/gris */
-    --color-card: #112240; /* Couleur pour les cartes et les zones de contenu */
-}
+        /* Réinitialisation de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Réinitialisation de base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        body {
+            background-color: var(--color-dark);
+            background-image: url('images/ss.PNG');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--color-light);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
 
-body {
-    background-color: var(--color-dark);
-    color: var(--color-light);
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.6;
-}
+        /* Overlay sombre pour améliorer la lisibilité */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.7);
+            z-index: -1;
+        }
 
-h1, h2, h3 {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--color-primary);
-    margin-bottom: 1rem;
-}
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
 
-a {
-    color: var(--color-primary);
-    text-decoration: none;
-    transition: color 0.3s;
-}
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
 
-a:hover {
-    color: var(--color-light);
-}
+        a:hover {
+            color: var(--color-light);
+        }
 
-/* Conteneur principal */
-main {
-    padding-top: 80px; /* Espace pour le header fixe */
-}
+        /* Conteneur principal */
+        main {
+            padding-top: 80px;
+        }
 
-section {
-    padding: 6rem 10%;
-    text-align: center;
-}
+        section {
+            padding: 6rem 10%;
+            text-align: center;
+        }
 
-/* 1. Header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 5%;
-    background-color: rgba(10, 25, 47, 0.95); /* Semi-transparent */
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid var(--color-card);
+        /* 1. Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: rgba(10, 25, 47, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-card);
+            padding: 10px 10px;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-left: 0;
+        }
+
+        .logo-img {
+            width: 300px;
+            height: 60px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: var(--color-secondary);
+            font-weight: 400;
+        }
+
+        .main-nav a.active {
+            color: var(--color-primary);
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--color-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        .cta-btn {
+            background-color: var(--color-primary);
+            color: var(--color-dark);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--color-light);
+        }
+
+        /* 2. Hero Section */
+        .hero-section {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 2rem;
+        }
+
+        .buttons button {
+            margin-top: 10px;
+            padding: 5px 12px;
+            background: white;
+            color: #0b0f26;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .buttons button:hover {
+             background: #00b8cc;
+            transform: scale(1.05);
+        }
     
-      padding: 10px 10px;
-  height: 80px;
-}
+        
+        /* 3. Section Destinations */
+        .destinations-section {
+            padding: 4rem 2%;
+        }
+        
+        .destinations-section h1 {
+             font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: bold;
+        }
 
+        .cards-container {
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            margin: 5px;
+            justify-content: center;
+        }
 
-.logo {
-  display: flex;
-  align-items: center;
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            width: 280px;
+            height: 410px;
+            flex-shrink: 0;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
 
-    justify-content: flex-start; /* باش يجي فاليسار */
-  margin-left: 0; /* نأكد ماكاينش فراغ *//* هادي كتخلي اللوغو يجي فاليسار */
-}
+        .card.clicked {
+            transform: translateY(-20px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3), 
+                        0 8px 20px rgba(0, 0, 0, 0.3);
+        }
 
-.logo-img {
-  width: 300px;
-  height: 60px;
-  object-fit: contain;
-  display: block;
-}
+        .card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
 
+        .card-title {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            padding: 5px 15px;
+            border-radius: 10px;
+            text-align: center;
+           
+        }
 
+        .card-content {
+            padding: 10px;
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'Audiowide', cursive;
+        }
 
-.main-nav ul {
-    list-style: none;
+        .characteristics {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            color:white;
+            font-weight: 600;
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 130px;
+            background: rgba(0,0,0,0.4);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+          .book-btn {
+            margin-top: 10px;
+            padding: 5px 12px;
+            background: white;
+            color: #0b0f26;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .book-btn:hover {
+            background: #00b8cc;
+            transform: scale(1.05);
+        }
+
+        /* 4. Section Future of Space Travel */
+/* 4. Section Future of Space Travel */
+.future-section {
+    min-height: 100vh;
+    padding: 100px 5% 80px;
+    position: relative;
+    overflow: hidden;
     display: flex;
-    gap: 2rem;
-}
-
-.main-nav a {
-    color: var(--color-secondary);
-    font-weight: 400;
-}
-
-.main-nav a.active {
-    color: var(--color-primary);
-}
-
-.icon-btn {
-    background: none;
-    border: none;
-    color: var(--color-light);
-    font-size: 1.2rem;
-    cursor: pointer;
-    margin-right: 1rem;
-}
-
-.cta-btn {
-    background-color: var(--color-primary);
-    color: var(--color-dark);
-    border: none;
-    padding: 0.5rem 1.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 700;
-    transition: background-color 0.3s;
-}
-
-.cta-btn:hover {
-    background-color: var(--color-light);
-}
-
-/* 2. Hero Section */
-/* page home */
-.hero-section {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      color: white;
-      text-align: center;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 1s ease-in-out;
-      
-    }
-
-    .hero-section h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: white;
-    }
-
-    .hero-section p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      font-weight: bold;
-    }
-
-    .buttons {
-      margin-top: 2rem;
-    }
-
-    .buttons button {
-      padding: 10px 20px;
-      margin: 0 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      background: rgba(255,255,255,0.8);
-      color: #333;
-      transition: 0.3s;
-    }
-
-    .buttons button:hover {
-      background: white;
-      transform: scale(1.05);
-    }
-/* 3. Destinations Phares */
-.featured-destinations {
-    background-color: var(--color-dark);
-}
-
-.destination-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 3rem;
-    margin-top: 3rem;
-}
-
-.destination-card {
-    background-color: var(--color-card);
-    padding: 2rem;
-    border-radius: 8px;
-    text-align: left;
-    border-top: 5px solid var(--color-primary);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.destination-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
-}
-
-.destination-card h3 {
-    font-size: 1.5rem;
-    color: var(--color-light);
-}
-
-.destination-card p {
-    color: var(--color-secondary);
-    margin: 1rem 0;
-}
-
-/* 4. Processus de Réservation */
-.how-it-works {
-    background-color: var(--color-card);
-}
-
-.steps-container {
-    display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 5rem;
-    margin-top: 2rem;
 }
 
-.step {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-light);
-    border-bottom: 2px dashed var(--color-secondary);
-    padding-bottom: 0.5rem;
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
 }
 
-/* 5. Témoignages */
-.traveler-say {
-    background-color: var(--color-dark);
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 15, 45, 0.85);
+    z-index: 1;
 }
 
-.testimonial-box {
-    background-color: var(--color-card);
-    padding: 2rem;
-    max-width: 600px;
-    margin: 2rem auto;
-    border-left: 5px solid var(--color-primary);
-    text-align: left;
-}
-
-.traveler-info {
-    margin-top: 1rem;
-    color: var(--color-primary);
-    font-weight: 700;
-}
-
-.secondary-btn {
-    background: none;
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
-    padding: 0.75rem 2rem;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.secondary-btn:hover {
-    background-color: var(--color-primary);
-    color: var(--color-dark);
-}
-
-/* 6. Footer */
-.footer {
-    background-color: #000;
-    padding: 3rem 10%;
-    text-align: left;
-    border-top: 1px solid var(--color-card);
-}
-
-.footer-links {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-}
-
-.footer-links h3 {
-    color: var(--color-light);
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.footer-links ul {
-    list-style: none;
-}
-
-.footer-links li {
-    margin-bottom: 0.5rem;
-}
-
-.newsletter input {
-    padding: 0.75rem;
-    border: 1px solid var(--color-secondary);
-    background-color: var(--color-dark);
-    color: var(--color-light);
-    border-radius: 4px;
-    margin-right: 10px;
-}
-
-.copyright {
+.future-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
     text-align: center;
-    color: var(--color-secondary);
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-card);
 }
+
+.section-header {
+    margin-bottom: 80px;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--color-primary), #7C4DFF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.section-description {
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.future-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+/* Cartes avec image sur toute la hauteur et texte superposé */
+.future-card {
+    background: rgba(26, 35, 126, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(124, 77, 255, 0.2);
+    position: relative;
+    backdrop-filter: blur(10px);
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.future-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.1) 0%, rgba(124, 77, 255, 0.05) 100%);
+    z-index: -1;
+}
+
+.future-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 229, 255, 0.3);
+    border-color: var(--color-primary);
+}
+
+/* Image qui prend toute la hauteur */
+.future-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Overlay sombre pour améliorer la lisibilité du texte */
+.future-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(10, 25, 47, 0.9) 0%, 
+        rgba(10, 25, 47, 0.7) 30%,
+        rgba(10, 25, 47, 0.4) 70%,
+        rgba(10, 25, 47, 0.2) 100%);
+    z-index: 2;
+}
+
+/* Contenu texte superposé CENTRÉ */
+.future-card-content {
+    padding: 30px;
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+}
+
+.future-card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-light);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.future-card-description {
+    font-size: 1.1rem;
+    color: var(--color-secondary);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 90%; /* Limiter la largeur pour une meilleure lisibilité */
+}
+
+/* Stars animation */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 5s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .section-title {
+        font-size: 3rem;
+    }
+    
+    .section-description {
+        font-size: 1.3rem;
+    }
+    
+    .floating-element {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .future-cards-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2.5rem;
+    }
+    
+    .section-description {
+        font-size: 1.2rem;
+    }
+    
+    .floating-element {
+        display: none;
+    }
+    
+    .future-card {
+        height: 280px;
+    }
+    
+    .future-card-content {
+        padding: 20px;
+    }
+    
+    .future-card-title {
+        font-size: 1.6rem;
+    }
+    
+    .future-card-description {
+        font-size: 1rem;
+    }
+}
+
+        /* 5. Section Comment ça marche */
+        .how-it-works {
+            background-color: var(--color-card);
+            padding: 4rem 2%;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .step {
+            background-color: var(--color-dark);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 200px;
+            margin: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* 6. Témoignages */
+        .traveler-say {
+            background-color: var(--color-dark);
+        }
+
+        .testimonial-box {
+            background-color: var(--color-card);
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            border-left: 5px solid var(--color-primary);
+            text-align: left;
+        }
+
+        .traveler-info {
+            margin-top: 1rem;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .secondary-btn {
+            background: none;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 0.75rem 2rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .secondary-btn:hover {
+            background-color: var(--color-primary);
+            color: var(--color-dark);
+        }
+
+        /* 7. Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .modal-content {
+            background-color: var(--color-card);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close {
+            color: var(--color-light);
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--color-primary);
+        }
+
+        /* 8. Footer */
+        .footer {
+            background-color: #000;
+            padding: 3rem 10%;
+            text-align: left;
+            border-top: 1px solid var(--color-card);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links h3 {
+            color: var(--color-light);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .newsletter input {
+            padding: 0.75rem;
+            border: 1px solid var(--color-secondary);
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--color-secondary);
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-card);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .section-title {
+                font-size: 3rem;
+            }
+            
+            .section-description {
+                font-size: 1.3rem;
+            }
+            
+            .floating-element {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .future-cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-description {
+                font-size: 1.2rem;
+            }
+            
+            .floating-element {
+                display: none;
+            }
+            
+            .future-card {
+                height: 450px;
+            }
+            
+            .future-card-content {
+                padding: 20px;
+            }
+            
+            .future-card-title {
+                font-size: 1.6rem;
+            }
+            
+            .future-card-description {
+                font-size: 1rem;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="header" style="background-color: #000;">
+        <div class="logo">
+            <img src="images/LOGOSF.png" alt="Logo SpaceVoyager" class="logo-img">
+        </div>
 
- <header class="header" style="background-color: #000;">
-  <div class="logo">
-    <img src="images/LOGOSF.png" alt="Logo SpaceVoyager" class="logo-img">
-  </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" class="active">Voyages</a></li>
+                <li><a href="#">Destinations</a></li>
+                <li><a href="#">Missions</a></li>
+                <li><a href="#">À Propos</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </nav>
 
-  <nav class="main-nav">
-    <ul>
-      <li><a href="#" class="active">Voyages</a></li>
-      <li><a href="#">Destinations</a></li>
-      <li><a href="#">Missions</a></li>
-      <li><a href="#">À Propos</a></li>
-      <li><a href="#">Support</a></li>
-    </ul>
-  </nav>
-
-  <div class="user-actions">
-    <button class="icon-btn">🛒</button>
-    <button class="icon-btn">👤</button>
-    <button class="cta-btn">Connexion</button>
-  </div>
-</header>
-
+        <div class="user-actions">
+            <button class="icon-btn">🛒</button>
+            <button class="icon-btn">👤</button>
+            <button class="cta-btn">Connexion</button>
+        </div>
+    </header>
 
     <main>
- <section class="hero-section">
-    <h1>Explore Beyond Earth</h1>
-    <p>Experience the final frontier with luxury space travel to destinations across our solar system..</p>
-    <div class="buttons">
-      <button>Book Now</button>
-      <button>View Destinations</button>
-    </div>
-  </section>
-
-
-        <section class="featured-destinations">
-            <h2>Destinations Populaires</h2>
-            <div class="destination-grid">
-                <article class="destination-card">
-                    <h3>Base Lunaire Alpha</h3>
-                    <p>Découvrez le berceau de l'humanité spatiale.</p>
-                    <a href="#">Explorer</a>
-                </article>
-                <article class="destination-card">
-                    <h3>Hôtel en Orbite Geostationnaire</h3>
-                    <p>Le luxe avec une vue imprenable sur la Terre.</p>
-                    <a href="#">Explorer</a>
-                </article>
-                <article class="destination-card">
-                    <h3>Exploration Martienne</h3>
-                    <p>Faites partie des premiers à marcher sur la planète rouge.</p>
-                    <a href="#">Explorer</a>
-                </article>
+        <section class="hero-section">
+            <h1>Explore Beyond Earth</h1>
+            <p>Experience the final frontier with luxury space travel to destinations across our solar system.</p>
+            <div class="buttons">
+                <button>Book Now</button>
+                <button>View Destinations</button>
             </div>
         </section>
+
+        <section class="destinations-section">
+            <h1>Explore Destinations</h1>
+            <div class="cards-container" id="cards-container">
+                <!-- Carte 1 -->
+                <div class="card" data-images='["images/M1.PNG","images/M2.PNG","images/M4.PNG"]' data-title="Moon" data-description="Voyage touristique lunaire - Découvrez notre satellite naturel avec un voyage de 3 jours. Profitez de vues imprenables sur la Terre depuis la surface lunaire.">
+                    <img src="images/M1.PNG" class="card-img" alt="Moon">
+                    <div class="card-title">Moon</div>
+                    <button class="gallery-btn prev">◀</button>
+                    <button class="gallery-btn next">▶</button>
+                    <div class="card-content">
+                        <p>Voyage touristique lunaire</p>
+                        <div class="characteristics">
+                            <span>3 days</span>
+                            <span>384,400 km</span>
+                        </div>
+                        <button class="book-btn">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Carte 2 -->
+                <div class="card" data-images='["images/MR1.PNG","images/MR2.PNG","images/MR3.PNG"]' data-title="Mars" data-description="Mission scientifique sur Mars - Un voyage de 6 mois vers la planète rouge. Participez à des expériences scientifiques uniques et explorez les paysages martiens.">
+                    <img src="images/MR1.PNG" class="card-img" alt="Mars">
+                    <div class="card-title">Mars</div>
+                    <button class="gallery-btn prev">◀</button>
+                    <button class="gallery-btn next">▶</button>
+                    <div class="card-content">
+                        <p>Mission scientifique</p>
+                        <div class="characteristics">
+                            <span>6 months</span>
+                            <span>225 million km</span>
+                        </div>
+                        <button class="book-btn">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Carte 3 -->
+                <div class="card" data-images='["images/E2.PNG","images/E5.PNG","images/E4.PNG"]' data-title="Europa" data-description="Lune de Jupiter - Un voyage de 8 mois vers cette lune glacée. Explorez les océans souterrains et les paysages uniques d'Europe.">
+                    <img src="images/E5.PNG" class="card-img" alt="Europa">
+                    <div class="card-title">Europa</div>
+                    <button class="gallery-btn prev">◀</button>
+                    <button class="gallery-btn next">▶</button>
+                    <div class="card-content">
+                        <p>Lune de Jupiter</p>
+                        <div class="characteristics">
+                            <span>8 months</span>
+                            <span>670 million km</span>
+                        </div>
+                        <button class="book-btn">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- Carte 4 -->
+                <div class="card" data-images='["images/T1.PNG","images/t2.PNG","images/t3.PNG"]' data-title="Titan" data-description="Exploration de Titan - Un voyage de 7 jours vers la plus grande lune de Saturne. Découvrez ses lacs d'hydrocarbures et son atmosphère unique.">
+                    <img src="images/T1.PNG" class="card-img" alt="Titan">
+                    <div class="card-title">Titan</div>
+                    <button class="gallery-btn prev">◀</button>
+                    <button class="gallery-btn next">▶</button>
+                    <div class="card-content">
+                        <p>Exploration de Titan</p>
+                        <div class="characteristics">
+                            <span>7 days</span>
+                            <span>1.2 billion km</span>
+                        </div>
+                        <button class="book-btn">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Future of Space Travel -->
+        <section class="future-section">
+            <!-- Background Image -->
+            <div class="background-image"></div>
+            <div class="background-overlay"></div>
+            
+        
+            
+           
+            <div class="future-container">
+                <div class="section-header">
+                    <h2 class="section-title">The Future of Space Travel</h2>
+                    <p class="section-description">Découvrez les innovations révolutionnaires qui transformeront notre façon d'explorer l'univers dans les décennies à venir.</p>
+                </div>
+                
+                <div class="future-cards-container">
+                    <!-- Carte 1 -->
+                    <div class="future-card">
+                        <img src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="Propulsion Spatiale" class="future-card-image">
+                        <div class="future-card-content">
+                           
+                            <h3 class="future-card-title">Propulsion Avancée</h3>
+                            <p class="future-card-description">Des systèmes de propulsion révolutionnaires comme les moteurs à fusion et les voiles solaires réduiront les temps de voyage interplanétaires de plusieurs mois à seulement quelques semaines.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Carte 2 -->
+                    <div class="future-card">
+                        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Habitats Spatiaux" class="future-card-image">
+                        <div class="future-card-content">
+                          
+                            <h3 class="future-card-title">Habitats Orbitaux</h3>
+                            <p class="future-card-description">Des stations spatiales luxueuses en orbite terrestre offriront des séjours avec vue imprenable sur la Terre et expériences en apesanteur pour les touristes et chercheurs.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Carte 3 -->
+                    <div class="future-card">
+                        <img src="https://images.unsplash.com/photo-1502136969935-8d8eef54d77b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Colonisation Spatiale" class="future-card-image">
+                        <div class="future-card-content">
+                            
+                            <h3 class="future-card-title">Terraformation</h3>
+                            <p class="future-card-description">Des projets ambitieux pour rendre Mars habitable en modifiant son atmosphère et sa température à l'échelle planétaire, créant ainsi un second foyer pour l'humanité.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal -->
+        <div id="imageModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modalTitle" style="color: white; font-weight: bold;">Titre Destination</h2>
+                <p id="modalDescription">
+                    Description de la destination choisie...
+                </p>
+            </div>
+        </div>
+        
 
         <section class="how-it-works">
             <h2>Réservez votre Voyage en 3 Étapes Simples</h2>
@@ -410,31 +938,117 @@ section {
         </div>
         <p class="copyright">&copy; 2025 SpaceVoyager. Tous droits réservés.</p>
     </footer>
- 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const images = [
-        
-        "images/baner.PNG",
-         "images/BB.PNG",
-         "images/bb2.PNG"
-        
-      ];
 
-      let current = 0;
-      const hero = document.querySelector(".hero-section");
+    <script>
+        // Background slider pour la section hero
+        document.addEventListener("DOMContentLoaded", () => {
+            const images = [
+                "images/baner.PNG",
+                "images/bb3.PNG",
+                "images/bb2.PNG"
+            ];
 
-      function changeBackground() {
-        hero.style.backgroundImage = `url(${images[current]})`;
-        current = (current + 1) % images.length;
-      }
+            let current = 0;
+            const hero = document.querySelector(".hero-section");
 
-      setInterval(changeBackground, 3000);
-      changeBackground();
-    });
-  </script>
+            function changeBackground() {
+                hero.style.backgroundImage = `url(${images[current]})`;
+                current = (current + 1) % images.length;
+            }
 
+            setInterval(changeBackground, 3000);
+            changeBackground();
 
- 
+            // Initialiser chaque carte
+            document.querySelectorAll('.card').forEach(card => {
+                const img = card.querySelector('.card-img');
+                const images = JSON.parse(card.dataset.images);
+                let current = 0;
+                img.src = images[current];
+
+                card.querySelector('.next').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    current = (current + 1) % images.length;
+                    img.src = images[current];
+                });
+                
+                card.querySelector('.prev').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    current = (current - 1 + images.length) % images.length;
+                    img.src = images[current];
+                });
+
+                // Effet de clic sur la carte
+                card.addEventListener("click", () => {
+                    card.classList.toggle("clicked");
+                    
+                    // Ouvrir le modal avec les détails de la destination
+                    const modal = document.getElementById("imageModal");
+                    const modalTitle = document.getElementById("modalTitle");
+                    const modalDescription = document.getElementById("modalDescription");
+                    
+                    modalTitle.textContent = card.dataset.title;
+                    modalDescription.textContent = card.dataset.description;
+                    
+                    modal.style.display = "block";
+                });
+            });
+
+            // Fermer le modal
+            document.querySelector(".close").addEventListener("click", () => {
+                document.getElementById("imageModal").style.display = "none";
+            });
+
+            // Fermer le modal en cliquant en dehors
+            window.addEventListener("click", (e) => {
+                const modal = document.getElementById("imageModal");
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            // Create stars for background
+            function createStars() {
+                const starsContainer = document.getElementById('stars-container');
+                const starCount = 100;
+                
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    
+                    // Random position
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    
+                    // Random size
+                    const size = Math.random() * 3 + 1;
+                    
+                    // Random animation delay
+                    const delay = Math.random() * 5;
+                    
+                    star.style.left = `${x}%`;
+                    star.style.top = `${y}%`;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.animationDelay = `${delay}s`;
+                    
+                    starsContainer.appendChild(star);
+                }
+            }
+            
+            // Initialize when page loads
+            createStars();
+            
+            // Add hover effect to future cards
+            document.querySelectorAll('.future-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
 </body>
-</html>
