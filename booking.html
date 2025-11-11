@@ -307,6 +307,7 @@
       input[type="email"],
       input[type="tel"],
       input[type="date"],
+      input[type="number"],
       select,
       textarea {
           background: rgba(10, 10, 24, 0.6);
@@ -322,6 +323,7 @@
       input[type="email"]:focus,
       input[type="tel"]:focus,
       input[type="date"]:focus,
+      input[type="number"]:focus,
       select:focus,
       textarea:focus {
           outline: none;
@@ -944,6 +946,170 @@
       .conditional-field.visible {
           display: block;
       }
+
+      /* Nouveaux styles pour les extras optionnels */
+      .extra-option {
+          background: rgba(10, 10, 24, 0.5);
+          border: 2px solid rgba(14, 165, 233, 0.3);
+          border-radius: 10px;
+          padding: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-bottom: 1rem;
+      }
+
+      .extra-option:hover {
+          border-color: rgba(14, 165, 233, 0.6);
+          background: rgba(10, 10, 24, 0.7);
+      }
+
+      .extra-option.selected {
+          border-color: #0ea5e9;
+          background: rgba(14, 165, 233, 0.1);
+          box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+      }
+
+      .extra-price {
+          color: #0ea5e9;
+          font-weight: bold;
+          font-size: 1.1rem;
+      }
+
+      .price-display {
+          background: rgba(14, 165, 233, 0.1);
+          border: 2px solid rgba(14, 165, 233, 0.3);
+          border-radius: 10px;
+          padding: 1.5rem;
+          margin: 2rem 0;
+          text-align: center;
+      }
+
+      .price-breakdown {
+          text-align: left;
+          margin-top: 1rem;
+      }
+
+      .price-item {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+      }
+
+      .price-item:last-child {
+          border-bottom: none;
+      }
+
+      .price-total {
+          font-size: 2rem;
+          color: #0ea5e9;
+          font-weight: bold;
+          margin-top: 1rem;
+          border-top: 2px solid rgba(14, 165, 233, 0.3);
+          padding-top: 1rem;
+      }
+
+      /* Nouveaux styles pour les hébergements */
+      .accommodation-option {
+          background: rgba(10, 10, 24, 0.5);
+          border: 2px solid rgba(14, 165, 233, 0.3);
+          border-radius: 10px;
+          padding: 1.5rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-bottom: 1rem;
+      }
+
+      .accommodation-option:hover {
+          border-color: rgba(14, 165, 233, 0.6);
+          background: rgba(10, 10, 24, 0.7);
+          transform: translateY(-2px);
+      }
+
+      .accommodation-option.selected {
+          border-color: #0ea5e9;
+          background: rgba(14, 165, 233, 0.1);
+          box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+      }
+
+      .accommodation-category {
+          display: inline-block;
+          padding: 0.25rem 0.75rem;
+          border-radius: 15px;
+          font-size: 0.75rem;
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+      }
+
+      .category-economy {
+          background: rgba(34, 197, 94, 0.2);
+          color: #22c55e;
+          border: 1px solid rgba(34, 197, 94, 0.5);
+      }
+
+      .category-premium {
+          background: rgba(59, 130, 246, 0.2);
+          color: #3b82f6;
+          border: 1px solid rgba(59, 130, 246, 0.5);
+      }
+
+      .category-luxury {
+          background: rgba(168, 85, 247, 0.2);
+          color: #a855f7;
+          border: 1px solid rgba(168, 85, 247, 0.5);
+      }
+
+      .category-special {
+          background: rgba(245, 158, 11, 0.2);
+          color: #f59e0b;
+          border: 1px solid rgba(245, 158, 11, 0.5);
+      }
+
+      .accommodation-price {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #0ea5e9;
+          margin: 0.5rem 0;
+      }
+
+      .accommodation-details {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          margin-top: 1rem;
+      }
+
+      .detail-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          color: rgba(255, 255, 255, 0.7);
+      }
+
+      .detail-item i {
+          color: #0ea5e9;
+          width: 16px;
+      }
+
+      .rating-stars {
+          display: flex;
+          gap: 2px;
+          margin: 0.5rem 0;
+      }
+
+      .star {
+          color: #fbbf24;
+          font-size: 0.875rem;
+      }
+
+      .accommodation-features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 0.5rem;
+          margin-top: 1rem;
+      }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -951,7 +1117,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
-<body class="text-white font-exo min-h-screen">
+  <body class="text-white font-exo min-h-screen">
 
     <!-- Navigation -->
     <header class="header" style="background-color: #000;">
@@ -1133,6 +1299,30 @@
               <!-- Les champs conditionnels seront ajoutés ici dynamiquement -->
             </div>
 
+            <!-- Accommodation Selection -->
+            <div class="form-group" id="accommodation-section">
+              <label class="block mb-3 text-gray-300">Sélectionnez votre hébergement</label>
+              <div id="accommodation-container" class="space-y-4">
+                <!-- Les hébergements seront chargés dynamiquement selon la destination -->
+              </div>
+              <div class="error-message" id="accommodation-error"></div>
+            </div>
+
+            <!-- Trip Duration -->
+            <div class="form-group" id="duration-section">
+              <label class="block mb-2 text-gray-300">Durée du séjour (jours)</label>
+              <input type="number" id="trip-duration" min="1" max="30" value="3" class="h-12" />
+              <div class="error-message" id="duration-error"></div>
+            </div>
+
+            <!-- Optional Extras -->
+            <div class="form-group" id="extras-section">
+              <label class="block mb-3 text-gray-300">Extras Optionnels</label>
+              <div id="extras-container" class="space-y-3">
+                <!-- Les extras seront chargés dynamiquement -->
+              </div>
+            </div>
+
             <!-- Departure Date -->
             <div class="form-group">
               <label class="block mb-2 text-gray-300">Date de départ</label>
@@ -1174,6 +1364,32 @@
                   />
                   <span>Groupe (3-6)</span>
                 </label>
+              </div>
+            </div>
+
+            <!-- Real-time Price Display -->
+            <div class="price-display">
+              <h3 class="font-orbitron text-xl mb-4">Estimation du Prix</h3>
+              <div class="price-breakdown">
+                <div class="price-item">
+                  <span>Package de base:</span>
+                  <span id="base-price">0 €</span>
+                </div>
+                <div class="price-item">
+                  <span>Hébergement:</span>
+                  <span id="accommodation-price">0 €</span>
+                </div>
+                <div class="price-item">
+                  <span>Passagers supplémentaires:</span>
+                  <span id="passengers-price">0 €</span>
+                </div>
+                <div class="price-item">
+                  <span>Extras optionnels:</span>
+                  <span id="extras-price">0 €</span>
+                </div>
+                <div class="price-total" id="total-price">
+                  0 €
+                </div>
               </div>
             </div>
 
@@ -1498,141 +1714,6 @@
             ]
           },
           {
-            "id": "venus-clouds",
-            "name": "Cités Nuageuses de Vénus",
-            "description": "Flottez parmi les nuages de Vénus dans nos cités nuageuses de pointe. Vivez des conditions similaires à la Terre à 50km d'altitude tout en observant l'atmosphère mystérieuse de Vénus.",
-            "duration": "5 mois",
-            "distance": "41 million km (minimum)",
-            "gravity": "0.91g",
-            "temperature": "30°C (au niveau des nuages)",
-            "price": "300,000",
-            "currency": "€",
-            "planet": "Vénus",
-            "diameter": "12,104 km",
-            "dayLength": "243 jours terrestres",
-            "atmosphere": "CO₂ avec nuages d'acide sulfurique",
-            "bookingCode": "SV-VENUS",
-            "popularity": 3,
-            "safetyRating": 4,
-            "image": "images/VENUS.PNG",
-            "packages": [
-              {
-                "id": "cloud-observer",
-                "name": "Observateur des Nuages",
-                "description": "Package de base pour observer les nuages vénusiens",
-                "price": 300000,
-                "features": ["Vol aller-retour", "Séjour en cité nuageuse", "Observation des nuages", "Visite guidée"],
-                "conditionalFields": ["acidResistance"]
-              },
-              {
-                "id": "cloud-explorer",
-                "name": "Explorateur des Nuages",
-                "description": "Package pour explorer les différentes couches nuageuses",
-                "price": 450000,
-                "features": ["Vol aller-retour", "Séjour en cité nuageuse premium", "Exploration des nuages", "Sessions de photographie", "Accès aux observatoires"],
-                "conditionalFields": ["acidResistance", "pressureTolerance"]
-              },
-              {
-                "id": "venus-scientist",
-                "name": "Scientifique Vénusien",
-                "description": "Package pour étudier l'atmosphère et la géologie de Vénus",
-                "price": 600000,
-                "features": ["Vol aller-retour", "Suite privée en cité nuageuse", "Accès aux laboratoires", "Échantillonnage des nuages", "Recherche atmosphérique", "Mentorat scientifique"],
-                "conditionalFields": ["acidResistance", "pressureTolerance", "scientificBackground"]
-              }
-            ]
-          },
-          {
-            "id": "titan",
-            "name": "Titan",
-            "description": "Exploration de Titan - Un voyage de 7 jours vers la plus grande lune de Saturne. Découvrez ses lacs d'hydrocarbures, son atmosphère unique et sa chimie organique complexe.",
-            "duration": "7 jours",
-            "distance": "1.2 billion km",
-            "gravity": "0.14g",
-            "temperature": "-179°C",
-            "price": "150,000",
-            "currency": "€",
-            "planet": "Lune de Saturne",
-            "diameter": "5,150 km",
-            "dayLength": "16 jours terrestres",
-            "atmosphere": "Azote épais avec méthane",
-            "bookingCode": "SV-TITAN",
-            "popularity": 2,
-            "safetyRating": 3,
-            "image": "images/TITAN.PNG",
-            "packages": [
-              {
-                "id": "titan-tourist",
-                "name": "Touriste de Titan",
-                "description": "Package de base pour découvrir les paysages uniques de Titan",
-                "price": 150000,
-                "features": ["Vol aller-retour", "Séjour en base titanienne", "Observation des lacs d'hydrocarbures", "Visite guidée"],
-                "conditionalFields": ["coldResistance"]
-              },
-              {
-                "id": "lake-explorer",
-                "name": "Explorateur des Lacs",
-                "description": "Package pour explorer les lacs de méthane et d'éthane",
-                "price": 220000,
-                "features": ["Vol aller-retour", "Séjour en base avancée", "Exploration des lacs", "Échantillonnage", "Navigation sur les lacs"],
-                "conditionalFields": ["coldResistance", "methaneExposure"]
-              },
-              {
-                "id": "titan-scientist",
-                "name": "Scientifique de Titan",
-                "description": "Package complet pour étudier la chimie organique de Titan",
-                "price": 350000,
-                "features": ["Vol aller-retour", "Suite de recherche", "Accès aux laboratoires", "Étude de la chimie prébiotique", "Recherche sur les processus organiques", "Publication potentielle"],
-                "conditionalFields": ["coldResistance", "methaneExposure", "scientificBackground"]
-              }
-            ]
-          },
-          {
-            "id": "europa",
-            "name": "Europe",
-            "description": "Lune de Jupiter - Un voyage de 8 mois vers cette lune glacée. Explorez les océans souterrains et les paysages uniques d'Europe, qui pourraient abriter la vie.",
-            "duration": "8 mois",
-            "distance": "670 million km",
-            "gravity": "0.13g",
-            "temperature": "-160°C",
-            "price": "120,000",
-            "currency": "€",
-            "planet": "Lune de Jupiter",
-            "diameter": "3,122 km",
-            "dayLength": "3.5 jours terrestres",
-            "atmosphere": "Oxygène mince",
-            "bookingCode": "SV-EUROPE",
-            "popularity": 3,
-            "safetyRating": 3,
-            "image": "images/EY.PNG",
-            "packages": [
-              {
-                "id": "europa-observer",
-                "name": "Observateur d'Europe",
-                "description": "Package de base pour observer les paysages glacés d'Europe",
-                "price": 120000,
-                "features": ["Vol aller-retour", "Séjour en station europa", "Observation des fissures glacées", "Visite guidée"],
-                "conditionalFields": ["coldResistance"]
-              },
-              {
-                "id": "ice-explorer",
-                "name": "Explorateur des Glaces",
-                "description": "Package pour explorer la surface glacée et ses fissures",
-                "price": 180000,
-                "features": ["Vol aller-retour", "Séjour en station avancée", "Exploration des failles", "Forage de glace", "Recherche de biosignatures"],
-                "conditionalFields": ["coldResistance", "radiationTolerance"]
-              },
-              {
-                "id": "ocean-scientist",
-                "name": "Scientifique des Océans",
-                "description": "Package pour étudier l'océan souterrain et la recherche de vie",
-                "price": 280000,
-                "features": ["Vol aller-retour", "Suite de recherche", "Accès aux sous-marins", "Exploration de l'océan souterrain", "Recherche exobiologique", "Collaboration avec la NASA/ESA"],
-                "conditionalFields": ["coldResistance", "radiationTolerance", "scientificBackground", "divingExperience"]
-              }
-            ]
-          },
-          {
             "id": "orbital",
             "name": "Station Orbitale",
             "description": "Vivez l'expérience de la vie dans notre habitat orbital luxueux avec une vue à 360 degrés sur la Terre. Parfait pour les premiers voyageurs spatiaux cherchant une expérience spatiale plus courte et accessible.",
@@ -1676,8 +1757,373 @@
                 "conditionalFields": ["spaceSickness", "preferences"]
               }
             ]
+          },
+          // NOUVELLES DESTINATIONS AJOUTÉES
+          {
+            "id": "venus",
+            "name": "Vénus",
+            "description": "Expédition scientifique vers la planète la plus chaude du système solaire. Explorez les mystères de l'atmosphère dense de Vénus et ses paysages volcaniques uniques.",
+            "duration": "8 mois",
+            "distance": "41 million km",
+            "gravity": "0.91g",
+            "temperature": "462°C",
+            "price": "95,000",
+            "currency": "€",
+            "planet": "Vénus",
+            "diameter": "12,104 km",
+            "dayLength": "243 jours terrestres",
+            "atmosphere": "CO₂ dense (96.5%)",
+            "bookingCode": "SV-VENUS",
+            "popularity": 3,
+            "safetyRating": 3,
+            "image": "images/venus.PNG",
+            "packages": [
+              {
+                "id": "basic",
+                "name": "Observation",
+                "description": "Package d'observation de Vénus depuis l'orbite",
+                "price": 95000,
+                "features": ["Vol aller-retour", "Observation orbitale", "Étude atmosphérique"],
+                "conditionalFields": []
+              },
+              {
+                "id": "explorer",
+                "name": "Explorateur",
+                "description": "Package d'exploration des nuages vénusiens",
+                "price": 150000,
+                "features": ["Vol aller-retour", "Sonde atmosphérique", "Collecte de données", "Observation des volcans"],
+                "conditionalFields": ["suitSize", "fitnessLevel"]
+              },
+              {
+                "id": "scientist",
+                "name": "Scientifique",
+                "description": "Package complet pour recherche avancée sur Vénus",
+                "price": 250000,
+                "features": ["Vol aller-retour", "Accès aux laboratoires", "Expériences atmosphériques", "Données exclusives", "Formation spécialisée"],
+                "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
+              }
+            ]
+          },
+          {
+            "id": "europa",
+            "name": "Europe",
+            "description": "Mission vers la lune glacée de Jupiter, célèbre pour son océan souterrain qui pourrait abriter la vie. Une aventure vers les confins du système solaire.",
+            "duration": "5 ans",
+            "distance": "628 million km",
+            "gravity": "0.13g",
+            "temperature": "-160°C",
+            "price": "500,000",
+            "currency": "€",
+            "planet": "Lune de Jupiter",
+            "diameter": "3,122 km",
+            "dayLength": "3.5 jours terrestres",
+            "atmosphere": "Oxygène ténu",
+            "bookingCode": "SV-EUROPA",
+            "popularity": 4,
+            "safetyRating": 4,
+            "image": "images/europa.PNG",
+            "packages": [
+              {
+                "id": "basic",
+                "name": "Observation",
+                "description": "Package d'observation d'Europe depuis l'orbite",
+                "price": 500000,
+                "features": ["Vol aller-retour", "Observation de la surface glacée", "Étude des geysers"],
+                "conditionalFields": []
+              },
+              {
+                "id": "explorer",
+                "name": "Explorateur",
+                "description": "Package d'exploration de la surface glacée",
+                "price": 750000,
+                "features": ["Vol aller-retour", "Atterrissage contrôlé", "Forage de glace", "Recherche de vie"],
+                "conditionalFields": ["suitSize", "fitnessLevel"]
+              },
+              {
+                "id": "scientist",
+                "name": "Scientifique",
+                "description": "Package complet pour recherche océanographique",
+                "price": 1200000,
+                "features": ["Vol aller-retour", "Sous-marin d'exploration", "Laboratoire mobile", "Échantillons exclusifs", "Équipe de support"],
+                "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
+              }
+            ]
+          },
+          {
+            "id": "titan",
+            "name": "Titan",
+            "description": "Expédition vers la plus grande lune de Saturne, avec ses lacs de méthane et son atmosphère dense. Un monde unique ressemblant à la Terre primitive.",
+            "duration": "7 ans",
+            "distance": "1.2 billion km",
+            "gravity": "0.14g",
+            "temperature": "-179°C",
+            "price": "750,000",
+            "currency": "€",
+            "planet": "Lune de Saturne",
+            "diameter": "5,151 km",
+            "dayLength": "16 jours terrestres",
+            "atmosphere": "Azote dense (95%)",
+            "bookingCode": "SV-TITAN",
+            "popularity": 5,
+            "safetyRating": 4,
+            "image": "images/titan.PNG",
+            "packages": [
+              {
+                "id": "basic",
+                "name": "Observation",
+                "description": "Package d'observation de Titan depuis l'orbite",
+                "price": 750000,
+                "features": ["Vol aller-retour", "Observation des lacs de méthane", "Étude atmosphérique"],
+                "conditionalFields": []
+              },
+              {
+                "id": "explorer",
+                "name": "Explorateur",
+                "description": "Package d'exploration de la surface titanesque",
+                "price": 1100000,
+                "features": ["Vol aller-retour", "Navigation sur lacs", "Collecte d'échantillons", "Observation des dunes"],
+                "conditionalFields": ["suitSize", "fitnessLevel"]
+              },
+              {
+                "id": "scientist",
+                "name": "Scientifique",
+                "description": "Package complet pour recherche prébiotique",
+                "price": 1800000,
+                "features": ["Vol aller-retour", "Laboratoire avancé", "Échantillons exclusifs", "Support technique complet", "Publication des résultats"],
+                "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
+              }
+            ]
           }
         ]
+      };
+
+      // Données des hébergements
+      const accommodationsData = {
+        "accommodations": [
+          {
+            "id": "standard",
+            "name": "Cabine Standard",
+            "category": "economy",
+            "description": "Quartiers privés confortables avec équipements de base, parfaits pour les voyageurs spatiaux soucieux de leur budget. Inclut un pod de sommeil personnel, un espace de stockage et un système de divertissement de base.",
+            "shortDescription": "Quartiers privés confortables avec équipements de base",
+            "features": [
+              "Pod de sommeil personnel (2m x 1.5m)",
+              "Système de divertissement de base",
+              "Casier de stockage personnel",
+              "Installations sanitaires partagées",
+              "Forfait repas standard",
+              "Accès internet de base"
+            ],
+            "amenities": [
+              "Capacité cryo-sommeil",
+              "Approvisionnement d'oxygène d'urgence",
+              "Contrôle climatique personnel",
+              "Divertissement VR de base"
+            ],
+            "size": "3 mètres carrés",
+            "occupancy": 1,
+            "pricePerDay": 500,
+            "currency": "USD",
+            "availableOn": ["moon", "mars", "europa", "titan", "orbital", "venus"],
+            "image": "/images/accommodations/standard-cabin.jpg",
+            "popularity": 4,
+            "comfortRating": 3
+          },
+          {
+            "id": "luxury",
+            "name": "Suite de Luxe",
+            "category": "premium",
+            "description": "Suite spacieuse avec équipements premium et grandes fenêtres offrant des vues cosmiques spectaculaires. Inclut salle de bain privée, restauration premium et fonctionnalités de confort améliorées.",
+            "shortDescription": "Suite spacieuse avec équipements premium et fenêtres",
+            "features": [
+              "Suite privée spacieuse (6 mètres carrés)",
+              "Grande fenêtre avec vues cosmiques",
+              "Salle de bain privée avec douche spatiale",
+              "Système de divertissement premium",
+              "Forfait repas gastronomique",
+              "Internet interstellaire haut débit",
+              "Service de conciergerie personnel"
+            ],
+            "amenities": [
+              "Protection anti-radiation améliorée",
+              "Zone de détente en apesanteur",
+              "Suite de divertissement VR premium",
+              "Station d'hygiène personnelle",
+              "Système de literie de luxe"
+            ],
+            "size": "6 mètres carrés",
+            "occupancy": 2,
+            "pricePerDay": 1200,
+            "currency": "USD",
+            "availableOn": ["moon", "mars", "europa", "titan", "orbital", "venus"],
+            "image": "/images/accommodations/luxury-suite.jpg",
+            "popularity": 5,
+            "comfortRating": 5
+          },
+          {
+            "id": "zero-g",
+            "name": "Pod Zéro-G",
+            "category": "premium",
+            "description": "Hébergement avancé avec expérience d'apesanteur et vues à 360 degrés. Parfait pour vivre la véritable liberté spatiale avec une technologie de confort de pointe.",
+            "shortDescription": "Hébergement avancé avec expérience d'apesanteur",
+            "features": [
+              "Environnement en apesanteur véritable",
+              "Parois transparentes à 360 degrés",
+              "Système de suspension de sommeil avancé",
+              "Écrans holographiques immersifs",
+              "Restauration gastronomique premium",
+              "Connectivité ultra-haute vitesse",
+              "Assistant IA personnel"
+            ],
+            "amenities": [
+              "Système de chaussures magnétiques",
+              "Contrôle climatique avancé",
+              "Système d'éclairage thérapeutique",
+              "Technologie d'annulation du bruit",
+              "Système de stabilisation d'urgence"
+            ],
+            "size": "4 mètres carrés",
+            "occupancy": 1,
+            "pricePerDay": 2000,
+            "currency": "USD",
+            "availableOn": ["moon", "mars", "orbital", "venus"],
+            "image": "/images/accommodations/zero-g-pod.jpg",
+            "popularity": 4,
+            "comfortRating": 4
+          },
+          {
+            "id": "family",
+            "name": "Module Familial",
+            "category": "special",
+            "description": "Hébergement familial spacieux avec zones de sommeil séparées et équipements adaptés aux familles. Parfait pour les familles voyageant ensemble pour vivre l'aventure spatiale.",
+            "shortDescription": "Hébergement familial spacieux avec zones séparées",
+            "features": [
+              "Multiples pods de sommeil (jusqu'à 4)",
+              "Espace de vie commun",
+              "Système de divertissement familial",
+              "Installations sanitaires privées",
+              "Forfait repas familial",
+              "Expériences VR éducatives",
+              "Fonctionnalités de sécurité pour enfants"
+            ],
+            "amenities": [
+              "Interfaces adaptées aux enfants",
+              "Programmes spatiaux éducatifs",
+              "Planification d'activités familiales",
+              "Systèmes de sécurité améliorés",
+              "Agencements de sommeil flexibles"
+            ],
+            "size": "8 mètres carrés",
+            "occupancy": 4,
+            "pricePerDay": 1800,
+            "currency": "USD",
+            "availableOn": ["moon", "mars", "orbital"],
+            "image": "/images/accommodations/family-module.jpg",
+            "popularity": 3,
+            "comfortRating": 4
+          },
+          {
+            "id": "research",
+            "name": "Suite de Recherche",
+            "category": "special",
+            "description": "Hébergement spécialisé pour chercheurs scientifiques avec connectivité améliorée, espaces de travail et interfaces d'équipement de recherche.",
+            "shortDescription": "Suite spécialisée pour activités de recherche scientifique",
+            "features": [
+              "Poste de travail de recherche intégré",
+              "Connectivité de données améliorée",
+              "Installations de stockage d'échantillons",
+              "Outils de microscope et d'analyse",
+              "Transmission de données sécurisée",
+              "Surfaces de travail étendues",
+              "Éclairage spécialisé"
+            ],
+            "amenities": [
+              "Interfaces de qualité recherche",
+              "Alimentation électrique améliorée",
+              "Systèmes de sauvegarde de données",
+              "Technologie de collaboration",
+              "Accès à la bibliothèque scientifique"
+            ],
+            "size": "7 mètres carrés",
+            "occupancy": 1,
+            "pricePerDay": 1500,
+            "currency": "USD",
+            "availableOn": ["mars", "europa", "titan"],
+            "image": "/images/accommodations/research-suite.jpg",
+            "popularity": 2,
+            "comfortRating": 4
+          },
+          {
+            "id": "honeymoon",
+            "name": "Suite de Lune de Miel",
+            "category": "luxury",
+            "description": "Hébergement ultra-luxueux conçu pour les couples, offrant des vues cosmiques romantiques, des équipements premium et des expériences exclusives.",
+            "shortDescription": "Suite ultra-luxueuse pour couples avec caractéristiques romantiques",
+            "features": [
+              "Lit anti-gravité king-size",
+              "Dôme d'observatoire privé",
+              "Espace repas romantique",
+              "Salle de bain de luxe avec spa",
+              "Service personnalisé",
+              "Accès aux zones exclusives",
+              "Forfait d'activités pour couples"
+            ],
+            "amenities": [
+              "Systèmes d'éclairage d'ambiance",
+              "Sélection musicale romantique",
+              "Contrôles de fenêtre privée",
+              "Articles de toilette de luxe",
+              "Forfaits de célébration"
+            ],
+            "size": "10 mètres carrés",
+            "occupancy": 2,
+            "pricePerDay": 2500,
+            "currency": "USD",
+            "availableOn": ["moon", "orbital", "venus"],
+            "image": "/images/accommodations/honeymoon-suite.jpg",
+            "popularity": 4,
+            "comfortRating": 5
+          }
+        ]
+      };
+
+      // Définition des extras optionnels
+      const optionalExtras = {
+        "insurance": {
+          "id": "insurance",
+          "name": "Assurance Voyage Spatial Premium",
+          "description": "Couverture complète incluant annulation, interruption de voyage et assistance médicale spatiale",
+          "price": 5000,
+          "features": ["Annulation sans frais", "Assistance médicale 24/7", "Rapatriement spatial", "Couverture bagages"]
+        },
+        "photoPack": {
+          "id": "photoPack",
+          "name": "Pack Photos Professionnel",
+          "description": "Photos et vidéos professionnelles de votre voyage spatial par un photographe certifié",
+          "price": 2500,
+          "features": ["50 photos HD", "Vidéo souvenir 4K", "Album digital premium", "Rights d'usage personnel"]
+        },
+        "training": {
+          "id": "training",
+          "name": "Entraînement Avancé",
+          "description": "Programme d'entraînement personnalisé avec instructeurs experts pour optimiser votre expérience",
+          "price": 7500,
+          "features": ["10 sessions préparatoires", "Simulateur de vol spatial", "Coaching nutritionnel", "Évaluation physique"]
+        },
+        "luxuryKit": {
+          "id": "luxuryKit",
+          "name": "Kit de Luxe Spatial",
+          "description": "Équipement premium pour votre confort durant le voyage",
+          "price": 3000,
+          "features": ["Combinaison personnalisée", "Tablette spatiale", "Nourriture gastronomique", "Kit de confort"]
+        },
+        "communication": {
+          "id": "communication",
+          "name": "Pack Communication Illimité",
+          "description": "Communications illimitées avec la Terre pendant votre voyage",
+          "price": 2000,
+          "features": ["Appels vidéo illimités", "Internet spatial", "Messagerie prioritaire", "Streaming en direct"]
+        }
       };
 
       // Définition des champs conditionnels
@@ -1740,69 +2186,9 @@
             { "value": "other", "label": "Autre" }
           ],
           "required": false
-        },
-        "acidResistance": {
-          "type": "radio",
-          "label": "Avez-vous une sensibilité aux environnements acides?",
-          "options": [
-            { "value": "yes", "label": "Oui" },
-            { "value": "no", "label": "Non" },
-            { "value": "unknown", "label": "Je ne sais pas" }
-          ],
-          "required": true
-        },
-        "pressureTolerance": {
-          "type": "select",
-          "label": "Tolérance aux variations de pression",
-          "options": [
-            { "value": "low", "label": "Faible" },
-            { "value": "medium", "label": "Moyenne" },
-            { "value": "high", "label": "Élevée" }
-          ],
-          "required": true
-        },
-        "coldResistance": {
-          "type": "select",
-          "label": "Résistance au froid extrême",
-          "options": [
-            { "value": "low", "label": "Faible" },
-            { "value": "medium", "label": "Moyenne" },
-            { "value": "high", "label": "Élevée" }
-          ],
-          "required": true
-        },
-        "methaneExposure": {
-          "type": "radio",
-          "label": "Avez-vous déjà été exposé à des environnements riches en méthane?",
-          "options": [
-            { "value": "yes", "label": "Oui" },
-            { "value": "no", "label": "Non" },
-            { "value": "unknown", "label": "Je ne sais pas" }
-          ],
-          "required": true
-        },
-        "radiationTolerance": {
-          "type": "select",
-          "label": "Niveau de tolérance aux radiations",
-          "options": [
-            { "value": "low", "label": "Faible" },
-            { "value": "medium", "label": "Moyenne" },
-            { "value": "high", "label": "Élevée" }
-          ],
-          "required": true
-        },
-        "divingExperience": {
-          "type": "radio",
-          "label": "Avez-vous de l'expérience en plongée sous-marine?",
-          "options": [
-            { "value": "yes", "label": "Oui" },
-            { "value": "no", "label": "Non" }
-          ],
-          "required": true
         }
       };
 
-      // [Le reste du code JavaScript reste identique]
       document.addEventListener("DOMContentLoaded", function() {
         // Variables globales pour stocker les données du formulaire
         let bookingData = {
@@ -1811,7 +2197,14 @@
           departureDate: '',
           passengers: 'solo',
           passengerCount: 1,
-          conditionalFields: {}
+          conditionalFields: {},
+          selectedExtras: {},
+          selectedAccommodation: null,
+          tripDuration: 3,
+          basePrice: 0,
+          accommodationPrice: 0,
+          extrasPrice: 0,
+          totalPrice: 0
         };
 
         // Éléments des étapes
@@ -1839,6 +2232,7 @@
         function initializeForm() {
           populateDestinations();
           setupEventListeners();
+          setupExtrasSelection();
         }
 
         // Remplir la liste des destinations
@@ -1870,8 +2264,375 @@
             }
           });
 
-          // [Le reste du code JavaScript pour la gestion des événements reste identique]
-          // ... (le code reste le même que précédemment)
+          // Gestion des options de passagers
+          const passengerOptions = document.querySelectorAll('.radio-option');
+          const addPassengerContainer = document.getElementById('add-passenger-container');
+          const addPassengerBtn = document.getElementById('add-passenger-btn');
+          const passengerFormsContainer = document.getElementById('passenger-forms-container');
+          
+          let passengerCount = 1;
+          const MAX_PASSENGERS = 6;
+
+          // Fonction pour créer un formulaire de passager
+          function createPassengerForm(index) {
+            const newPassengerForm = document.createElement('div');
+            newPassengerForm.className = 'passenger-form';
+            newPassengerForm.id = `passenger-form-${index}`;
+            newPassengerForm.innerHTML = `
+              <div class="passenger-header">
+                <h3 class="font-orbitron text-neon-blue">Passager ${index + 1}</h3>
+                ${index > 0 ? '<div class="remove-passenger"><i class="fas fa-times"></i></div>' : ''}
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="block mb-2 text-gray-300">Prénom</label>
+                  <input
+                    type="text"
+                    name="first-name[]"
+                    placeholder="Entrez le prénom"
+                    required
+                    data-validation="name"
+                  />
+                  <div class="error-message" data-error="first-name"></div>
+                </div>
+                <div>
+                  <label class="block mb-2 text-gray-300">Nom</label>
+                  <input
+                    type="text"
+                    name="last-name[]"
+                    placeholder="Entrez le nom"
+                    required
+                    data-validation="name"
+                  />
+                  <div class="error-message" data-error="last-name"></div>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="block mb-2 text-gray-300">Adresse e-mail</label>
+                  <input
+                    type="email"
+                    name="email[]"
+                    placeholder="Entrez l'e-mail"
+                    required
+                    data-validation="email"
+                  />
+                  <div class="error-message" data-error="email"></div>
+                </div>
+                <div>
+                  <label class="block mb-2 text-gray-300">Numéro de téléphone</label>
+                  <input
+                    type="tel"
+                    name="phone[]"
+                    placeholder="Entrez le numéro de téléphone"
+                    required
+                    data-validation="phone"
+                  />
+                  <div class="error-message" data-error="phone"></div>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="block mb-2 text-gray-300">Exigences particulières</label>
+                <textarea
+                  class="pl-3 pt-1"
+                  name="special-requirements[]"
+                  rows="4"
+                  placeholder="Toute exigence particulière ou note..."
+                ></textarea>
+              </div>
+            `;
+            
+            return newPassengerForm;
+          }
+
+          // Fonction pour mettre à jour les formulaires de passagers selon le choix
+          function updatePassengerForms(passengerType) {
+            // Supprimer tous les formulaires sauf le premier
+            const existingForms = document.querySelectorAll('.passenger-form');
+            for (let i = 1; i < existingForms.length; i++) {
+              existingForms[i].remove();
+            }
+
+            let targetCount = 1;
+            
+            switch(passengerType) {
+              case 'solo':
+                targetCount = 1;
+                addPassengerContainer.classList.add('hidden');
+                break;
+              case 'couple':
+                targetCount = 2;
+                addPassengerContainer.classList.add('hidden');
+                break;
+              case 'group':
+                targetCount = 3;
+                addPassengerContainer.classList.remove('hidden');
+                break;
+            }
+
+            // Réinitialiser le compteur à 1 (le premier formulaire existe déjà)
+            passengerCount = 1;
+
+            // Ajouter les formulaires manquants
+            for (let i = passengerCount; i < targetCount; i++) {
+              const newForm = createPassengerForm(i);
+              passengerFormsContainer.appendChild(newForm);
+              
+              // Ajouter l'événement de suppression si ce n'est pas le premier formulaire
+              if (i > 0) {
+                const removeBtn = newForm.querySelector('.remove-passenger');
+                removeBtn.addEventListener('click', function() {
+                  newForm.remove();
+                  passengerCount--;
+                  bookingData.passengerCount = passengerCount;
+                  updateAddButtonState();
+                });
+              }
+              
+              passengerCount++;
+            }
+
+            bookingData.passengerCount = passengerCount;
+            updateAddButtonState();
+            updatePrice();
+          }
+
+          // Fonction pour mettre à jour l'état du bouton d'ajout
+          function updateAddButtonState() {
+            if (passengerCount >= MAX_PASSENGERS) {
+              addPassengerBtn.disabled = true;
+              addPassengerBtn.innerHTML = '<i class="fas fa-ban mr-2"></i>Maximum atteint (6)';
+              addPassengerBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+              addPassengerBtn.disabled = false;
+              addPassengerBtn.innerHTML = '<i class="fas fa-plus mr-2"></i>Ajouter un passager';
+              addPassengerBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+          }
+
+          // Gestion du choix du type de passagers
+          passengerOptions.forEach(option => {
+            option.addEventListener('click', function() {
+              passengerOptions.forEach(o => o.classList.remove('selected'));
+              this.classList.add('selected');
+              const radio = this.querySelector('input[type="radio"]');
+              radio.checked = true;
+              bookingData.passengers = radio.value;
+              
+              // Mettre à jour les formulaires de passagers
+              updatePassengerForms(radio.value);
+            });
+          });
+
+          // Gestion de l'ajout de passagers (seulement pour groupe)
+          addPassengerBtn.addEventListener('click', function() {
+            if (passengerCount < MAX_PASSENGERS) {
+              const newPassengerForm = createPassengerForm(passengerCount);
+              passengerFormsContainer.appendChild(newPassengerForm);
+              passengerCount++;
+              bookingData.passengerCount = passengerCount;
+              
+              // Ajouter l'événement de suppression
+              const removeBtn = newPassengerForm.querySelector('.remove-passenger');
+              removeBtn.addEventListener('click', function() {
+                newPassengerForm.remove();
+                passengerCount--;
+                bookingData.passengerCount = passengerCount;
+                updateAddButtonState();
+                updatePrice();
+              });
+              
+              updateAddButtonState();
+              updatePrice();
+            }
+          });
+
+          // Gestion de la date de départ
+          const departureDateInput = document.getElementById('departure-date');
+          departureDateInput.addEventListener('change', function() {
+            bookingData.departureDate = this.value;
+          });
+
+          // Gestion de la durée du séjour
+          const durationInput = document.getElementById('trip-duration');
+          durationInput.addEventListener('change', function() {
+            bookingData.tripDuration = parseInt(this.value) || 3;
+            updatePrice();
+            updateAccommodationPrices();
+          });
+
+          // Navigation entre les étapes
+          nextToPersonalBtn.addEventListener('click', function() {
+            // Vérifier que les champs obligatoires sont remplis
+            if (!destinationSelect.value || !departureDateInput.value || !bookingData.package || !bookingData.selectedAccommodation) {
+              alert('Veuillez sélectionner une destination, un package, un hébergement et une date de départ');
+              return;
+            }
+
+            // Passer à l'étape 2
+            journeySection.classList.add('hidden');
+            personalSection.classList.remove('hidden');
+            
+            // Mettre à jour l'indicateur d'étape
+            step1.classList.remove('active');
+            step1.classList.add('completed');
+            step2.classList.add('active');
+            connector1.classList.add('completed');
+            
+            // Changer le background
+            updateFormBackground(2);
+          });
+
+          backToJourneyBtn.addEventListener('click', function() {
+            // Retour à l'étape 1
+            personalSection.classList.add('hidden');
+            journeySection.classList.remove('hidden');
+            
+            // Mettre à jour l'indicateur d'étape
+            step2.classList.remove('active');
+            step1.classList.add('active');
+            step1.classList.remove('completed');
+            connector1.classList.remove('completed');
+            
+            // Changer le background
+            updateFormBackground(1);
+          });
+
+          nextToConfirmationBtn.addEventListener('click', function() {
+            // Vérifier que les champs obligatoires sont remplis
+            const firstNameInputs = document.querySelectorAll('#personal-section input[name="first-name[]"]');
+            const lastNameInputs = document.querySelectorAll('#personal-section input[name="last-name[]"]');
+            const emailInputs = document.querySelectorAll('#personal-section input[name="email[]"]');
+            const phoneInputs = document.querySelectorAll('#personal-section input[name="phone[]"]');
+            
+            let allValid = true;
+            
+            firstNameInputs.forEach(input => {
+              if (!input.value) allValid = false;
+            });
+            
+            lastNameInputs.forEach(input => {
+              if (!input.value) allValid = false;
+            });
+            
+            emailInputs.forEach(input => {
+              if (!input.value) allValid = false;
+            });
+            
+            phoneInputs.forEach(input => {
+              if (!input.value) allValid = false;
+            });
+            
+            if (!allValid) {
+              alert('Veuillez remplir tous les champs obligatoires de la section "Informations Personnelles"');
+              return;
+            }
+
+            // Mettre à jour le résumé
+            updateBookingSummary();
+
+            // Passer à l'étape 3
+            personalSection.classList.add('hidden');
+            confirmationSection.classList.remove('hidden');
+            
+            // Mettre à jour l'indicateur d'étape
+            step2.classList.remove('active');
+            step2.classList.add('completed');
+            step3.classList.add('active');
+            connector2.classList.add('completed');
+            
+            // Changer le background
+            updateFormBackground(3);
+          });
+
+          backToPersonalBtn.addEventListener('click', function() {
+            // Retour à l'étape 2
+            confirmationSection.classList.add('hidden');
+            personalSection.classList.remove('hidden');
+            
+            // Mettre à jour l'indicateur d'étape
+            step3.classList.remove('active');
+            step2.classList.add('active');
+            step2.classList.remove('completed');
+            connector2.classList.remove('completed');
+            
+            // Changer le background
+            updateFormBackground(2);
+          });
+
+          // Gestion de la soumission du formulaire
+          const bookingForm = document.getElementById('booking-form');
+          bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Votre réservation a été finalisée avec succès! Vous recevrez un email de confirmation dans les prochaines minutes.');
+            // Ici, vous pourriez ajouter une redirection ou d'autres actions
+          });
+
+          // Initialiser l'état du bouton d'ajout
+          updateAddButtonState();
+        }
+
+        // Fonction pour configurer la sélection des extras
+        function setupExtrasSelection() {
+          const extrasContainer = document.getElementById('extras-container');
+          
+          // Créer les options d'extras
+          Object.values(optionalExtras).forEach(extra => {
+            const extraOption = document.createElement('div');
+            extraOption.className = 'extra-option';
+            extraOption.dataset.extraId = extra.id;
+            
+            extraOption.innerHTML = `
+              <div class="flex justify-between items-start">
+                <div class="flex-1">
+                  <h4 class="font-orbitron text-lg mb-1">${extra.name}</h4>
+                  <p class="text-sm text-gray-300 mb-2">${extra.description}</p>
+                  <div class="extra-features">
+                    ${extra.features.map(feature => `
+                      <div class="accommodation-feature">
+                        <i class="fas fa-check text-green-400"></i>
+                        <span class="text-xs">${feature}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+                <div class="text-right ml-4">
+                  <div class="extra-price">${extra.price.toLocaleString()} €</div>
+                  <label class="inline-flex items-center mt-2">
+                    <input type="checkbox" class="extra-checkbox hidden">
+                    <span class="checkmark w-6 h-6 border-2 border-neon-blue rounded flex items-center justify-center mr-2">
+                      <i class="fas fa-check text-white text-xs hidden"></i>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            `;
+            
+            extraOption.addEventListener('click', function() {
+              const checkbox = this.querySelector('.extra-checkbox');
+              const checkmark = this.querySelector('.checkmark');
+              const icon = this.querySelector('.fa-check');
+              
+              if (checkbox.checked) {
+                checkbox.checked = false;
+                this.classList.remove('selected');
+                checkmark.classList.remove('bg-neon-blue');
+                icon.classList.add('hidden');
+                delete bookingData.selectedExtras[extra.id];
+              } else {
+                checkbox.checked = true;
+                this.classList.add('selected');
+                checkmark.classList.add('bg-neon-blue');
+                icon.classList.remove('hidden');
+                bookingData.selectedExtras[extra.id] = extra;
+              }
+              
+              // Mettre à jour le prix
+              updatePrice();
+            });
+            
+            extrasContainer.appendChild(extraOption);
+          });
         }
 
         // Fonction pour mettre à jour les informations de destination
@@ -1941,10 +2702,16 @@
               const packageInput = document.getElementById('package');
               packageInput.value = pkg.id;
               bookingData.package = pkg.name;
-              bookingData.packagePrice = pkg.price;
+              bookingData.basePrice = pkg.price;
               
               // Mettre à jour les champs conditionnels
               updateConditionalFields(pkg.conditionalFields);
+              
+              // Mettre à jour les hébergements disponibles
+              updateAccommodations(dest.id);
+              
+              // Mettre à jour le prix
+              updatePrice();
             });
             
             packagesContainer.appendChild(packageCard);
@@ -1958,11 +2725,152 @@
             const packageInput = document.getElementById('package');
             packageInput.value = dest.packages[0].id;
             bookingData.package = dest.packages[0].name;
-            bookingData.packagePrice = dest.packages[0].price;
+            bookingData.basePrice = dest.packages[0].price;
             
             // Mettre à jour les champs conditionnels
             updateConditionalFields(dest.packages[0].conditionalFields);
+            
+            // Mettre à jour les hébergements disponibles
+            updateAccommodations(dest.id);
+            
+            // Mettre à jour le prix
+            updatePrice();
           }
+        }
+
+        // Fonction pour mettre à jour les hébergements disponibles
+        function updateAccommodations(destinationId) {
+          const accommodationContainer = document.getElementById('accommodation-container');
+          accommodationContainer.innerHTML = '';
+
+          // Filtrer les hébergements disponibles pour cette destination
+          const availableAccommodations = accommodationsData.accommodations.filter(acc => 
+            acc.availableOn.includes(destinationId)
+          );
+
+          if (availableAccommodations.length === 0) {
+            accommodationContainer.innerHTML = '<p class="text-gray-400">Aucun hébergement disponible pour cette destination.</p>';
+            return;
+          }
+
+          // Créer les options d'hébergement
+          availableAccommodations.forEach(accommodation => {
+            const accOption = document.createElement('div');
+            accOption.className = 'accommodation-option';
+            accOption.dataset.accommodationId = accommodation.id;
+
+            // Déterminer la classe de catégorie
+            let categoryClass = '';
+            switch(accommodation.category) {
+              case 'economy': categoryClass = 'category-economy'; break;
+              case 'premium': categoryClass = 'category-premium'; break;
+              case 'luxury': categoryClass = 'category-luxury'; break;
+              case 'special': categoryClass = 'category-special'; break;
+            }
+
+            // Générer les étoiles de confort
+            const stars = '★'.repeat(accommodation.comfortRating) + '☆'.repeat(5 - accommodation.comfortRating);
+
+            accOption.innerHTML = `
+              <div class="flex justify-between items-start mb-3">
+                <div>
+                  <div class="${categoryClass} accommodation-category">${accommodation.category.toUpperCase()}</div>
+                  <h4 class="font-orbitron text-xl">${accommodation.name}</h4>
+                </div>
+                <div class="text-right">
+                  <div class="accommodation-price">${(accommodation.pricePerDay * bookingData.tripDuration).toLocaleString()} €</div>
+                  <div class="text-sm text-gray-400">${accommodation.pricePerDay.toLocaleString()} €/jour</div>
+                </div>
+              </div>
+              
+              <p class="text-gray-300 mb-3">${accommodation.description}</p>
+              
+              <div class="accommodation-details">
+                <div class="detail-item">
+                  <i class="fas fa-arrows-alt"></i>
+                  <span>${accommodation.size}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-users"></i>
+                  <span>Jusqu'à ${accommodation.occupancy} personne(s)</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-star"></i>
+                  <span>Confort: ${stars}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-fire"></i>
+                  <span>Popularité: ${accommodation.popularity}/5</span>
+                </div>
+              </div>
+
+              <div class="accommodation-features mt-3">
+                ${accommodation.features.slice(0, 3).map(feature => `
+                  <div class="accommodation-feature">
+                    <i class="fas fa-check text-green-400"></i>
+                    <span class="text-sm">${feature}</span>
+                  </div>
+                `).join('')}
+              </div>
+
+              <div class="mt-3 text-center">
+                <label class="inline-flex items-center">
+                  <input type="radio" name="accommodation" value="${accommodation.id}" class="hidden">
+                  <span class="checkmark w-6 h-6 border-2 border-neon-blue rounded-full flex items-center justify-center mr-2">
+                    <i class="fas fa-check text-white text-xs hidden"></i>
+                  </span>
+                  <span class="text-sm">Sélectionner cet hébergement</span>
+                </label>
+              </div>
+            `;
+
+            accOption.addEventListener('click', function() {
+              const radio = this.querySelector('input[type="radio"]');
+              const checkmark = this.querySelector('.checkmark');
+              const icon = this.querySelector('.fa-check');
+              
+              // Désélectionner tous les autres hébergements
+              document.querySelectorAll('.accommodation-option').forEach(opt => {
+                opt.classList.remove('selected');
+                opt.querySelector('.checkmark').classList.remove('bg-neon-blue');
+                opt.querySelector('.fa-check').classList.add('hidden');
+              });
+              
+              // Sélectionner celui-ci
+              radio.checked = true;
+              this.classList.add('selected');
+              checkmark.classList.add('bg-neon-blue');
+              icon.classList.remove('hidden');
+              
+              bookingData.selectedAccommodation = accommodation;
+              
+              // Mettre à jour le prix
+              updatePrice();
+            });
+
+            accommodationContainer.appendChild(accOption);
+          });
+
+          // Sélectionner automatiquement le premier hébergement
+          if (availableAccommodations.length > 0) {
+            const firstAccommodation = accommodationContainer.querySelector('.accommodation-option');
+            if (firstAccommodation) {
+              firstAccommodation.click();
+            }
+          }
+        }
+
+        // Fonction pour mettre à jour les prix des hébergements affichés
+        function updateAccommodationPrices() {
+          const accommodationOptions = document.querySelectorAll('.accommodation-option');
+          accommodationOptions.forEach(option => {
+            const accommodationId = option.dataset.accommodationId;
+            const accommodation = accommodationsData.accommodations.find(acc => acc.id === accommodationId);
+            if (accommodation) {
+              const priceElement = option.querySelector('.accommodation-price');
+              priceElement.textContent = `${(accommodation.pricePerDay * bookingData.tripDuration).toLocaleString()} €`;
+            }
+          });
         }
 
         // Fonction pour effacer les packages
@@ -1973,10 +2881,18 @@
           const packageInput = document.getElementById('package');
           packageInput.value = '';
           bookingData.package = '';
-          bookingData.packagePrice = 0;
+          bookingData.basePrice = 0;
           
           // Effacer les champs conditionnels
           updateConditionalFields([]);
+          
+          // Effacer les hébergements
+          const accommodationContainer = document.getElementById('accommodation-container');
+          accommodationContainer.innerHTML = '';
+          bookingData.selectedAccommodation = null;
+          
+          // Mettre à jour le prix
+          updatePrice();
         }
 
         // Fonction pour mettre à jour les champs conditionnels
@@ -2054,6 +2970,47 @@
           return fieldDiv;
         }
 
+        // Fonction pour mettre à jour le prix en temps réel
+        function updatePrice() {
+          // Calculer le prix de base
+          let basePrice = bookingData.basePrice || 0;
+          
+          // Calculer le prix de l'hébergement
+          let accommodationPrice = 0;
+          if (bookingData.selectedAccommodation) {
+            accommodationPrice = bookingData.selectedAccommodation.pricePerDay * bookingData.tripDuration;
+          }
+          
+          // Calculer le coût des passagers supplémentaires
+          let passengersPrice = 0;
+          if (bookingData.passengers === 'couple') {
+            passengersPrice = bookingData.basePrice * 0.8; // 80% du prix pour le deuxième passager
+          } else if (bookingData.passengers === 'group') {
+            passengersPrice = bookingData.basePrice * 0.7 * (bookingData.passengerCount - 1); // 70% du prix pour chaque passager supplémentaire
+          }
+          
+          // Calculer le coût des extras
+          let extrasPrice = 0;
+          Object.values(bookingData.selectedExtras).forEach(extra => {
+            extrasPrice += extra.price;
+          });
+          
+          // Calculer le prix total
+          let totalPrice = basePrice + accommodationPrice + passengersPrice + extrasPrice;
+          
+          // Mettre à jour l'affichage
+          document.getElementById('base-price').textContent = `${basePrice.toLocaleString()} €`;
+          document.getElementById('accommodation-price').textContent = `${accommodationPrice.toLocaleString()} €`;
+          document.getElementById('passengers-price').textContent = `${passengersPrice.toLocaleString()} €`;
+          document.getElementById('extras-price').textContent = `${extrasPrice.toLocaleString()} €`;
+          document.getElementById('total-price').textContent = `${totalPrice.toLocaleString()} €`;
+          
+          // Stocker les prix pour utilisation ultérieure
+          bookingData.accommodationPrice = accommodationPrice;
+          bookingData.extrasPrice = extrasPrice;
+          bookingData.totalPrice = totalPrice;
+        }
+
         // Fonction pour mettre à jour le résumé de réservation
         function updateBookingSummary() {
           document.getElementById('summary-destination').textContent = bookingData.destination;
@@ -2076,17 +3033,43 @@
           
           document.getElementById('summary-duration').textContent = document.getElementById('destination-duration').textContent;
           
-          // Calculer le prix total
-          let totalPrice = bookingData.packagePrice;
-          
-          // Ajouter le coût supplémentaire pour les passagers supplémentaires
-          if (bookingData.passengers === 'couple') {
-            totalPrice += bookingData.packagePrice * 0.8; // 80% du prix pour le deuxième passager
-          } else if (bookingData.passengers === 'group') {
-            totalPrice += bookingData.packagePrice * 0.7 * (bookingData.passengerCount - 1); // 70% du prix pour chaque passager supplémentaire
+          // Afficher l'hébergement sélectionné
+          let accommodationHTML = '';
+          if (bookingData.selectedAccommodation) {
+            accommodationHTML = `
+              <div class="summary-item">
+                <span class="summary-label">Hébergement:</span>
+                <span class="summary-value">${bookingData.selectedAccommodation.name} (${bookingData.tripDuration} jours)</span>
+              </div>
+            `;
           }
           
-          document.getElementById('summary-total').textContent = `Total: ${totalPrice.toLocaleString()} €`;
+          // Afficher les extras sélectionnés
+          let extrasHTML = '';
+          if (Object.keys(bookingData.selectedExtras).length > 0) {
+            const extrasList = Object.values(bookingData.selectedExtras).map(extra => 
+              `${extra.name} (+${extra.price.toLocaleString()} €)`
+            ).join(', ');
+            
+            extrasHTML = `
+              <div class="summary-item">
+                <span class="summary-label">Extras optionnels:</span>
+                <span class="summary-value">${extrasList}</span>
+              </div>
+            `;
+          }
+          
+          // Mettre à jour le prix total dans le résumé
+          document.getElementById('summary-total').textContent = `Total: ${bookingData.totalPrice.toLocaleString()} €`;
+          
+          // Insérer l'hébergement et les extras avant le total
+          const totalElement = document.getElementById('summary-total');
+          if (accommodationHTML) {
+            totalElement.insertAdjacentHTML('beforebegin', accommodationHTML);
+          }
+          if (extrasHTML) {
+            totalElement.insertAdjacentHTML('beforebegin', extrasHTML);
+          }
         }
 
         // Fonction pour changer le background selon l'étape
