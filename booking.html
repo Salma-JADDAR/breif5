@@ -358,6 +358,26 @@
           transform: translateY(-2px);
       }
 
+      .btn-valid {
+          background: linear-gradient(to right, #10b981, #059669) !important;
+      }
+
+      .btn-valid:hover {
+          background: linear-gradient(to right, #059669, #047857) !important;
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+      }
+
+      .btn-invalid {
+          background: linear-gradient(to right, #6b7280, #4b5563) !important;
+          cursor: not-allowed !important;
+      }
+
+      .btn-invalid:hover {
+          transform: none !important;
+          box-shadow: none !important;
+      }
+
       input[type="radio"] {
           accent-color: #0ea5e9;
       }
@@ -1110,6 +1130,74 @@
           gap: 0.5rem;
           margin-top: 1rem;
       }
+
+      /* Styles pour la validation */
+      .validation-success {
+          border-color: #10b981 !important;
+          box-shadow: 0 0 5px rgba(16, 185, 129, 0.3) !important;
+      }
+
+      .validation-error {
+          border-color: #ef4444 !important;
+          box-shadow: 0 0 5px rgba(239, 68, 68, 0.3) !important;
+      }
+
+      .error-message {
+          color: #ef4444;
+          font-size: 0.875rem;
+          margin-top: 0.25rem;
+          display: none;
+      }
+
+      .error-message i {
+          font-size: 0.75rem;
+      }
+
+      .success-message {
+          color: #10b981;
+          font-size: 0.875rem;
+          margin-top: 0.25rem;
+          display: none;
+      }
+
+      .success-message i {
+          font-size: 0.75rem;
+      }
+
+      .character-count {
+          font-size: 0.75rem;
+          margin-top: 0.25rem;
+          text-align: right;
+      }
+
+      .character-count.near-limit {
+          color: #f59e0b;
+      }
+
+      .character-count.over-limit {
+          color: #ef4444;
+      }
+
+      .form-field {
+          position: relative;
+          margin-bottom: 1rem;
+      }
+
+      .field-requirements {
+          font-size: 0.75rem;
+          color: #6b7280;
+          margin-top: 0.25rem;
+      }
+
+      .submit-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+      }
+
+      .submit-btn:disabled:hover {
+          transform: none;
+          box-shadow: none;
+      }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -1195,6 +1283,7 @@
                 <option value="">Sélectionnez votre destination</option>
                 <!-- Les options seront chargées dynamiquement depuis data.json -->
               </select>
+              <div class="error-message" id="destination-error"></div>
 
               <!-- Destination Info Display - TOUTES LES CARACTÉRISTIQUES REGROUPÉES -->
               <div id="destination-info" class="destination-details hidden">
@@ -1327,6 +1416,7 @@
             <div class="form-group">
               <label class="block mb-2 text-gray-300">Date de départ</label>
               <input type="date" id="departure-date" required />
+              <div class="field-requirements">Sélectionnez une date entre demain et 30 jours maximum</div>
               <div class="error-message" id="departure-date-error"></div>
             </div>
 
@@ -1365,6 +1455,7 @@
                   <span>Groupe (3-6)</span>
                 </label>
               </div>
+              <div class="error-message" id="passengers-error"></div>
             </div>
 
             <!-- Real-time Price Display -->
@@ -1422,35 +1513,37 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <!-- First Name -->
-                  <div>
+                  <div class="form-field">
                     <label class="block mb-2 text-gray-300">Prénom</label>
                     <input
                       type="text"
                       name="first-name[]"
                       placeholder="Entrez votre prénom"
                       required
-                      data-validation="name"
+                      class="name-input"
                     />
+                    <div class="field-requirements">Minimum 2 lettres, pas de chiffres, pas d'espaces</div>
                     <div class="error-message" data-error="first-name"></div>
                   </div>
 
                   <!-- Last Name -->
-                  <div>
+                  <div class="form-field">
                     <label class="block mb-2 text-gray-300">Nom</label>
                     <input
                       type="text"
                       name="last-name[]"
                       placeholder="Entrez votre nom"
                       required
-                      data-validation="name"
+                      class="name-input"
                     />
+                    <div class="field-requirements">Minimum 2 lettres, pas de chiffres, pas d'espaces</div>
                     <div class="error-message" data-error="last-name"></div>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <!-- Email -->
-                  <div>
+                  <div class="form-field">
                     <label class="block mb-2 text-gray-300"
                       >Adresse e-mail</label
                     >
@@ -1459,36 +1552,43 @@
                       name="email[]"
                       placeholder="Entrez votre e-mail"
                       required
-                      data-validation="email"
+                      class="email-input"
                     />
+                    <div class="field-requirements">Format: exemple@domaine.com</div>
                     <div class="error-message" data-error="email"></div>
                   </div>
 
                   <!-- Phone -->
-                  <div>
+                  <div class="form-field">
                     <label class="block mb-2 text-gray-300">Numéro de téléphone</label>
                     <input
                       type="tel"
                       name="phone[]"
-                      placeholder="Entrez votre numéro de téléphone"
+                      placeholder="Ex: 0612345678 ou +212612345678"
                       required
-                      data-validation="phone"
+                      class="phone-input"
                     />
+                    <div class="field-requirements">Format: 06/07/05 XXXXXX ou +2126 XXXXXX</div>
                     <div class="error-message" data-error="phone"></div>
                   </div>
                 </div>
 
                 <!-- Special Requirements -->
-                <div class="mb-6">
+                <div class="form-field">
                   <label class="block mb-2 text-gray-300"
                     >Exigences particulières</label
                   >
                   <textarea
-                    class="pl-3 pt-1"
+                    class="pl-3 pt-1 requirements-textarea"
                     name="special-requirements[]"
                     rows="4"
-                    placeholder="Toute exigence particulière ou note..."
+                    placeholder="Toute exigence particulière ou note... (maximum 500 caractères)"
+                    maxlength="500"
                   ></textarea>
+                  <div class="character-count" data-for="requirements-0">
+                    <span class="current">0</span>/<span class="max">500</span> caractères
+                  </div>
+                  <div class="error-message" data-error="requirements"></div>
                 </div>
               </div>
             </div>
@@ -1516,7 +1616,8 @@
               <button
                 type="button"
                 id="next-to-confirmation"
-                class="btn-primary text-white px-8 py-3 rounded-lg font-bold text-lg"
+                class="btn-primary text-white px-8 py-3 rounded-lg font-bold text-lg submit-btn btn-invalid"
+                disabled
               >
                 Suivant <i class="fas fa-arrow-right ml-2"></i>
               </button>
@@ -1570,7 +1671,7 @@
               </button>
               <button
                 type="submit"
-                class="btn-primary text-white px-8 py-3 rounded-lg font-bold text-lg"
+                class="btn-primary text-white px-8 py-3 rounded-lg font-bold text-lg submit-btn"
               >
                 <i class="fas fa-rocket mr-2"></i>Finaliser la réservation
               </button>
@@ -1757,142 +1858,6 @@
                 "conditionalFields": ["spaceSickness", "preferences"]
               }
             ]
-          },
-          // NOUVELLES DESTINATIONS AJOUTÉES
-          {
-            "id": "venus",
-            "name": "Vénus",
-            "description": "Expédition scientifique vers la planète la plus chaude du système solaire. Explorez les mystères de l'atmosphère dense de Vénus et ses paysages volcaniques uniques.",
-            "duration": "8 mois",
-            "distance": "41 million km",
-            "gravity": "0.91g",
-            "temperature": "462°C",
-            "price": "95,000",
-            "currency": "€",
-            "planet": "Vénus",
-            "diameter": "12,104 km",
-            "dayLength": "243 jours terrestres",
-            "atmosphere": "CO₂ dense (96.5%)",
-            "bookingCode": "SV-VENUS",
-            "popularity": 3,
-            "safetyRating": 3,
-            "image": "images/venus.PNG",
-            "packages": [
-              {
-                "id": "basic",
-                "name": "Observation",
-                "description": "Package d'observation de Vénus depuis l'orbite",
-                "price": 95000,
-                "features": ["Vol aller-retour", "Observation orbitale", "Étude atmosphérique"],
-                "conditionalFields": []
-              },
-              {
-                "id": "explorer",
-                "name": "Explorateur",
-                "description": "Package d'exploration des nuages vénusiens",
-                "price": 150000,
-                "features": ["Vol aller-retour", "Sonde atmosphérique", "Collecte de données", "Observation des volcans"],
-                "conditionalFields": ["suitSize", "fitnessLevel"]
-              },
-              {
-                "id": "scientist",
-                "name": "Scientifique",
-                "description": "Package complet pour recherche avancée sur Vénus",
-                "price": 250000,
-                "features": ["Vol aller-retour", "Accès aux laboratoires", "Expériences atmosphériques", "Données exclusives", "Formation spécialisée"],
-                "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
-              }
-            ]
-          },
-          {
-            "id": "europa",
-            "name": "Europe",
-            "description": "Mission vers la lune glacée de Jupiter, célèbre pour son océan souterrain qui pourrait abriter la vie. Une aventure vers les confins du système solaire.",
-            "duration": "5 ans",
-            "distance": "628 million km",
-            "gravity": "0.13g",
-            "temperature": "-160°C",
-            "price": "500,000",
-            "currency": "€",
-            "planet": "Lune de Jupiter",
-            "diameter": "3,122 km",
-            "dayLength": "3.5 jours terrestres",
-            "atmosphere": "Oxygène ténu",
-            "bookingCode": "SV-EUROPA",
-            "popularity": 4,
-            "safetyRating": 4,
-            "image": "images/europa.PNG",
-            "packages": [
-              {
-                "id": "basic",
-                "name": "Observation",
-                "description": "Package d'observation d'Europe depuis l'orbite",
-                "price": 500000,
-                "features": ["Vol aller-retour", "Observation de la surface glacée", "Étude des geysers"],
-                "conditionalFields": []
-              },
-              {
-                "id": "explorer",
-                "name": "Explorateur",
-                "description": "Package d'exploration de la surface glacée",
-                "price": 750000,
-                "features": ["Vol aller-retour", "Atterrissage contrôlé", "Forage de glace", "Recherche de vie"],
-                "conditionalFields": ["suitSize", "fitnessLevel"]
-              },
-              {
-                "id": "scientist",
-                "name": "Scientifique",
-                "description": "Package complet pour recherche océanographique",
-                "price": 1200000,
-                "features": ["Vol aller-retour", "Sous-marin d'exploration", "Laboratoire mobile", "Échantillons exclusifs", "Équipe de support"],
-                "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
-              }
-            ]
-          },
-          {
-            "id": "titan",
-            "name": "Titan",
-            "description": "Expédition vers la plus grande lune de Saturne, avec ses lacs de méthane et son atmosphère dense. Un monde unique ressemblant à la Terre primitive.",
-            "duration": "7 ans",
-            "distance": "1.2 billion km",
-            "gravity": "0.14g",
-            "temperature": "-179°C",
-            "price": "750,000",
-            "currency": "€",
-            "planet": "Lune de Saturne",
-            "diameter": "5,151 km",
-            "dayLength": "16 jours terrestres",
-            "atmosphere": "Azote dense (95%)",
-            "bookingCode": "SV-TITAN",
-            "popularity": 5,
-            "safetyRating": 4,
-            "image": "images/titan.PNG",
-            "packages": [
-              {
-                "id": "basic",
-                "name": "Observation",
-                "description": "Package d'observation de Titan depuis l'orbite",
-                "price": 750000,
-                "features": ["Vol aller-retour", "Observation des lacs de méthane", "Étude atmosphérique"],
-                "conditionalFields": []
-              },
-              {
-                "id": "explorer",
-                "name": "Explorateur",
-                "description": "Package d'exploration de la surface titanesque",
-                "price": 1100000,
-                "features": ["Vol aller-retour", "Navigation sur lacs", "Collecte d'échantillons", "Observation des dunes"],
-                "conditionalFields": ["suitSize", "fitnessLevel"]
-              },
-              {
-                "id": "scientist",
-                "name": "Scientifique",
-                "description": "Package complet pour recherche prébiotique",
-                "price": 1800000,
-                "features": ["Vol aller-retour", "Laboratoire avancé", "Échantillons exclusifs", "Support technique complet", "Publication des résultats"],
-                "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
-              }
-            ]
           }
         ]
       };
@@ -1924,7 +1889,7 @@
             "occupancy": 1,
             "pricePerDay": 500,
             "currency": "USD",
-            "availableOn": ["moon", "mars", "europa", "titan", "orbital", "venus"],
+            "availableOn": ["moon", "mars", "orbital"],
             "image": "/images/accommodations/standard-cabin.jpg",
             "popularity": 4,
             "comfortRating": 3
@@ -1955,133 +1920,9 @@
             "occupancy": 2,
             "pricePerDay": 1200,
             "currency": "USD",
-            "availableOn": ["moon", "mars", "europa", "titan", "orbital", "venus"],
+            "availableOn": ["moon", "mars", "orbital"],
             "image": "/images/accommodations/luxury-suite.jpg",
             "popularity": 5,
-            "comfortRating": 5
-          },
-          {
-            "id": "zero-g",
-            "name": "Pod Zéro-G",
-            "category": "premium",
-            "description": "Hébergement avancé avec expérience d'apesanteur et vues à 360 degrés. Parfait pour vivre la véritable liberté spatiale avec une technologie de confort de pointe.",
-            "shortDescription": "Hébergement avancé avec expérience d'apesanteur",
-            "features": [
-              "Environnement en apesanteur véritable",
-              "Parois transparentes à 360 degrés",
-              "Système de suspension de sommeil avancé",
-              "Écrans holographiques immersifs",
-              "Restauration gastronomique premium",
-              "Connectivité ultra-haute vitesse",
-              "Assistant IA personnel"
-            ],
-            "amenities": [
-              "Système de chaussures magnétiques",
-              "Contrôle climatique avancé",
-              "Système d'éclairage thérapeutique",
-              "Technologie d'annulation du bruit",
-              "Système de stabilisation d'urgence"
-            ],
-            "size": "4 mètres carrés",
-            "occupancy": 1,
-            "pricePerDay": 2000,
-            "currency": "USD",
-            "availableOn": ["moon", "mars", "orbital", "venus"],
-            "image": "/images/accommodations/zero-g-pod.jpg",
-            "popularity": 4,
-            "comfortRating": 4
-          },
-          {
-            "id": "family",
-            "name": "Module Familial",
-            "category": "special",
-            "description": "Hébergement familial spacieux avec zones de sommeil séparées et équipements adaptés aux familles. Parfait pour les familles voyageant ensemble pour vivre l'aventure spatiale.",
-            "shortDescription": "Hébergement familial spacieux avec zones séparées",
-            "features": [
-              "Multiples pods de sommeil (jusqu'à 4)",
-              "Espace de vie commun",
-              "Système de divertissement familial",
-              "Installations sanitaires privées",
-              "Forfait repas familial",
-              "Expériences VR éducatives",
-              "Fonctionnalités de sécurité pour enfants"
-            ],
-            "amenities": [
-              "Interfaces adaptées aux enfants",
-              "Programmes spatiaux éducatifs",
-              "Planification d'activités familiales",
-              "Systèmes de sécurité améliorés",
-              "Agencements de sommeil flexibles"
-            ],
-            "size": "8 mètres carrés",
-            "occupancy": 4,
-            "pricePerDay": 1800,
-            "currency": "USD",
-            "availableOn": ["moon", "mars", "orbital"],
-            "image": "/images/accommodations/family-module.jpg",
-            "popularity": 3,
-            "comfortRating": 4
-          },
-          {
-            "id": "research",
-            "name": "Suite de Recherche",
-            "category": "special",
-            "description": "Hébergement spécialisé pour chercheurs scientifiques avec connectivité améliorée, espaces de travail et interfaces d'équipement de recherche.",
-            "shortDescription": "Suite spécialisée pour activités de recherche scientifique",
-            "features": [
-              "Poste de travail de recherche intégré",
-              "Connectivité de données améliorée",
-              "Installations de stockage d'échantillons",
-              "Outils de microscope et d'analyse",
-              "Transmission de données sécurisée",
-              "Surfaces de travail étendues",
-              "Éclairage spécialisé"
-            ],
-            "amenities": [
-              "Interfaces de qualité recherche",
-              "Alimentation électrique améliorée",
-              "Systèmes de sauvegarde de données",
-              "Technologie de collaboration",
-              "Accès à la bibliothèque scientifique"
-            ],
-            "size": "7 mètres carrés",
-            "occupancy": 1,
-            "pricePerDay": 1500,
-            "currency": "USD",
-            "availableOn": ["mars", "europa", "titan"],
-            "image": "/images/accommodations/research-suite.jpg",
-            "popularity": 2,
-            "comfortRating": 4
-          },
-          {
-            "id": "honeymoon",
-            "name": "Suite de Lune de Miel",
-            "category": "luxury",
-            "description": "Hébergement ultra-luxueux conçu pour les couples, offrant des vues cosmiques romantiques, des équipements premium et des expériences exclusives.",
-            "shortDescription": "Suite ultra-luxueuse pour couples avec caractéristiques romantiques",
-            "features": [
-              "Lit anti-gravité king-size",
-              "Dôme d'observatoire privé",
-              "Espace repas romantique",
-              "Salle de bain de luxe avec spa",
-              "Service personnalisé",
-              "Accès aux zones exclusives",
-              "Forfait d'activités pour couples"
-            ],
-            "amenities": [
-              "Systèmes d'éclairage d'ambiance",
-              "Sélection musicale romantique",
-              "Contrôles de fenêtre privée",
-              "Articles de toilette de luxe",
-              "Forfaits de célébration"
-            ],
-            "size": "10 mètres carrés",
-            "occupancy": 2,
-            "pricePerDay": 2500,
-            "currency": "USD",
-            "availableOn": ["moon", "orbital", "venus"],
-            "image": "/images/accommodations/honeymoon-suite.jpg",
-            "popularity": 4,
             "comfortRating": 5
           }
         ]
@@ -2102,27 +1943,6 @@
           "description": "Photos et vidéos professionnelles de votre voyage spatial par un photographe certifié",
           "price": 2500,
           "features": ["50 photos HD", "Vidéo souvenir 4K", "Album digital premium", "Rights d'usage personnel"]
-        },
-        "training": {
-          "id": "training",
-          "name": "Entraînement Avancé",
-          "description": "Programme d'entraînement personnalisé avec instructeurs experts pour optimiser votre expérience",
-          "price": 7500,
-          "features": ["10 sessions préparatoires", "Simulateur de vol spatial", "Coaching nutritionnel", "Évaluation physique"]
-        },
-        "luxuryKit": {
-          "id": "luxuryKit",
-          "name": "Kit de Luxe Spatial",
-          "description": "Équipement premium pour votre confort durant le voyage",
-          "price": 3000,
-          "features": ["Combinaison personnalisée", "Tablette spatiale", "Nourriture gastronomique", "Kit de confort"]
-        },
-        "communication": {
-          "id": "communication",
-          "name": "Pack Communication Illimité",
-          "description": "Communications illimitées avec la Terre pendant votre voyage",
-          "price": 2000,
-          "features": ["Appels vidéo illimités", "Internet spatial", "Messagerie prioritaire", "Streaming en direct"]
         }
       };
 
@@ -2149,45 +1969,40 @@
             { "value": "advanced", "label": "Avancé" }
           ],
           "required": true
-        },
-        "fitnessLevel": {
-          "type": "select",
-          "label": "Niveau de condition physique",
-          "options": [
-            { "value": "good", "label": "Bon" },
-            { "value": "very-good", "label": "Très bon" },
-            { "value": "excellent", "label": "Excellent" }
-          ],
-          "required": true
-        },
-        "scientificBackground": {
-          "type": "textarea",
-          "label": "Formation scientifique (le cas échéant)",
-          "placeholder": "Décrivez votre formation ou expérience scientifique",
-          "required": false
-        },
-        "spaceSickness": {
-          "type": "radio",
-          "label": "Avez-vous déjà souffert du mal de l'espace?",
-          "options": [
-            { "value": "yes", "label": "Oui" },
-            { "value": "no", "label": "Non" },
-            { "value": "unknown", "label": "Je ne sais pas" }
-          ],
-          "required": true
-        },
-        "preferences": {
-          "type": "checkbox",
-          "label": "Préférences alimentaires spéciales",
-          "options": [
-            { "value": "vegetarian", "label": "Végétarien" },
-            { "value": "vegan", "label": "Végétalien" },
-            { "value": "gluten-free", "label": "Sans gluten" },
-            { "value": "other", "label": "Autre" }
-          ],
-          "required": false
         }
       };
+
+      // NOUVEAU SYSTÈME DE VALIDATION POUR LES INFORMATIONS PERSONNELLES
+      const passengerFields = [
+        { 
+          id: "first-name", 
+          label: "Prénom", 
+          pattern: /^[a-zA-ZÀ-ÿ\s'-]{2,}$/,
+          hint: "Seulement des lettres, minimum 2 caractères",
+          type: "name"
+        },
+        { 
+          id: "last-name", 
+          label: "Nom", 
+          pattern: /^[a-zA-ZÀ-ÿ\s'-]{2,}$/, 
+          hint: "Seulement des lettres, minimum 2 caractères",
+          type: "name"
+        },
+        { 
+          id: "email", 
+          label: "Email", 
+          pattern: /^[^ ]+@[^ ]+\.[a-z]{2,}$/i, 
+          hint: "Format attendu : exemple@mail.com",
+          type: "email"
+        },
+        { 
+          id: "phone", 
+          label: "Numéro de téléphone", 
+          pattern: /^(?:(?:\+|00)212|0)[5-7]\d{8}$/, 
+          hint: "Exemple : 0612345678 ou +212612345678",
+          type: "phone"
+        }
+      ];
 
       document.addEventListener("DOMContentLoaded", function() {
         // Variables globales pour stocker les données du formulaire
@@ -2204,7 +2019,8 @@
           basePrice: 0,
           accommodationPrice: 0,
           extrasPrice: 0,
-          totalPrice: 0
+          totalPrice: 0,
+          validationErrors: {}
         };
 
         // Éléments des étapes
@@ -2233,6 +2049,216 @@
           populateDestinations();
           setupEventListeners();
           setupExtrasSelection();
+          setupDateRestrictions();
+          initializeStepIndicator();
+          setupPassengerFormValidation(0); // Initialiser la validation pour le premier passager
+        }
+
+        // Fonction pour initialiser l'indicateur d'étape
+        function initializeStepIndicator() {
+          step1.classList.add('active');
+          step2.classList.remove('active', 'completed');
+          step3.classList.remove('active', 'completed');
+          connector1.classList.remove('completed');
+          connector2.classList.remove('completed');
+          
+          journeySection.classList.remove('hidden');
+          personalSection.classList.add('hidden');
+          confirmationSection.classList.add('hidden');
+          
+          updateFormBackground(1);
+        }
+
+        // NOUVELLES FONCTIONS DE VALIDATION
+        function validatePassengerField(input, fieldConfig, passengerIndex = 0) {
+          const value = input.value.trim();
+          const errorElement = input.parentElement.querySelector(".error-message");
+
+          // Réinitialiser les classes
+          input.classList.remove("validation-success", "validation-error");
+          
+          if (!errorElement) return false;
+
+          if (value === "") {
+            errorElement.textContent = `${fieldConfig.label} est requis.`;
+            errorElement.style.display = 'flex';
+            input.classList.add("validation-error");
+            return false;
+          } else if (!fieldConfig.pattern.test(value)) {
+            errorElement.textContent = `${fieldConfig.label} invalide. ${fieldConfig.hint}`;
+            errorElement.style.display = 'flex';
+            input.classList.add("validation-error");
+            return false;
+          } else {
+            errorElement.textContent = "";
+            errorElement.style.display = 'none';
+            input.classList.add("validation-success");
+            return true;
+          }
+        }
+
+        function validatePassengerForm(passengerIndex) {
+          const form = document.getElementById(`passenger-form-${passengerIndex}`);
+          if (!form) return false;
+
+          let isValid = true;
+          
+          passengerFields.forEach(field => {
+            const input = form.querySelector(`[name="${field.id}[]"]`);
+            if (input) {
+              const fieldValid = validatePassengerField(input, field, passengerIndex);
+              if (!fieldValid) isValid = false;
+            }
+          });
+
+          return isValid;
+        }
+
+        function checkAllPassengersValidity() {
+          const passengerForms = document.querySelectorAll('.passenger-form');
+          let allValid = true;
+
+          passengerForms.forEach((form, index) => {
+            const formValid = validatePassengerForm(index);
+            if (!formValid) allValid = false;
+          });
+
+          // Activer/désactiver le bouton suivant
+          if (allValid) {
+            nextToConfirmationBtn.disabled = false;
+            nextToConfirmationBtn.classList.remove('btn-invalid', 'opacity-50', 'cursor-not-allowed');
+            nextToConfirmationBtn.classList.add('btn-valid');
+          } else {
+            nextToConfirmationBtn.disabled = true;
+            nextToConfirmationBtn.classList.remove('btn-valid');
+            nextToConfirmationBtn.classList.add('btn-invalid', 'opacity-50', 'cursor-not-allowed');
+          }
+
+          return allValid;
+        }
+
+        function setupPassengerFormValidation(passengerIndex) {
+          const form = document.getElementById(`passenger-form-${passengerIndex}`);
+          if (!form) return;
+
+          passengerFields.forEach(field => {
+            const input = form.querySelector(`[name="${field.id}[]"]`);
+            if (input) {
+              // Validation en temps réel
+              input.addEventListener('input', () => {
+                validatePassengerField(input, field, passengerIndex);
+                checkAllPassengersValidity();
+              });
+
+              // Validation à la perte de focus
+              input.addEventListener('blur', () => {
+                validatePassengerField(input, field, passengerIndex);
+                checkAllPassengersValidity();
+              });
+
+              // Formatage spécial pour le téléphone
+              if (field.type === 'phone') {
+                input.addEventListener('input', function() {
+                  formatPhoneNumber(this);
+                });
+              }
+            }
+          });
+
+          // Validation pour le textarea des exigences particulières
+          const requirementsTextarea = form.querySelector('.requirements-textarea');
+          if (requirementsTextarea) {
+            requirementsTextarea.addEventListener('input', function() {
+              validateTextLength(this);
+              setupCharacterCounter(this);
+              checkAllPassengersValidity();
+            });
+          }
+        }
+
+        function formatPhoneNumber(input) {
+          let value = input.value.replace(/\D/g, '');
+          
+          if (value.startsWith('212') && value.length > 3) {
+            const rest = value.substring(3);
+            if (rest.length <= 2) {
+              input.value = `+212 ${rest}`;
+            } else if (rest.length <= 4) {
+              input.value = `+212 ${rest.substring(0, 2)} ${rest.substring(2)}`;
+            } else if (rest.length <= 6) {
+              input.value = `+212 ${rest.substring(0, 2)} ${rest.substring(2, 4)} ${rest.substring(4)}`;
+            } else {
+              input.value = `+212 ${rest.substring(0, 2)} ${rest.substring(2, 4)} ${rest.substring(4, 6)} ${rest.substring(6, 8)}`;
+            }
+          } else if (value.startsWith('0') && value.length > 1) {
+            const rest = value.substring(1);
+            if (rest.length <= 2) {
+              input.value = `0${rest}`;
+            } else if (rest.length <= 4) {
+              input.value = `0${rest.substring(0, 1)} ${rest.substring(1, 3)} ${rest.substring(3)}`;
+            } else if (rest.length <= 6) {
+              input.value = `0${rest.substring(0, 1)} ${rest.substring(1, 3)} ${rest.substring(3, 5)} ${rest.substring(5)}`;
+            } else {
+              input.value = `0${rest.substring(0, 1)} ${rest.substring(1, 3)} ${rest.substring(3, 5)} ${rest.substring(5, 7)}`;
+            }
+          }
+        }
+
+        function validateTextLength(textarea) {
+          const length = textarea.value.length;
+          const maxLength = parseInt(textarea.getAttribute('maxlength')) || 500;
+          const passengerIndex = textarea.dataset.passenger || '0';
+
+          if (length > maxLength) {
+            showFieldError(textarea, `Le texte ne peut pas dépasser ${maxLength} caractères (${length}/${maxLength})`);
+            return false;
+          }
+
+          clearFieldValidation(textarea);
+          return true;
+        }
+
+        function setupCharacterCounter(textarea) {
+          const length = textarea.value.length;
+          const maxLength = parseInt(textarea.getAttribute('maxlength')) || 500;
+          const passengerIndex = textarea.dataset.passenger || '0';
+          const counter = document.querySelector(`.character-count[data-for="requirements-${passengerIndex}"]`);
+          
+          if (counter) {
+            const currentSpan = counter.querySelector('.current');
+            const maxSpan = counter.querySelector('.max');
+            
+            if (currentSpan) currentSpan.textContent = length;
+            if (maxSpan) maxSpan.textContent = maxLength;
+            
+            counter.classList.remove('near-limit', 'over-limit');
+            if (length > maxLength * 0.8) {
+              counter.classList.add('near-limit');
+            }
+            if (length > maxLength) {
+              counter.classList.add('over-limit');
+            }
+          }
+        }
+
+        function showFieldError(input, message) {
+          input.classList.remove('validation-success');
+          input.classList.add('validation-error');
+          
+          const errorElement = input.parentNode.querySelector('.error-message');
+          if (errorElement) {
+            errorElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            errorElement.style.display = 'flex';
+          }
+        }
+
+        function clearFieldValidation(input) {
+          input.classList.remove('validation-error', 'validation-success');
+          const messageElement = input.parentNode.querySelector('.error-message');
+          if (messageElement) {
+            messageElement.textContent = '';
+            messageElement.style.display = 'none';
+          }
         }
 
         // Remplir la liste des destinations
@@ -2257,11 +2283,14 @@
               updateDestinationInfo(dest);
               updatePackages(dest);
               bookingData.destination = dest.name;
+              clearValidationError('destination');
             } else {
               hideDestinationInfo();
               clearPackages();
               bookingData.destination = '';
+              showValidationError('destination', 'Veuillez sélectionner une destination');
             }
+            validateStep1();
           });
 
           // Gestion des options de passagers
@@ -2284,63 +2313,82 @@
                 ${index > 0 ? '<div class="remove-passenger"><i class="fas fa-times"></i></div>' : ''}
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
+                <div class="form-field">
                   <label class="block mb-2 text-gray-300">Prénom</label>
                   <input
                     type="text"
                     name="first-name[]"
                     placeholder="Entrez le prénom"
                     required
-                    data-validation="name"
+                    class="name-input"
+                    data-passenger="${index}"
                   />
+                  <div class="field-requirements">Minimum 2 lettres, pas de chiffres, pas d'espaces</div>
                   <div class="error-message" data-error="first-name"></div>
                 </div>
-                <div>
+                <div class="form-field">
                   <label class="block mb-2 text-gray-300">Nom</label>
                   <input
                     type="text"
                     name="last-name[]"
                     placeholder="Entrez le nom"
                     required
-                    data-validation="name"
+                    class="name-input"
+                    data-passenger="${index}"
                   />
+                  <div class="field-requirements">Minimum 2 lettres, pas de chiffres, pas d'espaces</div>
                   <div class="error-message" data-error="last-name"></div>
                 </div>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
+                <div class="form-field">
                   <label class="block mb-2 text-gray-300">Adresse e-mail</label>
                   <input
                     type="email"
                     name="email[]"
                     placeholder="Entrez l'e-mail"
                     required
-                    data-validation="email"
+                    class="email-input"
+                    data-passenger="${index}"
                   />
+                  <div class="field-requirements">Format: exemple@domaine.com</div>
                   <div class="error-message" data-error="email"></div>
                 </div>
-                <div>
+                <div class="form-field">
                   <label class="block mb-2 text-gray-300">Numéro de téléphone</label>
                   <input
                     type="tel"
                     name="phone[]"
-                    placeholder="Entrez le numéro de téléphone"
+                    placeholder="Ex: 0612345678 ou +212612345678"
                     required
-                    data-validation="phone"
+                    class="phone-input"
+                    data-passenger="${index}"
                   />
+                  <div class="field-requirements">Format: 06/07/05 XXXXXX ou +2126 XXXXXX</div>
                   <div class="error-message" data-error="phone"></div>
                 </div>
               </div>
-              <div class="mb-6">
+              <div class="form-field">
                 <label class="block mb-2 text-gray-300">Exigences particulières</label>
                 <textarea
-                  class="pl-3 pt-1"
+                  class="pl-3 pt-1 requirements-textarea"
                   name="special-requirements[]"
                   rows="4"
-                  placeholder="Toute exigence particulière ou note..."
+                  placeholder="Toute exigence particulière ou note... (maximum 500 caractères)"
+                  maxlength="500"
+                  data-passenger="${index}"
                 ></textarea>
+                <div class="character-count" data-for="requirements-${index}">
+                  <span class="current">0</span>/<span class="max">500</span> caractères
+                </div>
+                <div class="error-message" data-error="requirements"></div>
               </div>
             `;
+            
+            // Configuration de la validation pour ce formulaire
+            setTimeout(() => {
+              setupPassengerFormValidation(index);
+            }, 0);
             
             return newPassengerForm;
           }
@@ -2386,6 +2434,8 @@
                   passengerCount--;
                   bookingData.passengerCount = passengerCount;
                   updateAddButtonState();
+                  updatePrice();
+                  checkAllPassengersValidity();
                 });
               }
               
@@ -2395,6 +2445,7 @@
             bookingData.passengerCount = passengerCount;
             updateAddButtonState();
             updatePrice();
+            checkAllPassengersValidity();
           }
 
           // Fonction pour mettre à jour l'état du bouton d'ajout
@@ -2440,10 +2491,12 @@
                 bookingData.passengerCount = passengerCount;
                 updateAddButtonState();
                 updatePrice();
+                checkAllPassengersValidity();
               });
               
               updateAddButtonState();
               updatePrice();
+              checkAllPassengersValidity();
             }
           });
 
@@ -2451,6 +2504,8 @@
           const departureDateInput = document.getElementById('departure-date');
           departureDateInput.addEventListener('change', function() {
             bookingData.departureDate = this.value;
+            validateDate(this);
+            validateStep1();
           });
 
           // Gestion de la durée du séjour
@@ -2463,113 +2518,519 @@
 
           // Navigation entre les étapes
           nextToPersonalBtn.addEventListener('click', function() {
-            // Vérifier que les champs obligatoires sont remplis
-            if (!destinationSelect.value || !departureDateInput.value || !bookingData.package || !bookingData.selectedAccommodation) {
-              alert('Veuillez sélectionner une destination, un package, un hébergement et une date de départ');
-              return;
+            if (validateStep1()) {
+              goToStep(2);
             }
-
-            // Passer à l'étape 2
-            journeySection.classList.add('hidden');
-            personalSection.classList.remove('hidden');
-            
-            // Mettre à jour l'indicateur d'étape
-            step1.classList.remove('active');
-            step1.classList.add('completed');
-            step2.classList.add('active');
-            connector1.classList.add('completed');
-            
-            // Changer le background
-            updateFormBackground(2);
           });
 
           backToJourneyBtn.addEventListener('click', function() {
-            // Retour à l'étape 1
-            personalSection.classList.add('hidden');
-            journeySection.classList.remove('hidden');
-            
-            // Mettre à jour l'indicateur d'étape
-            step2.classList.remove('active');
-            step1.classList.add('active');
-            step1.classList.remove('completed');
-            connector1.classList.remove('completed');
-            
-            // Changer le background
-            updateFormBackground(1);
+            goToStep(1);
           });
 
           nextToConfirmationBtn.addEventListener('click', function() {
-            // Vérifier que les champs obligatoires sont remplis
-            const firstNameInputs = document.querySelectorAll('#personal-section input[name="first-name[]"]');
-            const lastNameInputs = document.querySelectorAll('#personal-section input[name="last-name[]"]');
-            const emailInputs = document.querySelectorAll('#personal-section input[name="email[]"]');
-            const phoneInputs = document.querySelectorAll('#personal-section input[name="phone[]"]');
-            
-            let allValid = true;
-            
-            firstNameInputs.forEach(input => {
-              if (!input.value) allValid = false;
-            });
-            
-            lastNameInputs.forEach(input => {
-              if (!input.value) allValid = false;
-            });
-            
-            emailInputs.forEach(input => {
-              if (!input.value) allValid = false;
-            });
-            
-            phoneInputs.forEach(input => {
-              if (!input.value) allValid = false;
-            });
-            
-            if (!allValid) {
-              alert('Veuillez remplir tous les champs obligatoires de la section "Informations Personnelles"');
-              return;
+            if (validateStep2()) {
+              updateBookingSummary();
+              goToStep(3);
             }
-
-            // Mettre à jour le résumé
-            updateBookingSummary();
-
-            // Passer à l'étape 3
-            personalSection.classList.add('hidden');
-            confirmationSection.classList.remove('hidden');
-            
-            // Mettre à jour l'indicateur d'étape
-            step2.classList.remove('active');
-            step2.classList.add('completed');
-            step3.classList.add('active');
-            connector2.classList.add('completed');
-            
-            // Changer le background
-            updateFormBackground(3);
           });
 
           backToPersonalBtn.addEventListener('click', function() {
-            // Retour à l'étape 2
-            confirmationSection.classList.add('hidden');
-            personalSection.classList.remove('hidden');
-            
-            // Mettre à jour l'indicateur d'étape
-            step3.classList.remove('active');
-            step2.classList.add('active');
-            step2.classList.remove('completed');
-            connector2.classList.remove('completed');
-            
-            // Changer le background
-            updateFormBackground(2);
+            goToStep(2);
           });
 
           // Gestion de la soumission du formulaire
           const bookingForm = document.getElementById('booking-form');
           bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Votre réservation a été finalisée avec succès! Vous recevrez un email de confirmation dans les prochaines minutes.');
-            // Ici, vous pourriez ajouter une redirection ou d'autres actions
+            if (validateAll()) {
+              alert('Votre réservation a été finalisée avec succès! Vous recevrez un email de confirmation dans les prochaines minutes.');
+              // Ici, vous pourriez ajouter une redirection ou d'autres actions
+            }
           });
 
           // Initialiser l'état du bouton d'ajout
           updateAddButtonState();
+          
+          // Initialiser les formulaires de passagers
+          updatePassengerForms('solo');
+        }
+
+        // Fonction utilitaire pour changer d'étape
+        function goToStep(stepNumber) {
+          // Cacher toutes les sections
+          journeySection.classList.add('hidden');
+          personalSection.classList.add('hidden');
+          confirmationSection.classList.add('hidden');
+          
+          // Réinitialiser tous les indicateurs d'étape
+          step1.classList.remove('active', 'completed');
+          step2.classList.remove('active', 'completed');
+          step3.classList.remove('active', 'completed');
+          connector1.classList.remove('completed');
+          connector2.classList.remove('completed');
+          
+          switch(stepNumber) {
+            case 1:
+              journeySection.classList.remove('hidden');
+              step1.classList.add('active');
+              updateFormBackground(1);
+              break;
+            case 2:
+              personalSection.classList.remove('hidden');
+              step1.classList.add('completed');
+              step2.classList.add('active');
+              connector1.classList.add('completed');
+              updateFormBackground(2);
+              break;
+            case 3:
+              confirmationSection.classList.remove('hidden');
+              step1.classList.add('completed');
+              step2.classList.add('completed');
+              step3.classList.add('active');
+              connector1.classList.add('completed');
+              connector2.classList.add('completed');
+              updateFormBackground(3);
+              break;
+          }
+        }
+
+        // FONCTIONS DE VALIDATION DES ÉTAPES
+        function validateStep1() {
+          const errors = [];
+          
+          // Validation de la destination
+          if (!bookingData.destination) {
+            errors.push('destination');
+            showValidationError('destination', 'Veuillez sélectionner une destination');
+          } else {
+            clearValidationError('destination');
+          }
+
+          // Validation du package
+          if (!bookingData.package) {
+            errors.push('package');
+            showValidationError('package', 'Veuillez sélectionner un package');
+          } else {
+            clearValidationError('package');
+          }
+
+          // Validation de l'hébergement
+          if (!bookingData.selectedAccommodation) {
+            errors.push('accommodation');
+            showValidationError('accommodation', 'Veuillez sélectionner un hébergement');
+          } else {
+            clearValidationError('accommodation');
+          }
+
+          // Validation de la date
+          const dateInput = document.getElementById('departure-date');
+          if (!validateDate(dateInput)) {
+            errors.push('departure-date');
+          }
+
+          // Activer/désactiver le bouton suivant
+          if (errors.length === 0) {
+            nextToPersonalBtn.disabled = false;
+            return true;
+          } else {
+            nextToPersonalBtn.disabled = true;
+            return false;
+          }
+        }
+
+        // NOUVELLE VERSION SIMPLIFIÉE
+        function validateStep2() {
+          return checkAllPassengersValidity();
+        }
+
+        function validateAll() {
+          return validateStep1() && validateStep2();
+        }
+
+        // Fonction pour valider la date
+        function validateDate(input) {
+          const selectedDate = new Date(input.value);
+          const today = new Date();
+          const minDate = new Date();
+          minDate.setDate(today.getDate() + 1);
+          const maxDate = new Date();
+          maxDate.setDate(today.getDate() + 30);
+
+          if (!input.value) {
+            showValidationError('departure-date', 'Veuillez sélectionner une date de départ');
+            return false;
+          }
+
+          if (selectedDate < minDate) {
+            showValidationError('departure-date', 'La date de départ doit être au moins demain');
+            return false;
+          }
+
+          if (selectedDate > maxDate) {
+            showValidationError('departure-date', 'La date de départ ne peut pas dépasser 30 jours à partir d\'aujourd\'hui');
+            return false;
+          }
+
+          clearValidationError('departure-date');
+          return true;
+        }
+
+        // Fonctions d'affichage des erreurs et succès
+        function showValidationError(fieldId, message) {
+          const errorElement = document.getElementById(`${fieldId}-error`);
+          if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+          }
+        }
+
+        function clearValidationError(fieldId) {
+          const errorElement = document.getElementById(`${fieldId}-error`);
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+          }
+        }
+
+        // FONCTIONS D'AFFICHAGE ET DE MISE À JOUR
+
+        // Fonction pour mettre à jour les informations de destination
+        function updateDestinationInfo(destination) {
+          const infoElement = document.getElementById('destination-info');
+          if (!infoElement) return;
+
+          // Mettre à jour tous les champs d'information
+          document.getElementById('destination-name').textContent = destination.name;
+          document.getElementById('destination-description').textContent = destination.description;
+          document.getElementById('destination-price').textContent = `${destination.price} ${destination.currency}`;
+          document.getElementById('destination-bookingCode').textContent = `Code: ${destination.bookingCode}`;
+          document.getElementById('destination-popularity').textContent = destination.popularity;
+          document.getElementById('destination-safetyRating').textContent = destination.safetyRating;
+          document.getElementById('destination-duration').textContent = destination.duration;
+          document.getElementById('destination-distance').textContent = destination.distance;
+          document.getElementById('destination-gravity').textContent = destination.gravity;
+          document.getElementById('destination-temperature').textContent = destination.temperature;
+          document.getElementById('destination-planet').textContent = destination.planet;
+          document.getElementById('destination-diameter').textContent = destination.diameter;
+          document.getElementById('destination-dayLength').textContent = destination.dayLength;
+          document.getElementById('destination-atmosphere').textContent = destination.atmosphere;
+
+          // Mettre à jour l'image
+          const imageElement = document.getElementById('destination-image');
+          if (imageElement && destination.image) {
+            imageElement.src = destination.image;
+            imageElement.alt = `Image de ${destination.name}`;
+          }
+
+          // Afficher la section d'information
+          infoElement.classList.remove('hidden');
+
+          // Mettre à jour les hébergements disponibles
+          updateAccommodations(destination.id);
+
+          // Mettre à jour le prix de base
+          bookingData.basePrice = parseInt(destination.price.replace(/,/g, '')) || 0;
+          updatePrice();
+        }
+
+        // Fonction pour masquer les informations de destination
+        function hideDestinationInfo() {
+          const infoElement = document.getElementById('destination-info');
+          if (infoElement) {
+            infoElement.classList.add('hidden');
+          }
+        }
+
+        // Fonction pour mettre à jour les packages
+        function updatePackages(destination) {
+          const packagesContainer = document.getElementById('packages-container');
+          if (!packagesContainer) return;
+
+          packagesContainer.innerHTML = '';
+
+          destination.packages.forEach(pkg => {
+            const packageElement = document.createElement('div');
+            packageElement.className = 'accommodation-option';
+            packageElement.dataset.packageId = pkg.id;
+
+            packageElement.innerHTML = `
+              <div class="accommodation-category category-${pkg.id === 'basic' ? 'economy' : pkg.id === 'premium' ? 'premium' : 'luxury'}">
+                ${pkg.id === 'basic' ? 'Économique' : pkg.id === 'premium' ? 'Premium' : 'Luxe'}
+              </div>
+              <h4 class="font-orbitron text-lg mb-2">${pkg.name}</h4>
+              <p class="text-sm text-gray-300 mb-3">${pkg.description}</p>
+              <div class="accommodation-features mb-3">
+                ${pkg.features.map(feature => `
+                  <div class="accommodation-feature">
+                    <i class="fas fa-check text-green-400"></i>
+                    <span class="text-xs">${feature}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="accommodation-price">${pkg.price.toLocaleString()} €</div>
+            `;
+
+            packageElement.addEventListener('click', function() {
+              // Désélectionner tous les packages
+              document.querySelectorAll('.accommodation-option').forEach(opt => {
+                opt.classList.remove('selected');
+              });
+
+              // Sélectionner ce package
+              this.classList.add('selected');
+              bookingData.package = pkg.id;
+              document.getElementById('package').value = pkg.id;
+
+              // Mettre à jour les champs conditionnels
+              updateConditionalFields(pkg.conditionalFields);
+
+              // Mettre à jour le prix
+              bookingData.basePrice = pkg.price;
+              updatePrice();
+
+              // Valider l'étape
+              validateStep1();
+            });
+
+            packagesContainer.appendChild(packageElement);
+          });
+        }
+
+        // Fonction pour effacer les packages
+        function clearPackages() {
+          const packagesContainer = document.getElementById('packages-container');
+          if (packagesContainer) {
+            packagesContainer.innerHTML = '';
+          }
+          bookingData.package = '';
+          document.getElementById('package').value = '';
+        }
+
+        // Fonction pour mettre à jour les champs conditionnels
+        function updateConditionalFields(fieldNames) {
+          const container = document.getElementById('conditional-fields-container');
+          if (!container) return;
+
+          container.innerHTML = '';
+
+          fieldNames.forEach(fieldName => {
+            const fieldConfig = conditionalFields[fieldName];
+            if (!fieldConfig) return;
+
+            const fieldElement = document.createElement('div');
+            fieldElement.className = 'form-group conditional-field visible';
+            
+            let fieldHTML = `<label class="block mb-2 text-gray-300">${fieldConfig.label}</label>`;
+
+            switch(fieldConfig.type) {
+              case 'select':
+                fieldHTML += `<select class="h-12" name="${fieldName}" ${fieldConfig.required ? 'required' : ''}>`;
+                fieldHTML += `<option value="">Sélectionnez...</option>`;
+                fieldConfig.options.forEach(option => {
+                  fieldHTML += `<option value="${option.value}">${option.label}</option>`;
+                });
+                fieldHTML += `</select>`;
+                break;
+
+              case 'radio':
+                fieldHTML += `<div class="radio-group">`;
+                fieldConfig.options.forEach(option => {
+                  fieldHTML += `
+                    <label class="radio-option">
+                      <input type="radio" name="${fieldName}" value="${option.value}" ${fieldConfig.required ? 'required' : ''}>
+                      <span>${option.label}</span>
+                    </label>
+                  `;
+                });
+                fieldHTML += `</div>`;
+                break;
+            }
+
+            fieldElement.innerHTML = fieldHTML;
+            container.appendChild(fieldElement);
+
+            // Stocker les données des champs conditionnels
+            bookingData.conditionalFields[fieldName] = '';
+          });
+        }
+
+        // Fonction pour mettre à jour les hébergements
+        function updateAccommodations(destinationId) {
+          const container = document.getElementById('accommodation-container');
+          if (!container) return;
+
+          container.innerHTML = '';
+
+          const availableAccommodations = accommodationsData.accommodations.filter(acc => 
+            acc.availableOn.includes(destinationId)
+          );
+
+          availableAccommodations.forEach(acc => {
+            const accElement = document.createElement('div');
+            accElement.className = 'accommodation-option';
+            accElement.dataset.accommodationId = acc.id;
+
+            // Déterminer la classe de catégorie
+            let categoryClass = '';
+            let categoryText = '';
+            switch(acc.category) {
+              case 'economy':
+                categoryClass = 'category-economy';
+                categoryText = 'Économique';
+                break;
+              case 'premium':
+                categoryClass = 'category-premium';
+                categoryText = 'Premium';
+                break;
+              case 'luxury':
+                categoryClass = 'category-luxury';
+                categoryText = 'Luxe';
+                break;
+            }
+
+            accElement.innerHTML = `
+              <div class="accommodation-category ${categoryClass}">
+                ${categoryText}
+              </div>
+              <h4 class="font-orbitron text-lg mb-2">${acc.name}</h4>
+              <p class="text-sm text-gray-300 mb-3">${acc.shortDescription}</p>
+              
+              <div class="accommodation-details mb-3">
+                <div class="detail-item">
+                  <i class="fas fa-arrows-alt"></i>
+                  <span>Taille: ${acc.size}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-users"></i>
+                  <span>Capacité: ${acc.occupancy} personne(s)</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-star"></i>
+                  <span>Confort: ${acc.comfortRating}/5</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-fire"></i>
+                  <span>Popularité: ${acc.popularity}/5</span>
+                </div>
+              </div>
+
+              <div class="accommodation-features mb-3">
+                ${acc.features.slice(0, 3).map(feature => `
+                  <div class="accommodation-feature">
+                    <i class="fas fa-check text-green-400"></i>
+                    <span class="text-xs">${feature}</span>
+                  </div>
+                `).join('')}
+                ${acc.features.length > 3 ? `
+                  <div class="accommodation-feature">
+                    <i class="fas fa-plus text-neon-blue"></i>
+                    <span class="text-xs">${acc.features.length - 3} fonctionnalités supplémentaires</span>
+                  </div>
+                ` : ''}
+              </div>
+
+              <div class="flex justify-between items-center">
+                <div class="accommodation-price">${(acc.pricePerDay * bookingData.tripDuration).toLocaleString()} €</div>
+                <div class="text-sm text-gray-400">${acc.pricePerDay.toLocaleString()} €/jour</div>
+              </div>
+            `;
+
+            accElement.addEventListener('click', function() {
+              // Désélectionner tous les hébergements
+              document.querySelectorAll('.accommodation-option').forEach(opt => {
+                opt.classList.remove('selected');
+              });
+
+              // Sélectionner cet hébergement
+              this.classList.add('selected');
+              bookingData.selectedAccommodation = acc;
+              bookingData.accommodationPrice = acc.pricePerDay * bookingData.tripDuration;
+
+              // Mettre à jour le prix
+              updatePrice();
+
+              // Valider l'étape
+              validateStep1();
+            });
+
+            container.appendChild(accElement);
+          });
+        }
+
+        // Fonction pour mettre à jour les prix des hébergements
+        function updateAccommodationPrices() {
+          if (!bookingData.selectedAccommodation) return;
+
+          const accElement = document.querySelector(`[data-accommodation-id="${bookingData.selectedAccommodation.id}"]`);
+          if (accElement) {
+            const priceElement = accElement.querySelector('.accommodation-price');
+            const dailyPriceElement = accElement.querySelector('.text-sm.text-gray-400');
+            
+            if (priceElement) {
+              priceElement.textContent = `${(bookingData.selectedAccommodation.pricePerDay * bookingData.tripDuration).toLocaleString()} €`;
+            }
+            if (dailyPriceElement) {
+              dailyPriceElement.textContent = `${bookingData.selectedAccommodation.pricePerDay.toLocaleString()} €/jour`;
+            }
+          }
+
+          // Mettre à jour le prix dans les données
+          bookingData.accommodationPrice = bookingData.selectedAccommodation.pricePerDay * bookingData.tripDuration;
+          updatePrice();
+        }
+
+        // Fonction pour mettre à jour le prix total
+        function updatePrice() {
+          // Calculer le prix des passagers supplémentaires
+          let passengersPrice = 0;
+          if (bookingData.passengers === 'couple') {
+            passengersPrice = bookingData.basePrice * 0.8; // 20% de réduction pour le deuxième passager
+          } else if (bookingData.passengers === 'group') {
+            passengersPrice = bookingData.basePrice * (bookingData.passengerCount - 1) * 0.7; // 30% de réduction pour les passagers supplémentaires
+          }
+
+          // Calculer le prix des extras
+          let extrasPrice = 0;
+          Object.values(bookingData.selectedExtras).forEach(extra => {
+            extrasPrice += extra.price;
+          });
+
+          // Mettre à jour l'affichage des prix
+          document.getElementById('base-price').textContent = `${bookingData.basePrice.toLocaleString()} €`;
+          document.getElementById('accommodation-price').textContent = `${bookingData.accommodationPrice.toLocaleString()} €`;
+          document.getElementById('passengers-price').textContent = `${passengersPrice.toLocaleString()} €`;
+          document.getElementById('extras-price').textContent = `${extrasPrice.toLocaleString()} €`;
+
+          // Calculer le prix total
+          const totalPrice = bookingData.basePrice + bookingData.accommodationPrice + passengersPrice + extrasPrice;
+          document.getElementById('total-price').textContent = `${totalPrice.toLocaleString()} €`;
+
+          // Stocker le prix total
+          bookingData.totalPrice = totalPrice;
+        }
+
+        // Fonction pour mettre à jour le résumé de réservation
+        function updateBookingSummary() {
+          document.getElementById('summary-destination').textContent = bookingData.destination;
+          document.getElementById('summary-package').textContent = bookingData.package;
+          document.getElementById('summary-date').textContent = bookingData.departureDate;
+          document.getElementById('summary-passengers').textContent = bookingData.passengerCount;
+          document.getElementById('summary-duration').textContent = `${bookingData.tripDuration} jours`;
+          document.getElementById('summary-total').textContent = `${bookingData.totalPrice.toLocaleString()} €`;
+        }
+
+        // Fonction pour mettre à jour le fond du formulaire
+        function updateFormBackground(step) {
+          // Désactiver tous les backgrounds
+          document.querySelectorAll('.form-bg').forEach(bg => {
+            bg.classList.remove('active');
+          });
+
+          // Activer le background de l'étape actuelle
+          const activeBg = document.querySelector(`.form-bg-${step}`);
+          if (activeBg) {
+            activeBg.classList.add('active');
+          }
         }
 
         // Fonction pour configurer la sélection des extras
@@ -2635,460 +3096,20 @@
           });
         }
 
-        // Fonction pour mettre à jour les informations de destination
-        function updateDestinationInfo(dest) {
-          const destinationInfo = document.getElementById('destination-info');
+        // Fonction pour configurer les restrictions de date
+        function setupDateRestrictions() {
+          const dateInput = document.getElementById('departure-date');
+          const today = new Date();
+          const minDate = new Date();
+          minDate.setDate(today.getDate() + 1); // Demain
           
-          // Mettre à jour toutes les informations
-          document.getElementById('destination-name').textContent = dest.name;
-          document.getElementById('destination-description').textContent = dest.description;
-          document.getElementById('destination-duration').textContent = dest.duration;
-          document.getElementById('destination-distance').textContent = dest.distance;
-          document.getElementById('destination-gravity').textContent = dest.gravity;
-          document.getElementById('destination-temperature').textContent = dest.temperature;
-          document.getElementById('destination-price').textContent = dest.price + " " + dest.currency;
-          document.getElementById('destination-planet').textContent = dest.planet;
-          document.getElementById('destination-diameter').textContent = dest.diameter;
-          document.getElementById('destination-dayLength').textContent = dest.dayLength;
-          document.getElementById('destination-atmosphere').textContent = dest.atmosphere;
-          document.getElementById('destination-bookingCode').textContent = "Code: " + dest.bookingCode;
-          document.getElementById('destination-popularity').textContent = dest.popularity;
-          document.getElementById('destination-safetyRating').textContent = dest.safetyRating;
-          
-          // Mettre à jour l'image
-          const destinationImage = document.getElementById('destination-image');
-          destinationImage.src = dest.image;
-          destinationImage.alt = `Image de ${dest.name}`;
-          
-          destinationInfo.classList.remove('hidden');
+          const maxDate = new Date();
+          maxDate.setDate(today.getDate() + 30); // 30 jours dans le futur
+
+          dateInput.min = minDate.toISOString().split('T')[0];
+          dateInput.max = maxDate.toISOString().split('T')[0];
         }
-
-        // Fonction pour masquer les informations de destination
-        function hideDestinationInfo() {
-          const destinationInfo = document.getElementById('destination-info');
-          destinationInfo.classList.add('hidden');
-        }
-
-        // Fonction pour mettre à jour les packages disponibles
-        function updatePackages(dest) {
-          const packagesContainer = document.getElementById('packages-container');
-          packagesContainer.innerHTML = '';
-          
-          dest.packages.forEach(pkg => {
-            const packageCard = document.createElement('div');
-            packageCard.className = 'accommodation-card';
-            packageCard.dataset.value = pkg.id;
-            
-            packageCard.innerHTML = `
-              <h3 class="font-orbitron text-lg mb-2">${pkg.name}</h3>
-              <p class="text-sm text-gray-300 mb-3">${pkg.description}</p>
-              <div class="accommodation-features mb-4">
-                ${pkg.features.map(feature => `
-                  <div class="accommodation-feature">
-                    <i class="fas fa-check text-green-400"></i>
-                    <span>${feature}</span>
-                  </div>
-                `).join('')}
-              </div>
-              <div class="price-tag">${pkg.price.toLocaleString()} €</div>
-            `;
-            
-            packageCard.addEventListener('click', function() {
-              document.querySelectorAll('.accommodation-card').forEach(card => {
-                card.classList.remove('selected');
-              });
-              this.classList.add('selected');
-              
-              const packageInput = document.getElementById('package');
-              packageInput.value = pkg.id;
-              bookingData.package = pkg.name;
-              bookingData.basePrice = pkg.price;
-              
-              // Mettre à jour les champs conditionnels
-              updateConditionalFields(pkg.conditionalFields);
-              
-              // Mettre à jour les hébergements disponibles
-              updateAccommodations(dest.id);
-              
-              // Mettre à jour le prix
-              updatePrice();
-            });
-            
-            packagesContainer.appendChild(packageCard);
-          });
-          
-          // Sélectionner automatiquement le premier package
-          if (dest.packages.length > 0) {
-            const firstPackageCard = packagesContainer.querySelector('.accommodation-card');
-            firstPackageCard.classList.add('selected');
-            
-            const packageInput = document.getElementById('package');
-            packageInput.value = dest.packages[0].id;
-            bookingData.package = dest.packages[0].name;
-            bookingData.basePrice = dest.packages[0].price;
-            
-            // Mettre à jour les champs conditionnels
-            updateConditionalFields(dest.packages[0].conditionalFields);
-            
-            // Mettre à jour les hébergements disponibles
-            updateAccommodations(dest.id);
-            
-            // Mettre à jour le prix
-            updatePrice();
-          }
-        }
-
-        // Fonction pour mettre à jour les hébergements disponibles
-        function updateAccommodations(destinationId) {
-          const accommodationContainer = document.getElementById('accommodation-container');
-          accommodationContainer.innerHTML = '';
-
-          // Filtrer les hébergements disponibles pour cette destination
-          const availableAccommodations = accommodationsData.accommodations.filter(acc => 
-            acc.availableOn.includes(destinationId)
-          );
-
-          if (availableAccommodations.length === 0) {
-            accommodationContainer.innerHTML = '<p class="text-gray-400">Aucun hébergement disponible pour cette destination.</p>';
-            return;
-          }
-
-          // Créer les options d'hébergement
-          availableAccommodations.forEach(accommodation => {
-            const accOption = document.createElement('div');
-            accOption.className = 'accommodation-option';
-            accOption.dataset.accommodationId = accommodation.id;
-
-            // Déterminer la classe de catégorie
-            let categoryClass = '';
-            switch(accommodation.category) {
-              case 'economy': categoryClass = 'category-economy'; break;
-              case 'premium': categoryClass = 'category-premium'; break;
-              case 'luxury': categoryClass = 'category-luxury'; break;
-              case 'special': categoryClass = 'category-special'; break;
-            }
-
-            // Générer les étoiles de confort
-            const stars = '★'.repeat(accommodation.comfortRating) + '☆'.repeat(5 - accommodation.comfortRating);
-
-            accOption.innerHTML = `
-              <div class="flex justify-between items-start mb-3">
-                <div>
-                  <div class="${categoryClass} accommodation-category">${accommodation.category.toUpperCase()}</div>
-                  <h4 class="font-orbitron text-xl">${accommodation.name}</h4>
-                </div>
-                <div class="text-right">
-                  <div class="accommodation-price">${(accommodation.pricePerDay * bookingData.tripDuration).toLocaleString()} €</div>
-                  <div class="text-sm text-gray-400">${accommodation.pricePerDay.toLocaleString()} €/jour</div>
-                </div>
-              </div>
-              
-              <p class="text-gray-300 mb-3">${accommodation.description}</p>
-              
-              <div class="accommodation-details">
-                <div class="detail-item">
-                  <i class="fas fa-arrows-alt"></i>
-                  <span>${accommodation.size}</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-users"></i>
-                  <span>Jusqu'à ${accommodation.occupancy} personne(s)</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-star"></i>
-                  <span>Confort: ${stars}</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-fire"></i>
-                  <span>Popularité: ${accommodation.popularity}/5</span>
-                </div>
-              </div>
-
-              <div class="accommodation-features mt-3">
-                ${accommodation.features.slice(0, 3).map(feature => `
-                  <div class="accommodation-feature">
-                    <i class="fas fa-check text-green-400"></i>
-                    <span class="text-sm">${feature}</span>
-                  </div>
-                `).join('')}
-              </div>
-
-              <div class="mt-3 text-center">
-                <label class="inline-flex items-center">
-                  <input type="radio" name="accommodation" value="${accommodation.id}" class="hidden">
-                  <span class="checkmark w-6 h-6 border-2 border-neon-blue rounded-full flex items-center justify-center mr-2">
-                    <i class="fas fa-check text-white text-xs hidden"></i>
-                  </span>
-                  <span class="text-sm">Sélectionner cet hébergement</span>
-                </label>
-              </div>
-            `;
-
-            accOption.addEventListener('click', function() {
-              const radio = this.querySelector('input[type="radio"]');
-              const checkmark = this.querySelector('.checkmark');
-              const icon = this.querySelector('.fa-check');
-              
-              // Désélectionner tous les autres hébergements
-              document.querySelectorAll('.accommodation-option').forEach(opt => {
-                opt.classList.remove('selected');
-                opt.querySelector('.checkmark').classList.remove('bg-neon-blue');
-                opt.querySelector('.fa-check').classList.add('hidden');
-              });
-              
-              // Sélectionner celui-ci
-              radio.checked = true;
-              this.classList.add('selected');
-              checkmark.classList.add('bg-neon-blue');
-              icon.classList.remove('hidden');
-              
-              bookingData.selectedAccommodation = accommodation;
-              
-              // Mettre à jour le prix
-              updatePrice();
-            });
-
-            accommodationContainer.appendChild(accOption);
-          });
-
-          // Sélectionner automatiquement le premier hébergement
-          if (availableAccommodations.length > 0) {
-            const firstAccommodation = accommodationContainer.querySelector('.accommodation-option');
-            if (firstAccommodation) {
-              firstAccommodation.click();
-            }
-          }
-        }
-
-        // Fonction pour mettre à jour les prix des hébergements affichés
-        function updateAccommodationPrices() {
-          const accommodationOptions = document.querySelectorAll('.accommodation-option');
-          accommodationOptions.forEach(option => {
-            const accommodationId = option.dataset.accommodationId;
-            const accommodation = accommodationsData.accommodations.find(acc => acc.id === accommodationId);
-            if (accommodation) {
-              const priceElement = option.querySelector('.accommodation-price');
-              priceElement.textContent = `${(accommodation.pricePerDay * bookingData.tripDuration).toLocaleString()} €`;
-            }
-          });
-        }
-
-        // Fonction pour effacer les packages
-        function clearPackages() {
-          const packagesContainer = document.getElementById('packages-container');
-          packagesContainer.innerHTML = '';
-          
-          const packageInput = document.getElementById('package');
-          packageInput.value = '';
-          bookingData.package = '';
-          bookingData.basePrice = 0;
-          
-          // Effacer les champs conditionnels
-          updateConditionalFields([]);
-          
-          // Effacer les hébergements
-          const accommodationContainer = document.getElementById('accommodation-container');
-          accommodationContainer.innerHTML = '';
-          bookingData.selectedAccommodation = null;
-          
-          // Mettre à jour le prix
-          updatePrice();
-        }
-
-        // Fonction pour mettre à jour les champs conditionnels
-        function updateConditionalFields(fieldNames) {
-          const conditionalFieldsContainer = document.getElementById('conditional-fields-container');
-          conditionalFieldsContainer.innerHTML = '';
-          
-          fieldNames.forEach(fieldName => {
-            const fieldConfig = conditionalFields[fieldName];
-            if (fieldConfig) {
-              const fieldElement = createConditionalField(fieldName, fieldConfig);
-              conditionalFieldsContainer.appendChild(fieldElement);
-            }
-          });
-        }
-
-        // Fonction pour créer un champ conditionnel
-        function createConditionalField(fieldName, config) {
-          const fieldDiv = document.createElement('div');
-          fieldDiv.className = 'form-group conditional-field visible';
-          
-          let fieldHTML = `<label class="block mb-2 text-gray-300">${config.label}</label>`;
-          
-          switch(config.type) {
-            case 'select':
-              fieldHTML += `<select name="${fieldName}" class="h-12" ${config.required ? 'required' : ''}>`;
-              fieldHTML += `<option value="">Sélectionnez...</option>`;
-              config.options.forEach(option => {
-                fieldHTML += `<option value="${option.value}">${option.label}</option>`;
-              });
-              fieldHTML += `</select>`;
-              break;
-              
-            case 'textarea':
-              fieldHTML += `<textarea name="${fieldName}" class="pl-3 pt-1" rows="4" placeholder="${config.placeholder || ''}" ${config.required ? 'required' : ''}></textarea>`;
-              break;
-              
-            case 'radio':
-              fieldHTML += `<div class="radio-group">`;
-              config.options.forEach(option => {
-                fieldHTML += `
-                  <label class="radio-option">
-                    <input type="radio" name="${fieldName}" value="${option.value}" ${config.required ? 'required' : ''}>
-                    <span>${option.label}</span>
-                  </label>
-                `;
-              });
-              fieldHTML += `</div>`;
-              break;
-              
-            case 'checkbox':
-              fieldHTML += `<div class="checkbox-group">`;
-              config.options.forEach(option => {
-                fieldHTML += `
-                  <label class="checkbox-option">
-                    <input type="checkbox" name="${fieldName}[]" value="${option.value}">
-                    <span>${option.label}</span>
-                  </label>
-                `;
-              });
-              fieldHTML += `</div>`;
-              break;
-          }
-          
-          fieldDiv.innerHTML = fieldHTML;
-          
-          // Ajouter un écouteur pour sauvegarder la valeur
-          const inputElement = fieldDiv.querySelector('input, select, textarea');
-          if (inputElement) {
-            inputElement.addEventListener('change', function() {
-              bookingData.conditionalFields[fieldName] = this.value || this.checked;
-            });
-          }
-          
-          return fieldDiv;
-        }
-
-        // Fonction pour mettre à jour le prix en temps réel
-        function updatePrice() {
-          // Calculer le prix de base
-          let basePrice = bookingData.basePrice || 0;
-          
-          // Calculer le prix de l'hébergement
-          let accommodationPrice = 0;
-          if (bookingData.selectedAccommodation) {
-            accommodationPrice = bookingData.selectedAccommodation.pricePerDay * bookingData.tripDuration;
-          }
-          
-          // Calculer le coût des passagers supplémentaires
-          let passengersPrice = 0;
-          if (bookingData.passengers === 'couple') {
-            passengersPrice = bookingData.basePrice * 0.8; // 80% du prix pour le deuxième passager
-          } else if (bookingData.passengers === 'group') {
-            passengersPrice = bookingData.basePrice * 0.7 * (bookingData.passengerCount - 1); // 70% du prix pour chaque passager supplémentaire
-          }
-          
-          // Calculer le coût des extras
-          let extrasPrice = 0;
-          Object.values(bookingData.selectedExtras).forEach(extra => {
-            extrasPrice += extra.price;
-          });
-          
-          // Calculer le prix total
-          let totalPrice = basePrice + accommodationPrice + passengersPrice + extrasPrice;
-          
-          // Mettre à jour l'affichage
-          document.getElementById('base-price').textContent = `${basePrice.toLocaleString()} €`;
-          document.getElementById('accommodation-price').textContent = `${accommodationPrice.toLocaleString()} €`;
-          document.getElementById('passengers-price').textContent = `${passengersPrice.toLocaleString()} €`;
-          document.getElementById('extras-price').textContent = `${extrasPrice.toLocaleString()} €`;
-          document.getElementById('total-price').textContent = `${totalPrice.toLocaleString()} €`;
-          
-          // Stocker les prix pour utilisation ultérieure
-          bookingData.accommodationPrice = accommodationPrice;
-          bookingData.extrasPrice = extrasPrice;
-          bookingData.totalPrice = totalPrice;
-        }
-
-        // Fonction pour mettre à jour le résumé de réservation
-        function updateBookingSummary() {
-          document.getElementById('summary-destination').textContent = bookingData.destination;
-          document.getElementById('summary-package').textContent = bookingData.package;
-          document.getElementById('summary-date').textContent = bookingData.departureDate;
-          
-          let passengerText = '';
-          switch(bookingData.passengers) {
-            case 'solo':
-              passengerText = '1 passager (Solo)';
-              break;
-            case 'couple':
-              passengerText = '2 passagers (Couple)';
-              break;
-            case 'group':
-              passengerText = `${bookingData.passengerCount} passagers (Groupe)`;
-              break;
-          }
-          document.getElementById('summary-passengers').textContent = passengerText;
-          
-          document.getElementById('summary-duration').textContent = document.getElementById('destination-duration').textContent;
-          
-          // Afficher l'hébergement sélectionné
-          let accommodationHTML = '';
-          if (bookingData.selectedAccommodation) {
-            accommodationHTML = `
-              <div class="summary-item">
-                <span class="summary-label">Hébergement:</span>
-                <span class="summary-value">${bookingData.selectedAccommodation.name} (${bookingData.tripDuration} jours)</span>
-              </div>
-            `;
-          }
-          
-          // Afficher les extras sélectionnés
-          let extrasHTML = '';
-          if (Object.keys(bookingData.selectedExtras).length > 0) {
-            const extrasList = Object.values(bookingData.selectedExtras).map(extra => 
-              `${extra.name} (+${extra.price.toLocaleString()} €)`
-            ).join(', ');
-            
-            extrasHTML = `
-              <div class="summary-item">
-                <span class="summary-label">Extras optionnels:</span>
-                <span class="summary-value">${extrasList}</span>
-              </div>
-            `;
-          }
-          
-          // Mettre à jour le prix total dans le résumé
-          document.getElementById('summary-total').textContent = `Total: ${bookingData.totalPrice.toLocaleString()} €`;
-          
-          // Insérer l'hébergement et les extras avant le total
-          const totalElement = document.getElementById('summary-total');
-          if (accommodationHTML) {
-            totalElement.insertAdjacentHTML('beforebegin', accommodationHTML);
-          }
-          if (extrasHTML) {
-            totalElement.insertAdjacentHTML('beforebegin', extrasHTML);
-          }
-        }
-
-        // Fonction pour changer le background selon l'étape
-        function updateFormBackground(stepNumber) {
-          // Retirer la classe active de tous les backgrounds
-          document.querySelectorAll('.form-bg').forEach(bg => {
-            bg.classList.remove('active');
-          });
-          
-          // Activer le background correspondant à l'étape
-          const activeBg = document.querySelector(`.form-bg-${stepNumber}`);
-          if (activeBg) {
-            activeBg.classList.add('active');
-          }
-        }
-
-        // Initialiser le background de l'étape 1
-        updateFormBackground(1);
       });
     </script>
-  </body>  
+  </body>
 </html>
