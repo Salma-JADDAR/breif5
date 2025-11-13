@@ -2182,7 +2182,7 @@
   if (value.startsWith('212')) {
     input.value = `+212 ${value.substring(3)}`;
   } else if (value.startsWith('0')) {
-    // Laisser tel quel, le formatage se fera automatiquement
+   
     input.value = value;
   }
 }
@@ -3001,7 +3001,7 @@
           document.getElementById('summary-total').textContent = `${bookingData.totalPrice.toLocaleString()} €`;
         }
 
-        // Fonction pour mettre à jour le fond du formulaire
+       
         function updateFormBackground(step) {
           // Désactiver tous les backgrounds
           document.querySelectorAll('.form-bg').forEach(bg => {
