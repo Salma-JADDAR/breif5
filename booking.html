@@ -1995,13 +1995,13 @@
           hint: "Format attendu : exemple@mail.com",
           type: "email"
         },
-        { 
-          id: "phone", 
-          label: "Numéro de téléphone", 
-          pattern: /^(?:(?:\+|00)212|0)[5-7]\d{8}$/, 
-          hint: "Exemple : 0612345678 ou +212612345678",
-          type: "phone"
-        }
+{ 
+  id: "phone", 
+  label: "Numéro de téléphone", 
+  pattern: /^(0[5-7][0-9]{8}|(\+|00)212[5-7][0-9]{8})$/,
+  hint: "Exemple : 0612345678 ou +212612345678",
+  type: "phone"
+}
       ];
 
       document.addEventListener("DOMContentLoaded", function() {
@@ -2176,34 +2176,16 @@
           }
         }
 
-        function formatPhoneNumber(input) {
-          let value = input.value.replace(/\D/g, '');
-          
-          if (value.startsWith('212') && value.length > 3) {
-            const rest = value.substring(3);
-            if (rest.length <= 2) {
-              input.value = `+212 ${rest}`;
-            } else if (rest.length <= 4) {
-              input.value = `+212 ${rest.substring(0, 2)} ${rest.substring(2)}`;
-            } else if (rest.length <= 6) {
-              input.value = `+212 ${rest.substring(0, 2)} ${rest.substring(2, 4)} ${rest.substring(4)}`;
-            } else {
-              input.value = `+212 ${rest.substring(0, 2)} ${rest.substring(2, 4)} ${rest.substring(4, 6)} ${rest.substring(6, 8)}`;
-            }
-          } else if (value.startsWith('0') && value.length > 1) {
-            const rest = value.substring(1);
-            if (rest.length <= 2) {
-              input.value = `0${rest}`;
-            } else if (rest.length <= 4) {
-              input.value = `0${rest.substring(0, 1)} ${rest.substring(1, 3)} ${rest.substring(3)}`;
-            } else if (rest.length <= 6) {
-              input.value = `0${rest.substring(0, 1)} ${rest.substring(1, 3)} ${rest.substring(3, 5)} ${rest.substring(5)}`;
-            } else {
-              input.value = `0${rest.substring(0, 1)} ${rest.substring(1, 3)} ${rest.substring(3, 5)} ${rest.substring(5, 7)}`;
-            }
-          }
-        }
-
+   function formatPhoneNumber(input) {
+  let value = input.value.replace(/\D/g, '');
+  
+  if (value.startsWith('212')) {
+    input.value = `+212 ${value.substring(3)}`;
+  } else if (value.startsWith('0')) {
+    // Laisser tel quel, le formatage se fera automatiquement
+    input.value = value;
+  }
+}
         function validateTextLength(textarea) {
           const length = textarea.value.length;
           const maxLength = parseInt(textarea.getAttribute('maxlength')) || 500;
