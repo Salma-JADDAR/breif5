@@ -50,6 +50,118 @@
         .text-glow {
             text-shadow: 0 0 10px rgba(14, 165, 233, 0.7);
         }
+
+        .status-confirmed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .status-completed {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #0ea5e9;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .mobile-menu.open {
+            max-height: 300px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .booking-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .booking-actions button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body class="text-white font-exo min-h-screen">
@@ -60,6 +172,7 @@
                 <img src="images/LOGOSF.png" alt="Logo SpaceVoyager" class="h-12">
             </div>
             
+            <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-8">
                 <a href="index.html" class="text-gray-300 hover:text-neon-blue transition-colors">Home</a>
                 <a href="destinations.html" class="text-gray-300 hover:text-neon-blue transition-colors">Destinations</a>
@@ -67,12 +180,34 @@
                 <a href="about.html" class="text-gray-300 hover:text-neon-blue transition-colors">À Propos</a>
                 <a href="MyBooking.html" class="text-neon-blue transition-colors active">Mes Réservations</a>
             </nav>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-300 hover:text-neon-blue transition-colors" id="mobile-menu-button">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
             
-            <div class="flex items-center space-x-4">
-                <span id="user-greeting" class="text-gray-300 hidden md:block"></span>
+            <div class="hidden md:flex items-center space-x-4">
+                <span id="user-greeting" class="text-gray-300"></span>
                 <button onclick="logout()" class="bg-neon-blue text-black px-4 py-2 rounded-lg font-bold hover:bg-neon-cyan transition-colors">
                     <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
                 </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu md:hidden bg-space-blue mt-4 rounded-lg" id="mobile-menu">
+            <div class="py-4 space-y-4">
+                <a href="index.html" class="block px-6 text-gray-300 hover:text-neon-blue transition-colors">Home</a>
+                <a href="destinations.html" class="block px-6 text-gray-300 hover:text-neon-blue transition-colors">Destinations</a>
+                <a href="booking.html" class="block px-6 text-gray-300 hover:text-neon-blue transition-colors">Booking</a>
+                <a href="about.html" class="block px-6 text-gray-300 hover:text-neon-blue transition-colors">À Propos</a>
+                <a href="MyBooking.html" class="block px-6 text-neon-blue transition-colors">Mes Réservations</a>
+                <div class="border-t border-gray-700 pt-4 px-6">
+                    <span id="mobile-user-greeting" class="text-gray-300 block mb-2"></span>
+                    <button onclick="logout()" class="w-full bg-neon-blue text-black px-4 py-2 rounded-lg font-bold hover:bg-neon-cyan transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -84,6 +219,24 @@
             <p class="text-lg text-gray-300 max-w-2xl mx-auto">
                 Retrouvez ici l'historique complet de vos voyages spatiaux
             </p>
+        </div>
+
+        <!-- Filtres -->
+        <div class="max-w-6xl mx-auto mb-8">
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button onclick="filterBookings('all')" class="filter-btn active bg-neon-blue text-black px-4 py-2 rounded-lg font-bold transition-colors">
+                    Toutes
+                </button>
+                <button onclick="filterBookings('confirmed')" class="filter-btn bg-gray-700 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-600 transition-colors">
+                    Confirmées
+                </button>
+                <button onclick="filterBookings('pending')" class="filter-btn bg-gray-700 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-600 transition-colors">
+                    En attente
+                </button>
+                <button onclick="filterBookings('cancelled')" class="filter-btn bg-gray-700 text-white px-4 py-2 rounded-lg font-bold hover:bg-gray-600 transition-colors">
+                    Annulées
+                </button>
+            </div>
         </div>
 
         <div id="bookings-container" class="max-w-6xl mx-auto space-y-6">
@@ -117,6 +270,42 @@
         </div>
     </main>
 
+    <!-- Modal de détails -->
+    <div id="details-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-orbitron text-2xl text-neon-blue">Détails de la réservation</h3>
+                <button onclick="closeModal('details-modal')" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div id="modal-content" class="space-y-4">
+                <!-- Contenu chargé dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="text-center">
+                <div class="w-16 h-16 rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-2xl"></i>
+                </div>
+                <h3 class="font-orbitron text-xl mb-4">Confirmer la suppression</h3>
+                <p class="text-gray-300 mb-6">Êtes-vous sûr de vouloir supprimer cette réservation ? Cette action est irréversible.</p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="closeModal('delete-modal')" class="bg-gray-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-gray-700 transition-colors">
+                        Annuler
+                    </button>
+                    <button id="confirm-delete" class="bg-red-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-red-600 transition-colors">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-black py-8 mt-12">
         <div class="container mx-auto px-4 text-center">
@@ -125,6 +314,9 @@
     </footer>
 
     <script>
+        let currentFilter = 'all';
+        let bookingToDelete = null;
+
         function isUserLoggedIn() {
             const session = localStorage.getItem('spaceVoyagerSession');
             if (session) {
@@ -152,29 +344,56 @@
             return null;
         }
 
+        function getStatusClass(status) {
+            switch(status) {
+                case 'confirmed': return 'status-confirmed';
+                case 'pending': return 'status-pending';
+                case 'cancelled': return 'status-cancelled';
+                case 'completed': return 'status-completed';
+                default: return 'status-pending';
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'confirmed': return 'Confirmée';
+                case 'pending': return 'En attente';
+                case 'cancelled': return 'Annulée';
+                case 'completed': return 'Terminée';
+                default: return 'En attente';
+            }
+        }
+
         function loadUserBookings() {
             const user = getCurrentUser();
             const container = document.getElementById('bookings-container');
             const noBookings = document.getElementById('no-bookings');
             const loginRequired = document.getElementById('login-required');
             const userGreeting = document.getElementById('user-greeting');
+            const mobileUserGreeting = document.getElementById('mobile-user-greeting');
 
             if (!user) {
                 container.classList.add('hidden');
                 noBookings.classList.add('hidden');
                 loginRequired.classList.remove('hidden');
                 userGreeting.classList.add('hidden');
+                mobileUserGreeting.classList.add('hidden');
                 return;
             }
 
             // Afficher le message de bienvenue
-            userGreeting.textContent = `Bonjour, ${user.username}`;
+            const greetingText = `Bonjour, ${user.username}`;
+            userGreeting.textContent = greetingText;
             userGreeting.classList.remove('hidden');
+            mobileUserGreeting.textContent = greetingText;
+            mobileUserGreeting.classList.remove('hidden');
 
             const bookingsKey = getUserBookingsKey();
             const bookings = JSON.parse(localStorage.getItem(bookingsKey) || '[]');
             
-            if (bookings.length === 0) {
+            const filteredBookings = filterBookingsByStatus(bookings, currentFilter);
+            
+            if (filteredBookings.length === 0) {
                 container.classList.add('hidden');
                 noBookings.classList.remove('hidden');
                 loginRequired.classList.add('hidden');
@@ -184,16 +403,16 @@
                 loginRequired.classList.add('hidden');
                 
                 // Trier les réservations par date (les plus récentes en premier)
-                bookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                filteredBookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 
-                container.innerHTML = bookings.map(booking => `
+                container.innerHTML = filteredBookings.map(booking => `
                     <div class="booking-card p-6">
                         <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
                             <div class="flex-1">
-                                <div class="flex items-center mb-2">
-                                    <h3 class="font-orbitron text-2xl text-neon-blue mr-4">${booking.destination.name}</h3>
-                                    <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-bold">
-                                        ${booking.status}
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                                    <h3 class="font-orbitron text-xl sm:text-2xl text-neon-blue">${booking.destination.name}</h3>
+                                    <span class="px-3 py-1 rounded-full text-sm font-bold ${getStatusClass(booking.status)}">
+                                        ${getStatusText(booking.status)}
                                     </span>
                                 </div>
                                 <p class="text-gray-400 mb-2">${booking.package.name}</p>
@@ -213,7 +432,7 @@
                                 </div>
                             </div>
                             <div class="mt-4 lg:mt-0 lg:text-right">
-                                <div class="text-2xl font-orbitron text-neon-cyan mb-2">
+                                <div class="text-xl sm:text-2xl font-orbitron text-neon-cyan mb-2">
                                     ${booking.totalPrice.toLocaleString()} €
                                 </div>
                                 <div class="text-xs text-gray-400">
@@ -227,19 +446,49 @@
                                 <div class="text-sm text-gray-400 mb-2 lg:mb-0">
                                     Réservé le ${new Date(booking.createdAt).toLocaleDateString('fr-FR')} à ${new Date(booking.createdAt).toLocaleTimeString('fr-FR')}
                                 </div>
-                                <div class="flex space-x-3">
-                                    <button onclick="viewBookingDetails('${booking.id}')" class="bg-neon-blue/20 text-neon-blue px-4 py-2 rounded-lg text-sm hover:bg-neon-blue/30 transition-colors">
+                                <div class="flex flex-wrap gap-2 booking-actions">
+                                    <button onclick="viewBookingDetails('${booking.id}')" class="bg-neon-blue/20 text-neon-blue px-3 py-2 rounded-lg text-sm hover:bg-neon-blue/30 transition-colors flex items-center">
                                         <i class="fas fa-eye mr-2"></i>Détails
                                     </button>
-                                    <button onclick="cancelBooking('${booking.id}')" class="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg text-sm hover:bg-red-500/30 transition-colors">
-                                        <i class="fas fa-times mr-2"></i>Annuler
+                                    ${booking.status === 'pending' || booking.status === 'confirmed' ? `
+                                        <button onclick="editBooking('${booking.id}')" class="bg-yellow-500/20 text-yellow-400 px-3 py-2 rounded-lg text-sm hover:bg-yellow-500/30 transition-colors flex items-center">
+                                            <i class="fas fa-edit mr-2"></i>Modifier
+                                        </button>
+                                    ` : ''}
+                                    <button onclick="showDeleteModal('${booking.id}')" class="bg-red-500/20 text-red-400 px-3 py-2 rounded-lg text-sm hover:bg-red-500/30 transition-colors flex items-center">
+                                        <i class="fas fa-trash mr-2"></i>Supprimer
                                     </button>
+                                    ${booking.status === 'confirmed' ? `
+                                        <button onclick="cancelBooking('${booking.id}')" class="bg-orange-500/20 text-orange-400 px-3 py-2 rounded-lg text-sm hover:bg-orange-500/30 transition-colors flex items-center">
+                                            <i class="fas fa-times mr-2"></i>Annuler
+                                        </button>
+                                    ` : ''}
                                 </div>
                             </div>
                         </div>
                     </div>
                 `).join('');
             }
+        }
+
+        function filterBookingsByStatus(bookings, status) {
+            if (status === 'all') return bookings;
+            return bookings.filter(booking => booking.status === status);
+        }
+
+        function filterBookings(status) {
+            currentFilter = status;
+            
+            // Mettre à jour les boutons de filtre
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-neon-blue', 'text-black');
+                btn.classList.add('bg-gray-700', 'text-white', 'hover:bg-gray-600');
+            });
+            
+            event.target.classList.add('active', 'bg-neon-blue', 'text-black');
+            event.target.classList.remove('bg-gray-700', 'text-white', 'hover:bg-gray-600');
+            
+            loadUserBookings();
         }
 
         function viewBookingDetails(bookingId) {
@@ -249,14 +498,138 @@
             const booking = bookings.find(b => b.id === bookingId);
             
             if (booking) {
-                alert(`Détails de la réservation ${bookingId}:\n\n` +
-                      `Destination: ${booking.destination.name}\n` +
-                      `Package: ${booking.package.name}\n` +
-                      `Date: ${new Date(booking.departureDate).toLocaleDateString('fr-FR')}\n` +
-                      `Durée: ${booking.tripDuration} jours\n` +
-                      `Passagers: ${booking.passengers.length}\n` +
-                      `Total: ${booking.totalPrice.toLocaleString()} €\n` +
-                      `Statut: ${booking.status}`);
+                const modalContent = document.getElementById('modal-content');
+                modalContent.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="bg-space-blue p-4 rounded-lg">
+                                <h4 class="font-orbitron text-neon-blue mb-3">Informations du voyage</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Destination:</span>
+                                        <span class="font-bold">${booking.destination.name}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Package:</span>
+                                        <span class="font-bold">${booking.package.name}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Date de départ:</span>
+                                        <span class="font-bold">${new Date(booking.departureDate).toLocaleDateString('fr-FR')}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Durée:</span>
+                                        <span class="font-bold">${booking.tripDuration} jours</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-space-blue p-4 rounded-lg">
+                                <h4 class="font-orbitron text-neon-blue mb-3">Détails du prix</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Package de base:</span>
+                                        <span>${booking.basePrice.toLocaleString()} €</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Hébergement:</span>
+                                        <span>${booking.accommodationPrice.toLocaleString()} €</span>
+                                    </div>
+                                    ${booking.passengersPrice > 0 ? `
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Passagers supplémentaires:</span>
+                                            <span>${booking.passengersPrice.toLocaleString()} €</span>
+                                        </div>
+                                    ` : ''}
+                                    ${booking.extrasPrice > 0 ? `
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Extras optionnels:</span>
+                                            <span>${booking.extrasPrice.toLocaleString()} €</span>
+                                        </div>
+                                    ` : ''}
+                                    <div class="flex justify-between border-t border-gray-600 pt-2 mt-2">
+                                        <span class="text-gray-400 font-bold">Total:</span>
+                                        <span class="font-bold text-neon-cyan">${booking.totalPrice.toLocaleString()} €</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-space-blue p-4 rounded-lg">
+                                <h4 class="font-orbitron text-neon-blue mb-3">Informations de réservation</h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Numéro:</span>
+                                        <span class="font-mono">${booking.id}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Statut:</span>
+                                        <span class="font-bold ${getStatusClass(booking.status)}">${getStatusText(booking.status)}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Créée le:</span>
+                                        <span>${new Date(booking.createdAt).toLocaleDateString('fr-FR')}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Dernière modification:</span>
+                                        <span>${new Date(booking.updatedAt).toLocaleDateString('fr-FR')}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-space-blue p-4 rounded-lg">
+                                <h4 class="font-orbitron text-neon-blue mb-3">Passagers (${booking.passengers.length})</h4>
+                                <div class="space-y-3 max-h-40 overflow-y-auto">
+                                    ${booking.passengers.map((passenger, index) => `
+                                        <div class="border-l-2 border-neon-blue pl-3">
+                                            <div class="font-bold">Passager ${index + 1}</div>
+                                            <div class="text-sm text-gray-400">${passenger.firstName} ${passenger.lastName}</div>
+                                            <div class="text-xs text-gray-500">${passenger.email}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center pt-4">
+                        <button onclick="generateTicket('${booking.id}')" class="bg-neon-blue text-black px-6 py-2 rounded-lg font-bold hover:bg-neon-cyan transition-colors">
+                            <i class="fas fa-print mr-2"></i>Imprimer le ticket
+                        </button>
+                    </div>
+                `;
+                
+                openModal('details-modal');
+            }
+        }
+
+        function editBooking(bookingId) {
+            // Sauvegarder l'ID de la réservation à modifier
+            localStorage.setItem('bookingToEdit', bookingId);
+            // Rediriger vers la page de réservation
+            window.location.href = 'booking.html?edit=' + bookingId;
+        }
+
+        function showDeleteModal(bookingId) {
+            bookingToDelete = bookingId;
+            openModal('delete-modal');
+        }
+
+        function deleteBooking() {
+            if (bookingToDelete) {
+                const user = getCurrentUser();
+                const bookingsKey = getUserBookingsKey();
+                const bookings = JSON.parse(localStorage.getItem(bookingsKey) || '[]');
+                
+                const updatedBookings = bookings.filter(booking => booking.id !== bookingToDelete);
+                
+                localStorage.setItem(bookingsKey, JSON.stringify(updatedBookings));
+                
+                closeModal('delete-modal');
+                loadUserBookings();
+                showNotification('Réservation supprimée avec succès', 'success');
+                bookingToDelete = null;
             }
         }
 
@@ -268,7 +641,11 @@
                 
                 const updatedBookings = bookings.map(booking => {
                     if (booking.id === bookingId) {
-                        return { ...booking, status: 'cancelled' };
+                        return { 
+                            ...booking, 
+                            status: 'cancelled',
+                            updatedAt: new Date().toISOString()
+                        };
                     }
                     return booking;
                 });
@@ -276,8 +653,42 @@
                 localStorage.setItem(bookingsKey, JSON.stringify(updatedBookings));
                 
                 loadUserBookings();
-                alert('Réservation annulée avec succès');
+                showNotification('Réservation annulée avec succès', 'success');
             }
+        }
+
+        function generateTicket(bookingId) {
+            window.open('ticket.html?bookingId=' + bookingId, '_blank');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showNotification(message, type = 'success') {
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type === 'error' ? 'error' : ''}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'check-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
         }
 
         function logout() {
@@ -288,13 +699,22 @@
             }
         }
 
+        // Gestion du menu mobile
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('open');
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser la confirmation de suppression
+            document.getElementById('confirm-delete').addEventListener('click', deleteBooking);
+            
             loadUserBookings();
             
             // Vérifier si c'est une redirection après connexion
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('login') === 'success') {
-                alert('Connexion réussie ! Bienvenue sur votre espace réservations.');
+                showNotification('Connexion réussie ! Bienvenue sur votre espace réservations.', 'success');
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         });

@@ -1779,8 +1779,7 @@
         <p>© 2025 Space Voyager — All Rights Reserved.</p>
       </div>
     </footer>
-
-   <script>
+<script>
       // ========== SYSTÈME D'AUTHENTIFICATION ==========
 
       function isUserLoggedIn() {
@@ -2033,10 +2032,14 @@
       // ========== GESTION DU FORMULAIRE ==========
 
       let currentBookingData = {};
+      let isRestoringBooking = false;
 
       document.addEventListener('DOMContentLoaded', function() {
           initializeApp();
-          checkPendingBooking();
+          // Vérifier immédiatement les réservations en attente
+          setTimeout(() => {
+              checkPendingBookingOnLoad();
+          }, 100);
       });
 
       function initializeApp() {
@@ -2059,12 +2062,8 @@
       function initializeAuth() {
           updateAuthUI();
           
-          // Vérifier si l'utilisateur vient de se connecter avec une réservation en attente
+          // Vérifier si l'utilisateur vient de se connecter
           const urlParams = new URLSearchParams(window.location.search);
-          if (urlParams.get('login') === 'success' || urlParams.get('restoreBooking') === 'true') {
-              checkPendingBooking();
-          }
-          
           if (urlParams.get('login') === 'success') {
               showNotification('Connexion réussie ! Bienvenue sur SpaceVoyager.', 'success');
               // Nettoyer l'URL
@@ -2103,18 +2102,8 @@
           // Modal events
           document.getElementById('login-redirect').addEventListener('click', handleModalRedirect);
           document.getElementById('register-redirect').addEventListener('click', function() {
-              // Sauvegarder les données complètes avant redirection
-              if (validatePersonalSection()) {
-                  currentBookingData = getFormData();
-              }
-              
-              localStorage.setItem('pendingBooking', JSON.stringify({
-                  bookingData: currentBookingData,
-                  step: 'confirmation',
-                  timestamp: new Date().toISOString(),
-                  formState: getCurrentFormState() // Sauvegarder l'état actuel du formulaire
-              }));
-              
+              // Sauvegarder les données AVANT la redirection
+              saveCurrentBookingData();
               document.getElementById('login-modal').classList.remove('active');
               window.location.href = 'login.html?redirect=booking&register=true';
           });
@@ -2127,6 +2116,26 @@
               const currentForms = document.querySelectorAll('.passenger-form').length;
               addPassengerForm(currentForms);
           });
+      }
+
+      // ========== NOUVELLE FONCTION POUR SAUVEGARDER LES DONNÉES ==========
+      function saveCurrentBookingData() {
+          try {
+              // Récupérer toutes les données du formulaire
+              const formData = getFormData();
+              
+              // Sauvegarder dans localStorage
+              localStorage.setItem('pendingBooking', JSON.stringify({
+                  bookingData: formData,
+                  step: 'confirmation',
+                  timestamp: new Date().toISOString(),
+                  formState: getCurrentFormState()
+              }));
+              
+              console.log('Données de réservation sauvegardées');
+          } catch (error) {
+              console.error('Erreur sauvegarde données:', error);
+          }
       }
 
       // ========== GESTION DES ÉTAPES ==========
@@ -2245,6 +2254,7 @@
           packages.forEach(pkg => {
               const packageElement = document.createElement('div');
               packageElement.className = 'accommodation-option';
+              packageElement.setAttribute('data-package', pkg.id);
               packageElement.innerHTML = `
                   <div class="accommodation-category category-${pkg.id === 'basic' ? 'economy' : pkg.id === 'premium' ? 'premium' : 'luxury'}">
                       ${pkg.id.charAt(0).toUpperCase() + pkg.id.slice(1)}
@@ -2286,6 +2296,7 @@
           availableAccommodations.forEach(acc => {
               const accElement = document.createElement('div');
               accElement.className = 'accommodation-option';
+              accElement.setAttribute('data-accommodation', acc.id);
               accElement.innerHTML = `
                   <div class="accommodation-category category-${acc.category}">
                       ${acc.category.charAt(0).toUpperCase() + acc.category.slice(1)}
@@ -2331,6 +2342,7 @@
           Object.values(optionalExtras).forEach(extra => {
               const extraElement = document.createElement('div');
               extraElement.className = 'extra-option';
+              extraElement.setAttribute('data-extra', extra.id);
               extraElement.innerHTML = `
                   <div class="flex items-start justify-between">
                       <div class="flex-1">
@@ -3015,12 +3027,7 @@
 
       function handleModalRedirect() {
           // Sauvegarder les données temporairement AVANT la redirection
-          localStorage.setItem('pendingBooking', JSON.stringify({
-              bookingData: currentBookingData,
-              step: 'confirmation',
-              timestamp: new Date().toISOString(),
-              formState: getCurrentFormState()
-          }));
+          saveCurrentBookingData();
           
           // Fermer le modal
           document.getElementById('login-modal').classList.remove('active');
@@ -3028,11 +3035,22 @@
           window.location.href = 'login.html?redirect=booking';
       }
 
-      function checkPendingBooking() {
+      // ========== NOUVELLE FONCTION POUR VÉRIFIER AU CHARGEMENT ==========
+      function checkPendingBookingOnLoad() {
+          const urlParams = new URLSearchParams(window.location.search);
           const pendingBooking = localStorage.getItem('pendingBooking');
+          
+          console.log('Vérification réservation en attente:', {
+              pendingBooking: !!pendingBooking,
+              isUserLoggedIn: isUserLoggedIn(),
+              urlParams: urlParams.toString()
+          });
+
           if (pendingBooking && isUserLoggedIn()) {
               try {
                   const pendingData = JSON.parse(pendingBooking);
+                  console.log('Données en attente trouvées:', pendingData);
+                  
                   currentBookingData = pendingData.bookingData;
                   
                   // Restaurer l'état du formulaire si disponible
@@ -3042,6 +3060,7 @@
                   
                   localStorage.removeItem('pendingBooking');
                   
+                  // Aller directement à l'étape de confirmation
                   updateStepIndicator(3);
                   document.getElementById('journey-section').classList.add('hidden');
                   document.getElementById('personal-section').classList.add('hidden');
@@ -3058,34 +3077,53 @@
                   console.error('Erreur lors de la restauration:', error);
                   showNotification('Erreur lors de la restauration de votre réservation.', 'error');
               }
+          } else if (pendingBooking && !isUserLoggedIn()) {
+              console.log('Réservation en attente mais utilisateur non connecté');
+          } else if (!pendingBooking && isUserLoggedIn() && urlParams.get('restorePendingBooking') === 'true') {
+              console.log('Aucune réservation en attente trouvée');
+              showNotification('Aucune réservation en attente trouvée.', 'error');
           }
       }
 
       function restoreFormState(formState) {
+          console.log('Restauration état formulaire:', formState);
+          
           if (formState.destination) {
               document.getElementById('destination').value = formState.destination;
-              handleDestinationChange();
-          }
-          if (formState.package) {
-              document.getElementById('package').value = formState.package;
-              // Sélectionner visuellement le package
+              // Déclencher le changement pour charger les packages
               setTimeout(() => {
-                  const packageElement = document.querySelector(`[data-package="${formState.package}"]`);
-                  if (packageElement) {
-                      packageElement.click();
-                  }
+                  handleDestinationChange();
+                  
+                  // Sélectionner le package après un délai
+                  setTimeout(() => {
+                      if (formState.package) {
+                          const packageElement = document.querySelector(`[data-package="${formState.package}"]`);
+                          if (packageElement) {
+                              packageElement.click();
+                          }
+                          document.getElementById('package').value = formState.package;
+                      }
+                  }, 200);
               }, 100);
           }
+          
           if (formState.departureDate) {
               document.getElementById('departure-date').value = formState.departureDate;
           }
+          
           if (formState.tripDuration) {
               document.getElementById('trip-duration').value = formState.tripDuration;
           }
+          
           if (formState.passengers) {
-              document.querySelector(`input[name="passengers"][value="${formState.passengers}"]`).checked = true;
-              handlePassengerCountChange();
+              const passengerRadio = document.querySelector(`input[name="passengers"][value="${formState.passengers}"]`);
+              if (passengerRadio) {
+                  passengerRadio.checked = true;
+                  handlePassengerCountChange();
+              }
           }
+          
+          updatePriceDisplay();
       }
 
       function showSuccessMessage(bookingId) {
