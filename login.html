@@ -563,8 +563,25 @@
             document.getElementById('login-password').value = password;
             document.getElementById('login-form').dispatchEvent(new Event('submit'));
         }
-
-        // Exposer la fonction pour le débogage
+       // Dans login.html, ajouter cette fonction après l'authentification réussie
+// Dans login.html - après une connexion/inscription réussie
+function handleSuccessfulAuth() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect');
+    
+    if (redirect === 'booking') {
+        // Vérifier s'il y a une réservation en attente
+        const pendingBooking = localStorage.getItem('pendingBooking');
+        if (pendingBooking) {
+            // Rediriger vers booking.html avec un flag de restauration
+            window.location.href = 'booking.html?restorePendingBooking=true';
+        } else {
+            window.location.href = 'booking.html';
+        }
+    } else {
+        window.location.href = 'index.html?login=success';
+    }
+}       // Exposer la fonction pour le débogage
         window.quickLogin = quickLogin;
     </script>
 </body>
