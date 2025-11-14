@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket de Réservation — SpaceVoyager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a18;
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0;
+            }
+            
+            .ticket-container {
+                box-shadow: none !important;
+                border: 1px solid #000 !important;
+                background: white !important;
+                color: black !important;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        .ticket-container {
+            width: 100%;
+            max-width: 500px;
+            background: #1a1a2e;
+            border: 2px solid #0ea5e9;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .ticket-header {
+            background: #0ea5e9;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .logo {
+            width: 250px;
+            margin: 0 auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .ticket-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .ticket-body {
+            padding: 1.5rem;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #0ea5e9;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #0ea5e9;
+            padding-bottom: 0.25rem;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+
+        .info-label {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .passenger-item {
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .passenger-name {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .passenger-details {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .price-total {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0ea5e9;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #0ea5e9;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .ticket-footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #334155;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #0ea5e9;
+            color: #0ea5e9;
+        }
+
+        .terms {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .status-badge {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <!-- Header -->
+        <div class="ticket-header">
+            <img src="../images/LOGOSF.png" alt="SpaceVoyager" class="logo">
+            <div class="ticket-title">TICKET DE VOL</div>
+        </div>
+
+        <!-- Body -->
+        <div class="ticket-body">
+            <!-- Informations de réservation -->
+            <div class="info-section">
+                <div class="section-title">INFORMATIONS DE RÉSERVATION</div>
+                <div class="info-grid" id="booking-info">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Détails du voyage -->
+            <div class="info-section">
+                <div class="section-title">DÉTAILS DU VOL</div>
+                <div class="info-grid" id="journey-details">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Passagers -->
+            <div class="info-section">
+                <div class="section-title">PASSAGERS</div>
+                <div id="passengers-list">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Prix -->
+            <div class="info-section">
+                <div class="section-title">MONTANT</div>
+                <div id="price-details">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="ticket-footer">
+            <div class="action-buttons no-print">
+                <button onclick="window.print()" class="btn btn-primary">
+                    Imprimer
+                </button>
+                <button onclick="window.close()" class="btn btn-secondary">
+                    Fermer
+                </button>
+            </div>
+            <div class="terms">
+                <p>© 2025 SpaceVoyager • support@spacevoyager.com</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour récupérer les données de réservation
+        function getBookingData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get('bookingId');
+            
+            // Essayer de récupérer depuis localStorage
+            const savedData = localStorage.getItem('lastBookingData');
+            if (savedData) {
+                return JSON.parse(savedData);
+            }
+            
+            // Si pas dans localStorage, essayer de récupérer depuis les bookings sauvegardés
+            const user = JSON.parse(localStorage.getItem('spaceVoyagerUser'));
+            if (user) {
+                const bookingsKey = `userBookings_${user.email}`;
+                const userBookings = JSON.parse(localStorage.getItem(bookingsKey) || '[]');
+                const booking = userBookings.find(b => b.id === bookingId);
+                if (booking) {
+                    return {
+                        bookingId: booking.id,
+                        bookingData: booking,
+                        user: user
+                    };
+                }
+            }
+            
+            return null;
+        }
+
+        // Fonction pour générer le ticket
+        function generateTicket() {
+            const bookingInfo = getBookingData();
+            
+            if (!bookingInfo) {
+                document.body.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <h1 style="color: #ef4444;">Ticket non trouvé</h1>
+                        <p>Impossible de trouver les informations de réservation.</p>
+                        <button onclick="window.close()" class="btn btn-secondary">Fermer</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const { bookingId, bookingData, user } = bookingInfo;
+
+            // Informations de réservation
+            document.getElementById('booking-info').innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">N° Réservation:</span>
+                    <span class="info-value">${bookingId}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Client:</span>
+                    <span class="info-value">${user.username}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Statut:</span>
+                    <span class="info-value">
+                        <span class="status-badge">CONFIRMÉ</span>
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date d'émission:</span>
+                    <span class="info-value">${new Date().toLocaleDateString('fr-FR')}</span>
+                </div>
+            `;
+
+            // Détails du voyage
+            document.getElementById('journey-details').innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">Destination:</span>
+                    <span class="info-value">${bookingData.destination.name}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Package:</span>
+                    <span class="info-value">${bookingData.package.name}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date de départ:</span>
+                    <span class="info-value">${new Date(bookingData.departureDate).toLocaleDateString('fr-FR')}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Durée:</span>
+                    <span class="info-value">${bookingData.tripDuration} jours</span>
+                </div>
+            `;
+
+            // Liste des passagers
+            let passengersHTML = '';
+            bookingData.passengers.forEach((passenger, index) => {
+                passengersHTML += `
+                    <div class="passenger-item">
+                        <div class="passenger-name">${passenger.firstName} ${passenger.lastName}</div>
+                        <div class="passenger-details">
+                            ${passenger.email} • ${passenger.phone}
+                            ${passenger.specialRequirements ? `<br><em>${passenger.specialRequirements}</em>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('passengers-list').innerHTML = passengersHTML;
+
+            // Détails du prix
+            document.getElementById('price-details').innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">Package:</span>
+                    <span class="info-value">${bookingData.basePrice.toLocaleString()} €</span>
+                </div>
+                ${bookingData.accommodationPrice > 0 ? `
+                <div class="info-row">
+                    <span class="info-label">Hébergement:</span>
+                    <span class="info-value">${bookingData.accommodationPrice.toLocaleString()} €</span>
+                </div>
+                ` : ''}
+                ${bookingData.passengersPrice > 0 ? `
+                <div class="info-row">
+                    <span class="info-label">Passagers supp.:</span>
+                    <span class="info-value">${bookingData.passengersPrice.toLocaleString()} €</span>
+                </div>
+                ` : ''}
+                ${bookingData.extrasPrice > 0 ? `
+                <div class="info-row">
+                    <span class="info-label">Extras:</span>
+                    <span class="info-value">${bookingData.extrasPrice.toLocaleString()} €</span>
+                </div>
+                ` : ''}
+                <div class="price-total">
+                    TOTAL: ${bookingData.totalPrice.toLocaleString()} €
+                </div>
+            `;
+        }
+
+        // Générer le ticket au chargement de la page
+        document.addEventListener('DOMContentLoaded', generateTicket);
+
+        // Impression automatique si demandée
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('autoPrint') === 'true') {
+            window.onload = function() {
+                setTimeout(() => {
+                    window.print();
+                }, 1000);
+            };
+        }
+    </script>
+</body>
+</html>

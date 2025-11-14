@@ -1297,12 +1297,14 @@
                 <li><a href="destinations.html">Destinations</a></li>
                 <li><a href="booking.html" class="active">Booking</a></li>
                 <li><a href="about.html">À Propos</a></li>
-                <li><a href="my-bookings.html">My Booking</a></li>
+                <li><a href="MyBooking.html">My Booking</a></li>
             </ul>
         </nav>
 
         <div class="user-actions">
-            <button class="cta-btn"><a href="login.html">Connexion</a></button>
+            <button class="cta-btn" id="auth-btn">
+                <a href="login.html" id="auth-link">Connexion</a>
+            </button>
         </div>
     </header>
 
@@ -1316,6 +1318,19 @@
         <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
           Commencez votre aventure vers les étoiles. Remplissez le formulaire ci-dessous pour réserver votre place sur notre prochain vol spatial.
         </p>
+      </div>
+
+      <!-- User Welcome Message -->
+      <div id="user-welcome" class="max-w-4xl mx-auto mb-6 hidden">
+        <div class="bg-green-500/20 border border-green-500 rounded-lg p-4">
+          <div class="flex items-center">
+            <i class="fas fa-user-astronaut text-green-400 text-xl mr-3"></i>
+            <div>
+              <h3 class="font-orbitron text-green-400 text-lg" id="welcome-text"></h3>
+              <p class="text-green-200 text-sm">Vous pouvez maintenant effectuer votre réservation</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Step Indicator -->
@@ -1713,14 +1728,14 @@
       <div class="modal-content">
         <h3 class="font-orbitron text-2xl mb-4 text-neon-blue">Connexion Requise</h3>
         <p class="text-gray-300 mb-6">
-          Pour sauvegarder votre réservation et accéder à vos voyages futurs, veuillez vous connecter ou continuer en tant qu'invité.
+          Pour sauvegarder votre réservation et accéder à vos voyages futurs, veuillez vous connecter ou créer un compte.
         </p>
         <div class="modal-buttons">
           <button id="login-redirect" class="btn-primary text-white px-6 py-2 rounded-lg font-bold">
             <i class="fas fa-sign-in-alt mr-2"></i>Se Connecter
           </button>
-          <button id="continue-guest" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
-            <i class="fas fa-user mr-2"></i>Continuer en Invité
+          <button id="register-redirect" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
+            <i class="fas fa-user-plus mr-2"></i>Créer un Compte
           </button>
         </div>
       </div>
@@ -1766,143 +1781,105 @@
     </footer>
 
     <script>
-      // ========== SYSTÈME DE SAUVEGARDE DES RÉSERVATIONS ==========
+      // ========== SYSTÈME D'AUTHENTIFICATION ==========
 
-      // Fonction pour générer un ID unique
-      function generateBookingId() {
-          return 'BK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-      }
-
-      // Fonction pour générer un ID de session guest
-      function generateGuestSessionId() {
-          const sessionId = 'GUEST-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-          localStorage.setItem('guestSessionId', sessionId);
-          return sessionId;
-      }
-
-      // Fonction pour vérifier si l'utilisateur est connecté
       function isUserLoggedIn() {
           const session = localStorage.getItem('spaceVoyagerSession');
           if (session) {
-              const sessionData = JSON.parse(session);
-              return sessionData.isLoggedIn === true;
+              try {
+                  const sessionData = JSON.parse(session);
+                  return sessionData.isLoggedIn === true;
+              } catch (error) {
+                  return false;
+              }
           }
           return false;
       }
 
-      // Fonction pour obtenir les informations de l'utilisateur
       function getCurrentUser() {
+          if (!isUserLoggedIn()) return null;
           const user = localStorage.getItem('spaceVoyagerUser');
           return user ? JSON.parse(user) : null;
       }
 
-      // Fonction pour sauvegarder la réservation
+      function updateAuthUI() {
+          const authBtn = document.getElementById('auth-btn');
+          const authLink = document.getElementById('auth-link');
+          const userWelcome = document.getElementById('user-welcome');
+          const welcomeText = document.getElementById('welcome-text');
+
+          if (isUserLoggedIn()) {
+              const user = getCurrentUser();
+              authLink.innerHTML = `<i class="fas fa-user-astronaut mr-2"></i>${user.username}`;
+              authLink.href = "javascript:void(0)";
+              authBtn.onclick = function() {
+                  if (confirm('Voulez-vous vous déconnecter ?')) {
+                      logout();
+                  }
+              };
+              
+              userWelcome.classList.remove('hidden');
+              welcomeText.textContent = `Bonjour ${user.username}, bienvenue sur SpaceVoyager !`;
+              
+          } else {
+              authLink.innerHTML = `<i class="fas fa-sign-in-alt mr-2"></i>Connexion`;
+              authLink.href = "login.html";
+              authBtn.onclick = null;
+              userWelcome.classList.add('hidden');
+          }
+      }
+
+      function logout() {
+          localStorage.removeItem('spaceVoyagerSession');
+          localStorage.removeItem('spaceVoyagerUser');
+          updateAuthUI();
+          showNotification('Vous avez été déconnecté avec succès', 'success');
+      }
+
+      // ========== SYSTÈME DE RÉSERVATIONS ==========
+
+      function generateBookingId() {
+          return 'BK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+      }
+
+      function getUserBookingsKey() {
+          const user = getCurrentUser();
+          if (user) {
+              return `userBookings_${user.email}`;
+          }
+          return 'guestBookings';
+      }
+
       function saveBooking(bookingData) {
           try {
-              // Générer un ID unique pour la réservation
               const bookingId = generateBookingId();
+              const user = getCurrentUser();
               
-              // Préparer les données de réservation complètes
               const booking = {
                   id: bookingId,
                   ...bookingData,
+                  userId: user ? user.email : 'guest',
+                  userType: user ? 'registered' : 'guest',
+                  userName: user ? user.username : 'Invité',
                   createdAt: new Date().toISOString(),
                   updatedAt: new Date().toISOString(),
                   status: 'confirmed',
-                  paymentStatus: 'pending',
-                  user: getCurrentUser() ? {
-                      id: getCurrentUser().email,
-                      email: getCurrentUser().email,
-                      name: getCurrentUser().username || 'Utilisateur'
-                  } : {
-                      type: 'guest',
-                      sessionId: localStorage.getItem('guestSessionId') || generateGuestSessionId()
-                  }
+                  paymentStatus: 'pending'
               };
 
-              // Récupérer les réservations existantes
-              let existingBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+              const bookingsKey = getUserBookingsKey();
+              let existingBookings = JSON.parse(localStorage.getItem(bookingsKey) || '[]');
               
-              // Ajouter la nouvelle réservation
               existingBookings.push(booking);
-              
-              // Sauvegarder dans le localStorage
-              localStorage.setItem('userBookings', JSON.stringify(existingBookings));
-              
-              // Sauvegarder également la dernière réservation pour un accès rapide
-              localStorage.setItem('lastBooking', JSON.stringify(booking));
+              localStorage.setItem(bookingsKey, JSON.stringify(existingBookings));
               
               console.log('Réservation sauvegardée avec ID:', bookingId);
               return bookingId;
               
           } catch (error) {
-              console.error('Erreur lors de la sauvegarde de la réservation:', error);
+              console.error('Erreur lors de la sauvegarde:', error);
               throw new Error('Impossible de sauvegarder la réservation');
           }
-      }
-
-      // Fonction pour valider les données de réservation
-      function validateBookingData(bookingData) {
-          const errors = [];
-          
-          if (!bookingData.destination || !bookingData.destination.id) {
-              errors.push('Destination requise');
-          }
-          
-          if (!bookingData.package || !bookingData.package.id) {
-              errors.push('Package requis');
-          }
-          
-          if (!bookingData.departureDate) {
-              errors.push('Date de départ requise');
-          }
-          
-          if (!bookingData.passengers || bookingData.passengers.length === 0) {
-              errors.push('Informations passagers requises');
-          }
-          
-          // Valider chaque passager
-          if (bookingData.passengers) {
-              bookingData.passengers.forEach((passenger, index) => {
-                  if (!passenger.firstName || !passenger.lastName) {
-                      errors.push(`Passager ${index + 1}: Nom complet requis`);
-                  }
-                  if (!passenger.email) {
-                      errors.push(`Passager ${index + 1}: Email requis`);
-                  }
-                  if (!passenger.phone) {
-                      errors.push(`Passager ${index + 1}: Téléphone requis`);
-                  }
-              });
-          }
-          
-          return errors;
-      }
-
-      // Fonction pour afficher une notification
-      function showNotification(message, type = 'success') {
-          // Supprimer toute notification existante
-          const existingNotification = document.querySelector('.notification');
-          if (existingNotification) {
-              existingNotification.remove();
-          }
-          
-          // Créer la nouvelle notification
-          const notification = document.createElement('div');
-          notification.className = `notification ${type === 'error' ? 'error' : ''}`;
-          notification.innerHTML = `
-              <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'check-circle'}"></i>
-              <span>${message}</span>
-          `;
-          
-          document.body.appendChild(notification);
-          
-          // Supprimer automatiquement après 5 secondes
-          setTimeout(() => {
-              if (notification.parentNode) {
-                  notification.remove();
-              }
-          }, 5000);
       }
 
       // ========== DONNÉES DE L'APPLICATION ==========
@@ -2058,6 +2035,7 @@
       });
 
       function initializeApp() {
+          initializeAuth();
           initializeDestinations();
           initializeEventListeners();
           updatePriceDisplay();
@@ -2071,10 +2049,17 @@
           
           // Initialiser la validation de l'étape personnelle
           validatePersonalSection();
+      }
+
+      function initializeAuth() {
+          updateAuthUI();
           
-          // Générer un ID de session pour les utilisateurs non connectés
-          if (!localStorage.getItem('guestSessionId')) {
-              generateGuestSessionId();
+          // Vérifier si l'utilisateur vient de se connecter
+          const urlParams = new URLSearchParams(window.location.search);
+          if (urlParams.get('login') === 'success') {
+              showNotification('Connexion réussie ! Bienvenue sur SpaceVoyager.', 'success');
+              // Nettoyer l'URL
+              window.history.replaceState({}, document.title, window.location.pathname);
           }
       }
 
@@ -2108,7 +2093,7 @@
           
           // Modal events
           document.getElementById('login-redirect').addEventListener('click', redirectToLogin);
-          document.getElementById('continue-guest').addEventListener('click', continueAsGuest);
+          document.getElementById('register-redirect').addEventListener('click', redirectToRegister);
           
           // Validation en temps réel
           setupRealTimeValidation();
@@ -2982,79 +2967,16 @@
           window.location.href = 'login.html?redirect=booking';
       }
 
-      function continueAsGuest() {
-          document.getElementById('login-modal').classList.remove('active');
-          
-          try {
-              // Sauvegarder la réservation en tant qu'invité
-              const bookingId = saveBooking(currentBookingData);
-              
-              if (bookingId) {
-                  showSuccessMessage(bookingId);
-              } else {
-                  throw new Error('Erreur lors de la sauvegarde');
-              }
-              
-          } catch (error) {
-              console.error('Erreur lors de la sauvegarde invité:', error);
-              showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
-          }
+      function redirectToRegister() {
+          window.location.href = 'login.html?redirect=booking&register=true';
       }
 
-      function showSuccessMessage(bookingId) {
-          const section = document.getElementById('confirmation-section');
-          section.innerHTML = `
-              <div class="text-center py-12">
-                  <div class="confirmation-icon">
-                      <i class="fas fa-check-circle"></i>
-                  </div>
-                  <h2 class="font-orbitron text-3xl mb-4 text-glow">Réservation Confirmée!</h2>
-                  <p class="text-xl text-gray-300 mb-6">Votre voyage spatial a été réservé avec succès</p>
-                  
-                  <div class="booking-summary max-w-md mx-auto">
-                      <div class="summary-item">
-                          <span class="summary-label">Numéro de réservation:</span>
-                          <span class="summary-value">${bookingId}</span>
-                      </div>
-                      <div class="summary-item">
-                          <span class="summary-label">Statut:</span>
-                          <span class="summary-value text-green-400">Confirmée</span>
-                      </div>
-                      <div class="summary-item">
-                          <span class="summary-label">Montant total:</span>
-                          <span class="summary-value">${currentBookingData.totalPrice.toLocaleString()} €</span>
-                      </div>
-                  </div>
-                  
-                  <p class="text-gray-400 mt-6 mb-8">Redirection vers vos réservations dans 5 secondes...</p>
-                  
-                  <div class="flex gap-4 justify-center">
-                      <button onclick="window.location.href='my-bookings.html'" class="btn-primary text-white px-6 py-2 rounded-lg font-bold">
-                          <i class="fas fa-list mr-2"></i>Voir Mes Réservations
-                      </button>
-                      <button onclick="window.print()" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
-                          <i class="fas fa-print mr-2"></i>Imprimer
-                      </button>
-                  </div>
-              </div>
-          `;
-          
-          showNotification('Réservation confirmée avec succès! Redirection en cours...');
-          
-          // Rediriger après 5 secondes
-          setTimeout(() => {
-              window.location.href = 'MyBooking.html';
-          }, 5000);
-      }
-
-      // Vérifier s'il y a une réservation en attente après connexion
       function checkPendingBooking() {
           const pendingBooking = localStorage.getItem('pendingBooking');
           if (pendingBooking && isUserLoggedIn()) {
               currentBookingData = JSON.parse(pendingBooking);
               localStorage.removeItem('pendingBooking');
               
-             
               updateStepIndicator(3);
               document.getElementById('journey-section').classList.add('hidden');
               document.getElementById('personal-section').classList.add('hidden');
@@ -3066,8 +2988,138 @@
           }
       }
 
-      // Exposer les fonctions globales
-      window.continueAsGuest = continueAsGuest;
+      function showSuccessMessage(bookingId) {
+  const section = document.getElementById('confirmation-section');
+  const user = getCurrentUser();
+  
+  section.innerHTML = `
+      <div class="text-center py-12">
+          <div class="confirmation-icon">
+              <i class="fas fa-check-circle"></i>
+          </div>
+          <h2 class="font-orbitron text-3xl mb-4 text-glow">Réservation Confirmée!</h2>
+          <p class="text-xl text-gray-300 mb-6">Votre voyage spatial a été réservé avec succès</p>
+          
+          <div class="booking-summary max-w-md mx-auto">
+              <div class="summary-item">
+                  <span class="summary-label">Numéro de réservation:</span>
+                  <span class="summary-value">${bookingId}</span>
+              </div>
+              <div class="summary-item">
+                  <span class="summary-label">Client:</span>
+                  <span class="summary-value">${user ? user.username : 'Invité'}</span>
+              </div>
+              <div class="summary-item">
+                  <span class="summary-label">Statut:</span>
+                  <span class="summary-value text-green-400">Confirmée</span>
+              </div>
+              <div class="summary-item">
+                  <span class="summary-label">Montant total:</span>
+                  <span class="summary-value">${currentBookingData.totalPrice.toLocaleString()} €</span>
+              </div>
+          </div>
+          
+          <p class="text-gray-400 mt-6 mb-8">Redirection vers vos réservations dans 5 secondes...</p>
+          
+          <div class="flex gap-4 justify-center">
+              <button onclick="window.location.href='MyBooking.html'" class="btn-primary text-white px-6 py-2 rounded-lg font-bold">
+                  <i class="fas fa-list mr-2"></i>Voir Mes Réservations
+              </button>
+              <button onclick="generateTicket('${bookingId}')" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
+                  <i class="fas fa-print mr-2"></i>Imprimer le Ticket
+              </button>
+          </div>
+      </div>
+  `;
+  
+  showNotification('Réservation confirmée avec succès! Redirection en cours...');
+  
+  // Sauvegarder les données pour le ticket
+  localStorage.setItem('lastBookingData', JSON.stringify({
+    bookingId: bookingId,
+    bookingData: currentBookingData,
+    user: user
+  }));
+  
+ 
+}
+
+// Nouvelle fonction pour générer le ticket
+function generateTicket(bookingId) {
+  // Ouvrir la page de ticket dans un nouvel onglet
+  window.open('ticket.html?bookingId=' + bookingId, '_blank');
+}
+
+      // Fonction pour afficher une notification
+      function showNotification(message, type = 'success') {
+          // Supprimer toute notification existante
+          const existingNotification = document.querySelector('.notification');
+          if (existingNotification) {
+              existingNotification.remove();
+          }
+          
+          // Créer la nouvelle notification
+          const notification = document.createElement('div');
+          notification.className = `notification ${type === 'error' ? 'error' : ''}`;
+          notification.innerHTML = `
+              <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'check-circle'}"></i>
+              <span>${message}</span>
+          `;
+          
+          document.body.appendChild(notification);
+          
+          // Supprimer automatiquement après 5 secondes
+          setTimeout(() => {
+              if (notification.parentNode) {
+                  notification.remove();
+              }
+          }, 5000);
+      }
+
+      // Fonction pour valider les données de réservation
+      function validateBookingData(bookingData) {
+          const errors = [];
+          
+          if (!bookingData.destination || !bookingData.destination.id) {
+              errors.push('Destination requise');
+          }
+          
+          if (!bookingData.package || !bookingData.package.id) {
+              errors.push('Package requis');
+          }
+          
+          if (!bookingData.departureDate) {
+              errors.push('Date de départ requise');
+          }
+          
+          if (!bookingData.passengers || bookingData.passengers.length === 0) {
+              errors.push('Informations passagers requises');
+          }
+          
+          // Valider chaque passager
+          if (bookingData.passengers) {
+              bookingData.passengers.forEach((passenger, index) => {
+                  if (!passenger.firstName || !passenger.lastName) {
+                      errors.push(`Passager ${index + 1}: Nom complet requis`);
+                  }
+                  if (!passenger.email) {
+                      errors.push(`Passager ${index + 1}: Email requis`);
+                  }
+                  if (!passenger.phone) {
+                      errors.push(`Passager ${index + 1}: Téléphone requis`);
+                  }
+              });
+          }
+          
+          return errors;
+      }
+
+      // Initialiser les événements du modal
+      document.getElementById('login-redirect').addEventListener('click', redirectToLogin);
+      document.getElementById('register-redirect').addEventListener('click', redirectToRegister);
+
+      // Vérifier les réservations en attente
+      checkPendingBooking();
     </script>
   </body>
 </html>

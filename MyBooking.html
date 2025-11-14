@@ -5,154 +5,299 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Réservations - SpaceVoyager</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        /* Reprendre les styles de booking.html */
-        body {
-            background-color: #0A192F;
-            color: #CCD6F6;
-            font-family: 'Exo 2', sans-serif;
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'space-dark': '#0a0a18',
+                        'space-blue': '#1a1a2e',
+                        'space-purple': '#16213e',
+                        'neon-blue': '#0ea5e9',
+                        'neon-purple': '#8b5cf6',
+                        'neon-cyan': '#06b6d4',
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'exo': ['Exo 2', 'sans-serif'],
+                    },
+                }
+            }
         }
+    </script>
+    <style>
+        body {
+            background: #0a0a18;
+            min-height: 100vh;
+        }
+        
         .booking-card {
             background: rgba(22, 33, 62, 0.7);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(14, 165, 233, 0.3);
             border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
         }
-        .status-confirmed {
-            color: #10b981;
+        
+        .booking-card:hover {
+            border-color: rgba(14, 165, 233, 0.6);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.2);
+            transform: translateY(-2px);
         }
-        .status-pending {
-            color: #f59e0b;
-        }
-        .status-cancelled {
-            color: #ef4444;
+        
+        .text-glow {
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.7);
         }
     </style>
 </head>
-<body class="min-h-screen">
-    <header class="header" style="background-color: #000; padding: 1rem 5%;">
-        <div class="logo">
-            <img src="images/LOGOSF.png" alt="Logo SpaceVoyager" style="width: 300px; height: 60px; object-fit: contain;">
+<body class="text-white font-exo min-h-screen">
+    <!-- Navigation -->
+    <header class="bg-black py-4 px-6 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="images/LOGOSF.png" alt="Logo SpaceVoyager" class="h-12">
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-300 hover:text-neon-blue transition-colors">Home</a>
+                <a href="destinations.html" class="text-gray-300 hover:text-neon-blue transition-colors">Destinations</a>
+                <a href="booking.html" class="text-gray-300 hover:text-neon-blue transition-colors">Booking</a>
+                <a href="about.html" class="text-gray-300 hover:text-neon-blue transition-colors">À Propos</a>
+                <a href="my-bookings.html" class="text-neon-blue transition-colors">Mes Réservations</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <span id="user-greeting" class="text-gray-300 hidden md:block"></span>
+                <button onclick="logout()" class="bg-neon-blue text-black px-4 py-2 rounded-lg font-bold hover:bg-neon-cyan transition-colors">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
+                </button>
+            </div>
         </div>
-        <nav class="main-nav">
-            <ul style="list-style: none; display: flex; gap: 2rem;">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="destinations.html">Destinations</a></li>
-                <li><a href="booking.html">Booking</a></li>
-                <li><a href="about.html">À Propos</a></li>
-                <li><a href="my-bookings.html" style="color: #00bcd4;">My Booking</a></li>
-            </ul>
-        </nav>
     </header>
 
+    <!-- Main Content -->
     <main class="container mx-auto px-4 py-12">
-        <h1 class="font-orbitron text-4xl mb-8 text-center">Mes Réservations</h1>
-        
-        <div id="bookings-container">
-            <!-- Les réservations seront chargées ici -->
+        <div class="text-center mb-12">
+            <h1 class="font-orbitron text-4xl md:text-5xl font-bold mb-4 text-glow">Mes Réservations</h1>
+            <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                Retrouvez ici l'historique complet de vos voyages spatiaux
+            </p>
         </div>
 
-        <div id="no-bookings" class="text-center py-12 hidden">
-            <i class="fas fa-rocket text-6xl text-gray-500 mb-4"></i>
-            <h2 class="text-2xl mb-4">Aucune réservation trouvée</h2>
-            <p class="text-gray-400 mb-6">Vous n'avez pas encore de réservation. Commencez votre aventure spatiale !</p>
-            <a href="booking.html" class="btn-primary text-white px-6 py-3 rounded-lg font-bold">
-                <i class="fas fa-plus mr-2"></i>Réserver un voyage
-            </a>
+        <div id="bookings-container" class="max-w-6xl mx-auto space-y-6">
+            <!-- Les réservations seront chargées ici dynamiquement -->
+        </div>
+
+        <div id="no-bookings" class="text-center py-16 hidden">
+            <div class="max-w-md mx-auto">
+                <div class="w-32 h-32 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-rocket text-white text-4xl"></i>
+                </div>
+                <h2 class="font-orbitron text-2xl mb-4">Aucune réservation trouvée</h2>
+                <p class="text-gray-400 mb-8">Vous n'avez pas encore de réservation de voyage spatial.</p>
+                <a href="booking.html" class="bg-gradient-to-r from-neon-blue to-neon-purple text-white px-8 py-3 rounded-lg font-bold hover:shadow-lg transition-all">
+                    <i class="fas fa-plus mr-2"></i>Réserver un voyage
+                </a>
+            </div>
+        </div>
+
+        <div id="login-required" class="text-center py-16 hidden">
+            <div class="max-w-md mx-auto">
+                <div class="w-32 h-32 rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-exclamation-triangle text-red-400 text-4xl"></i>
+                </div>
+                <h2 class="font-orbitron text-2xl mb-4">Connexion requise</h2>
+                <p class="text-gray-400 mb-8">Veuillez vous connecter pour voir vos réservations.</p>
+                <a href="login.html" class="bg-neon-blue text-white px-8 py-3 rounded-lg font-bold hover:bg-neon-cyan transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Se connecter
+                </a>
+            </div>
         </div>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUserBookings();
-        });
+    <!-- Footer -->
+    <footer class="bg-black py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">&copy; 2024 SpaceVoyager. Tous droits réservés.</p>
+        </div>
+    </footer>
 
-        function loadUserBookings() {
-            const bookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
-            const container = document.getElementById('bookings-container');
-            const noBookings = document.getElementById('no-bookings');
-            
-            if (bookings.length === 0) {
-                container.innerHTML = '';
-                noBookings.classList.remove('hidden');
-                return;
+    <script>
+        function isUserLoggedIn() {
+            const session = localStorage.getItem('spaceVoyagerSession');
+            if (session) {
+                try {
+                    const sessionData = JSON.parse(session);
+                    return sessionData.isLoggedIn === true;
+                } catch (error) {
+                    return false;
+                }
             }
-            
-            noBookings.classList.add('hidden');
-            container.innerHTML = '';
-            
-            // Trier les réservations par date de création (plus récentes en premier)
-            bookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            
-            bookings.forEach(booking => {
-                const bookingElement = document.createElement('div');
-                bookingElement.className = 'booking-card';
-                bookingElement.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-orbitron text-xl text-neon-blue">${booking.destination.name}</h3>
-                            <p class="text-gray-400">${booking.package.name} • ${booking.tripDuration} jours</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="status-${booking.status} font-bold">${getStatusText(booking.status)}</span>
-                            <p class="text-sm text-gray-400">${new Date(booking.createdAt).toLocaleDateString('fr-FR')}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <p><strong>Date de départ:</strong> ${new Date(booking.departureDate).toLocaleDateString('fr-FR')}</p>
-                            <p><strong>Passagers:</strong> ${booking.passengers.length}</p>
-                        </div>
-                        <div>
-                            <p><strong>Total:</strong> ${booking.totalPrice.toLocaleString()} €</p>
-                            <p><strong>Référence:</strong> ${booking.id}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-2 mt-4">
-                        <button onclick="viewBookingDetails('${booking.id}')" class="btn-secondary text-white px-4 py-2 rounded text-sm">
-                            <i class="fas fa-eye mr-1"></i>Détails
-                        </button>
-                        <button onclick="cancelBooking('${booking.id}')" class="bg-red-500 text-white px-4 py-2 rounded text-sm">
-                            <i class="fas fa-times mr-1"></i>Annuler
-                        </button>
-                    </div>
-                `;
-                container.appendChild(bookingElement);
-            });
+            return false;
         }
 
-        function getStatusText(status) {
-            const statusMap = {
-                'confirmed': 'Confirmée',
-                'pending': 'En attente',
-                'cancelled': 'Annulée'
-            };
-            return statusMap[status] || status;
+        function getCurrentUser() {
+            if (!isUserLoggedIn()) return null;
+            const user = localStorage.getItem('spaceVoyagerUser');
+            return user ? JSON.parse(user) : null;
+        }
+
+        function getUserBookingsKey() {
+            const user = getCurrentUser();
+            if (user) {
+                return `userBookings_${user.email}`;
+            }
+            return null;
+        }
+
+        function loadUserBookings() {
+            const user = getCurrentUser();
+            const container = document.getElementById('bookings-container');
+            const noBookings = document.getElementById('no-bookings');
+            const loginRequired = document.getElementById('login-required');
+            const userGreeting = document.getElementById('user-greeting');
+
+            if (!user) {
+                container.classList.add('hidden');
+                noBookings.classList.add('hidden');
+                loginRequired.classList.remove('hidden');
+                userGreeting.classList.add('hidden');
+                return;
+            }
+
+            // Afficher le message de bienvenue
+            userGreeting.textContent = `Bonjour, ${user.username}`;
+            userGreeting.classList.remove('hidden');
+
+            const bookingsKey = getUserBookingsKey();
+            const bookings = JSON.parse(localStorage.getItem(bookingsKey) || '[]');
+            
+            if (bookings.length === 0) {
+                container.classList.add('hidden');
+                noBookings.classList.remove('hidden');
+                loginRequired.classList.add('hidden');
+            } else {
+                container.classList.remove('hidden');
+                noBookings.classList.add('hidden');
+                loginRequired.classList.add('hidden');
+                
+                // Trier les réservations par date (les plus récentes en premier)
+                bookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                container.innerHTML = bookings.map(booking => `
+                    <div class="booking-card p-6">
+                        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h3 class="font-orbitron text-2xl text-neon-blue mr-4">${booking.destination.name}</h3>
+                                    <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-bold">
+                                        ${booking.status}
+                                    </span>
+                                </div>
+                                <p class="text-gray-400 mb-2">${booking.package.name}</p>
+                                <div class="flex flex-wrap gap-4 text-sm text-gray-300">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-calendar-alt text-neon-blue mr-2"></i>
+                                        ${new Date(booking.departureDate).toLocaleDateString('fr-FR')}
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-clock text-neon-blue mr-2"></i>
+                                        ${booking.tripDuration} jours
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users text-neon-blue mr-2"></i>
+                                        ${booking.passengers.length} passager(s)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 lg:mt-0 lg:text-right">
+                                <div class="text-2xl font-orbitron text-neon-cyan mb-2">
+                                    ${booking.totalPrice.toLocaleString()} €
+                                </div>
+                                <div class="text-xs text-gray-400">
+                                    N° ${booking.id}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-700 pt-4 mt-4">
+                            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                                <div class="text-sm text-gray-400 mb-2 lg:mb-0">
+                                    Réservé le ${new Date(booking.createdAt).toLocaleDateString('fr-FR')} à ${new Date(booking.createdAt).toLocaleTimeString('fr-FR')}
+                                </div>
+                                <div class="flex space-x-3">
+                                    <button onclick="viewBookingDetails('${booking.id}')" class="bg-neon-blue/20 text-neon-blue px-4 py-2 rounded-lg text-sm hover:bg-neon-blue/30 transition-colors">
+                                        <i class="fas fa-eye mr-2"></i>Détails
+                                    </button>
+                                    <button onclick="cancelBooking('${booking.id}')" class="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg text-sm hover:bg-red-500/30 transition-colors">
+                                        <i class="fas fa-times mr-2"></i>Annuler
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
         }
 
         function viewBookingDetails(bookingId) {
-            // Rediriger vers une page de détails ou afficher un modal
-            alert(`Détails de la réservation: ${bookingId}`);
+            const user = getCurrentUser();
+            const bookingsKey = getUserBookingsKey();
+            const bookings = JSON.parse(localStorage.getItem(bookingsKey) || '[]');
+            const booking = bookings.find(b => b.id === bookingId);
+            
+            if (booking) {
+                alert(`Détails de la réservation ${bookingId}:\n\n` +
+                      `Destination: ${booking.destination.name}\n` +
+                      `Package: ${booking.package.name}\n` +
+                      `Date: ${new Date(booking.departureDate).toLocaleDateString('fr-FR')}\n` +
+                      `Durée: ${booking.tripDuration} jours\n` +
+                      `Passagers: ${booking.passengers.length}\n` +
+                      `Total: ${booking.totalPrice.toLocaleString()} €\n` +
+                      `Statut: ${booking.status}`);
+            }
         }
 
         function cancelBooking(bookingId) {
             if (confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')) {
-                let bookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
-                bookings = bookings.map(booking => {
+                const user = getCurrentUser();
+                const bookingsKey = getUserBookingsKey();
+                const bookings = JSON.parse(localStorage.getItem(bookingsKey) || '[]');
+                
+                const updatedBookings = bookings.map(booking => {
                     if (booking.id === bookingId) {
                         return { ...booking, status: 'cancelled' };
                     }
                     return booking;
                 });
-                localStorage.setItem('userBookings', JSON.stringify(bookings));
+                
+                localStorage.setItem(bookingsKey, JSON.stringify(updatedBookings));
+                
                 loadUserBookings();
                 alert('Réservation annulée avec succès');
             }
         }
+
+        function logout() {
+            if (confirm('Voulez-vous vous déconnecter ?')) {
+                localStorage.removeItem('spaceVoyagerSession');
+                localStorage.removeItem('spaceVoyagerUser');
+                window.location.href = 'login.html';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserBookings();
+            
+            // Vérifier si c'est une redirection après connexion
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('login') === 'success') {
+                alert('Connexion réussie ! Bienvenue sur votre espace réservations.');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
     </script>
 </body>
 </html>

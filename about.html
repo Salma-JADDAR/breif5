@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - SpaceVoyager</title>
+    <title>Login - SpaceVoyager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,121 +23,166 @@
                         'orbitron': ['Orbitron', 'sans-serif'],
                         'exo': ['Exo 2', 'sans-serif'],
                     },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%': { boxShadow: '0 0 5px rgba(14, 165, 233, 0.5)' },
+                            '100%': { boxShadow: '0 0 20px rgba(14, 165, 233, 0.8), 0 0 30px rgba(139, 92, 246, 0.6)' },
+                        }
+                    }
                 }
             }
         }
     </script>
     <style>
         body {
-            background: linear-gradient(to bottom, #0a0a18, #1a1a2e, #16213e);
-            background-attachment: fixed;
+            background: #0a0a18;
+            min-height: 100vh;
         }
         
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle 5s infinite;
+        .login-container {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
         
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
+        .space-image {
+            background: url('images/log.PNG');
+            background-size: cover;
+            background-position: center;
         }
         
-        .glow {
-            box-shadow: 0 0 15px rgba(14, 165, 233, 0.5);
+        .form-input {
+            background: rgba(22, 33, 62, 0.6);
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            border-radius: 10px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: rgba(14, 165, 233, 0.8);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+            outline: none;
+            background: rgba(22, 33, 62, 0.8);
+        }
+        
+        .form-input.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+        
+        .form-input.success {
+            border-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .btn-login {
+            background: white;
+            color: black;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .btn-login:hover {
+            background: linear-gradient(to right, #0ea5e9, #8b5cf6);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.5);
+        }
+        
+        .btn-login:disabled {
+            background: #6b7280;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
         }
         
         .text-glow {
             text-shadow: 0 0 10px rgba(14, 165, 233, 0.7);
         }
         
-        .content-card {
-            background: rgba(26, 26, 46, 0.7);
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(14, 165, 233, 0.3);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid #10b981;
             border-radius: 15px;
-        }
-        
-        .nav-link {
-            position: relative;
-        }
-          .nav-link {
-            position: relative;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(to right, #0ea5e9, #8b5cf6);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(to right, #0ea5e9, #8b5cf6);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
-        }
-        
-        .timeline-item {
-            position: relative;
-            padding-left: 2rem;
-        }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, #0ea5e9, #8b5cf6);
-        }
-        
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: -4px;
-            top: 0;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #0ea5e9;
+            padding: 2rem;
+            text-align: center;
+            z-index: 1000;
+            display: none;
         }
     </style>
 </head>
-<body class="text-white font-exo min-h-screen">
-    <!-- Stars Background -->
-    <div id="stars-container"></div>
-    
+<body class="text-white font-exo min-h-screen flex flex-col">
     <!-- Navigation -->
-    <nav class="bg-space-dark/80 backdrop-blur-md border-b border-neon-blue/20 sticky top-0 z-50">
+    <nav class="glass-effect sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center glow">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center pulse-glow">
                     <i class="fas fa-rocket text-white"></i>
                 </div>
                 <a href="index.html" class="font-orbitron text-xl font-bold text-glow">SpaceVoyager</a>
             </div>
             
             <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="nav-link hover:text-neon-blue transition-colors">Home</a>
-                <a href="destinations.html" class="nav-link hover:text-neon-blue transition-colors">Destinations</a>
-                <a href="booking.html" class="nav-link hover:text-neon-blue transition-colors">Booking</a>
-                <a href="about.html" class="nav-link hover:text-neon-blue transition-colors text-neon-blue">About</a>
-                <a href="login.html" class="nav-link hover:text-neon-blue transition-colors">Login</a>
+                <a href="index.html" class="text-gray-300 hover:text-neon-blue transition-colors">Home</a>
+                <a href="destinations.html" class="text-gray-300 hover:text-neon-blue transition-colors">Destinations</a>
+                <a href="booking.html" class="text-gray-300 hover:text-neon-blue transition-colors">Booking</a>
+                <a href="about.html" class="text-gray-300 hover:text-neon-blue transition-colors">About</a>
+                <a href="login.html" class="text-neon-blue transition-colors">Login</a>
             </div>
             
             <div class="md:hidden">
@@ -148,187 +193,121 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 relative z-10">
-        <!-- Page Header -->
-        <section class="py-12 text-center">
-            <h1 class="font-orbitron text-4xl md:text-5xl font-bold mb-6 text-glow">About SpaceVoyager</h1>
-            <p class="text-xl max-w-3xl mx-auto text-gray-300">
-                Pioneering the future of space tourism and making the cosmos accessible to all.
-            </p>
-        </section>
+    <!-- Success Popup -->
+    <div id="successPopup" class="success-popup">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-check text-white text-2xl"></i>
+        </div>
+        <h3 class="font-orbitron text-xl mb-2 text-glow">Login Successful!</h3>
+        <p class="text-gray-300 mb-4">Welcome back, <span id="welcomeUser" class="text-neon-cyan font-bold"></span>!</p>
+        <p class="text-gray-400 text-sm">Redirecting to your dashboard...</p>
+    </div>
 
-        <!-- Our Mission -->
-        <section class="py-12">
-            <div class="content-card p-8 mb-12">
-                <h2 class="font-orbitron text-3xl mb-6 text-glow">Our Mission</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <p class="text-gray-300 text-lg mb-6">
-                            At SpaceVoyager, we believe that space exploration should not be limited to astronauts and scientists. 
-                            Our mission is to open the final frontier to everyone who dreams of seeing Earth from above, walking on 
-                            other worlds, and experiencing the wonder of our universe firsthand.
-                        </p>
-                        <p class="text-gray-300 text-lg">
-                            Founded in 2025 by a team of former NASA engineers and visionary entrepreneurs, SpaceVoyager combines 
-                            cutting-edge technology with luxurious comfort to create unforgettable space travel experiences.
+    <!-- Main Content - Form Left, Image Right -->
+    <main class="flex-grow flex items-center justify-center p-4 py-8">
+        <div class="login-container w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2">
+            <!-- Left Side - Login Form -->
+            <div class="p-8 lg:p-12 flex items-center justify-center order-2 lg:order-1">
+                <div class="w-full max-w-md">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center mx-auto mb-4 pulse-glow floating">
+                            <i class="fas fa-user-astronaut text-white text-2xl"></i>
+                        </div>
+                        <h1 class="font-orbitron text-3xl mb-2 text-glow">SpaceVoyager Login</h1>
+                        <p class="text-gray-300">Access your interstellar journey dashboard</p>
+                    </div>
+                    
+                    <form id="loginForm" class="space-y-6">
+                        <div class="relative">
+                            <label class="block text-gray-300 mb-2">Email Address</label>
+                            <div class="relative">
+                                <input type="email" id="email" class="form-input w-full px-4 py-3 pl-10" placeholder="Enter your email" required>
+                                <i class="fas fa-envelope absolute left-3 top-4 text-neon-blue"></i>
+                            </div>
+                            <div id="emailError" class="error-message">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                Please enter a valid email address
+                            </div>
+                            <div id="emailSuccess" class="success-message">
+                                <i class="fas fa-check-circle mr-1"></i>
+                                Valid email format
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <label class="block text-gray-300 mb-2">Password</label>
+                            <div class="relative">
+                                <input type="password" id="password" class="form-input w-full px-4 py-3 pl-10" placeholder="Enter your password" required minlength="6">
+                                <i class="fas fa-lock absolute left-3 top-4 text-neon-blue"></i>
+                                <button type="button" id="togglePassword" class="absolute right-3 top-4 text-neon-blue">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div id="passwordError" class="error-message">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                Password must be at least 6 characters
+                            </div>
+                            <div id="passwordSuccess" class="success-message">
+                                <i class="fas fa-check-circle mr-1"></i>
+                                Password meets requirements
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="remember" class="mr-2 rounded bg-space-purple border-neon-blue text-neon-blue focus:ring-neon-blue">
+                                <label for="remember" class="text-gray-300 text-sm">Remember me</label>
+                            </div>
+                            <a href="#" class="text-neon-blue text-sm hover:underline transition-all">Forgot password?</a>
+                        </div>
+                        
+                        <button type="submit" id="submitBtn" class="btn-login w-full py-3 rounded-lg font-bold">
+                            <i class="fas fa-rocket mr-2"></i> Launch Login
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 pt-6 border-t border-neon-blue/20">
+                        <p class="text-gray-400 text-center">
+                            New space explorer? 
+                            <a href="#" class="text-neon-blue hover:underline transition-all font-medium">Create account</a>
                         </p>
                     </div>
-                    <div class="flex justify-center">
-                        <div class="w-64 h-64 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center glow">
-                            <i class="fas fa-rocket text-white text-6xl"></i>
+                    
+                    <!-- Social Login -->
+                    <div class="mt-6">
+                        <div class="relative flex items-center py-2">
+                            <div class="flex-grow border-t border-neon-blue/20"></div>
+                            <span class="flex-shrink mx-4 text-gray-400 text-sm">Or continue with</span>
+                            <div class="flex-grow border-t border-neon-blue/20"></div>
+                        </div>
+                        
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <button class="w-12 h-12 rounded-full bg-space-purple border border-neon-blue/30 flex items-center justify-center hover:bg-neon-blue/20 transition-all">
+                                <i class="fab fa-google text-neon-cyan text-lg"></i>
+                            </button>
+                            <button class="w-12 h-12 rounded-full bg-space-purple border border-neon-blue/30 flex items-center justify-center hover:bg-neon-blue/20 transition-all">
+                                <i class="fab fa-apple text-gray-300 text-lg"></i>
+                            </button>
+                            <button class="w-12 h-12 rounded-full bg-space-purple border border-neon-blue/30 flex items-center justify-center hover:bg-neon-blue/20 transition-all">
+                                <i class="fab fa-facebook-f text-neon-blue text-lg"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Our Values -->
-        <section class="py-12">
-            <h2 class="font-orbitron text-3xl text-center mb-12 text-glow">Our Values</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="content-card p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-r from-neon-blue to-neon-cyan flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-shield-alt text-white text-2xl"></i>
-                    </div>
-                    <h3 class="font-orbitron text-xl mb-3">Safety First</h3>
-                    <p class="text-gray-300">
-                        We prioritize passenger safety above all else, with redundant systems and rigorous testing protocols.
-                    </p>
-                </div>
-                <div class="content-card p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-r from-neon-purple to-pink-500 flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-leaf text-white text-2xl"></i>
-                    </div>
-                    <h3 class="font-orbitron text-xl mb-3">Sustainable Exploration</h3>
-                    <p class="text-gray-300">
-                        Our operations are designed to minimize environmental impact and promote responsible space tourism.
-                    </p>
-                </div>
-                <div class="content-card p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-users text-white text-2xl"></i>
-                    </div>
-                    <h3 class="font-orbitron text-xl mb-3">Accessibility</h3>
-                    <p class="text-gray-300">
-                        We're committed to making space travel available to as many people as possible through innovative financing.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Our Journey -->
-        <section class="py-12">
-            <div class="content-card p-8">
-                <h2 class="font-orbitron text-3xl mb-8 text-glow">Our Journey</h2>
-                <div class="space-y-8">
-                    <div class="timeline-item">
-                        <h3 class="font-orbitron text-xl mb-2 text-neon-blue">2025 - Foundation</h3>
-                        <p class="text-gray-300">
-                            SpaceVoyager founded by Dr. Elena Rodriguez and Marcus Thorne with the vision of commercial space tourism.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3 class="font-orbitron text-xl mb-2 text-neon-blue">2027 - First Test Flight</h3>
-                        <p class="text-gray-300">
-                            Successful unmanned test flight of the Odyssey spacecraft to low Earth orbit and back.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3 class="font-orbitron text-xl mb-2 text-neon-blue">2029 - Lunar Tourism</h3>
-                        <p class="text-gray-300">
-                            First commercial flight around the Moon with four civilian passengers aboard.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3 class="font-orbitron text-xl mb-2 text-neon-blue">2031 - Mars Initiative</h3>
-                        <p class="text-gray-300">
-                            Announcement of the Mars colonization program and beginning of construction on the first Martian habitat.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <h3 class="font-orbitron text-xl mb-2 text-neon-blue">2033 - Present Day</h3>
-                        <p class="text-gray-300">
-                            Regular flights to multiple destinations including the Moon, Mars, and orbital hotels. Over 500 passengers served.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- The Team -->
-        <section class="py-12">
-            <h2 class="font-orbitron text-3xl text-center mb-12 text-glow">Meet Our Leadership</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="content-card p-6 text-center">
-                    <div class="w-24 h-24 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center mx-auto mb-4">
-                        <span class="text-white font-bold text-xl">ER</span>
-                    </div>
-                    <h3 class="font-orbitron text-xl mb-1">Dr. Elena Rodriguez</h3>
-                    <p class="text-neon-blue mb-3">CEO & Founder</p>
-                    <p class="text-gray-300 text-sm">
-                        Former NASA engineer with 15 years of experience in spacecraft design and propulsion systems.
-                    </p>
-                </div>
-                <div class="content-card p-6 text-center">
-                    <div class="w-24 h-24 rounded-full bg-gradient-to-r from-neon-cyan to-neon-blue flex items-center justify-center mx-auto mb-4">
-                        <span class="text-white font-bold text-xl">MT</span>
-                    </div>
-                    <h3 class="font-orbitron text-xl mb-1">Marcus Thorne</h3>
-                    <p class="text-neon-blue mb-3">CTO & Co-Founder</p>
-                    <p class="text-gray-300 text-sm">
-                        Aerospace entrepreneur and visionary behind reusable spacecraft technology.
-                    </p>
-                </div>
-                <div class="content-card p-6 text-center">
-                    <div class="w-24 h-24 rounded-full bg-gradient-to-r from-neon-purple to-pink-500 flex items-center justify-center mx-auto mb-4">
-                        <span class="text-white font-bold text-xl">SK</span>
-                    </div>
-                    <h3 class="font-orbitron text-xl mb-1">Dr. Sarah Kim</h3>
-                    <p class="text-neon-blue mb-3">Chief Medical Officer</p>
-                    <p class="text-gray-300 text-sm">
-                        Space medicine specialist ensuring passenger health and safety during space travel.
-                    </p>
-                </div>
-                <div class="content-card p-6 text-center">
-                    <div class="w-24 h-24 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center mx-auto mb-4">
-                        <span class="text-white font-bold text-xl">JR</span>
-                    </div>
-                    <h3 class="font-orbitron text-xl mb-1">James Robinson</h3>
-                    <p class="text-neon-blue mb-3">Head of Astronaut Training</p>
-                    <p class="text-gray-300 text-sm">
-                        Former astronaut with multiple space missions and extensive extravehicular experience.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Call to Action -->
-        <section class="py-12 text-center">
-            <div class="content-card p-8 max-w-2xl mx-auto">
-                <h2 class="font-orbitron text-3xl mb-4 text-glow">Join Our Mission</h2>
-                <p class="text-gray-300 text-lg mb-6">
-                    Be part of the next chapter in human exploration. Your journey to the stars begins here.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="booking.html" class="btn-primary text-white px-6 py-3 rounded-lg font-bold">
-                        Book Your Journey
-                    </a>
-                    <a href="#" class="border border-neon-blue text-neon-blue px-6 py-3 rounded-lg font-bold hover:bg-neon-blue/10 transition-colors">
-                        Careers at SpaceVoyager
-                    </a>
-                </div>
-            </div>
-        </section>
+            
+            <!-- Right Side - Space Image Only -->
+            <div class="space-image min-h-[400px] lg:min-h-[600px] order-1 lg:order-2"></div>
+        </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-space-dark border-t border-neon-blue/20 py-8 mt-12 relative z-10">
+    <footer class="glass-effect py-8 mt-8">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
                     <div class="flex items-center space-x-2 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center pulse-glow">
                             <i class="fas fa-rocket text-white text-sm"></i>
                         </div>
                         <span class="font-orbitron text-lg">SpaceVoyager</span>
@@ -352,30 +331,194 @@
     </footer>
 
     <script>
-        // Create stars background
-        function createStars() {
-            const container = document.getElementById('stars-container');
-            const starCount = 150;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                
-                const size = Math.random() * 2 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                
-                container.appendChild(star);
-            }
-        }
-        
         document.addEventListener('DOMContentLoaded', function() {
-            createStars();
+            // Check if user is already logged in
+            checkLoginStatus();
+            
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = document.getElementById('submitBtn');
+            const togglePassword = document.getElementById('togglePassword');
+            const successPopup = document.getElementById('successPopup');
+            const welcomeUser = document.getElementById('welcomeUser');
+            
+            // Email validation
+            emailInput.addEventListener('input', function() {
+                validateEmail();
+                checkFormValidity();
+            });
+            
+            // Password validation
+            passwordInput.addEventListener('input', function() {
+                validatePassword();
+                checkFormValidity();
+            });
+            
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+            
+            // Form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateEmail() && validatePassword()) {
+                    // Simulate login process
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Launching...';
+                    submitBtn.disabled = true;
+                    
+                    setTimeout(function() {
+                        // Save user credentials and session to localStorage
+                        const userEmail = emailInput.value.trim();
+                        const username = userEmail.split('@')[0];
+                        
+                        // Save user credentials using the new system
+                        const userData = {
+                            email: userEmail,
+                            username: username,
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        // Save user in the users database
+                        saveUser(userData);
+                        
+                        // Create session
+                        const sessionData = {
+                            isLoggedIn: true,
+                            userId: userEmail,
+                            loginTime: new Date().toISOString()
+                        };
+                        
+                        localStorage.setItem('spaceVoyagerSession', JSON.stringify(sessionData));
+                        
+                        // Show success popup
+                        welcomeUser.textContent = username;
+                        successPopup.style.display = 'block';
+                        
+                        // Check for pending booking and redirect accordingly
+                        setTimeout(function() {
+                            const pendingBooking = localStorage.getItem('pendingBooking');
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const redirect = urlParams.get('redirect');
+                            
+                            if (pendingBooking && redirect === 'booking') {
+                                window.location.href = 'booking.html';
+                            } else {
+                                window.location.href = 'MyBooking.html';
+                            }
+                        }, 2000);
+                        
+                    }, 1500);
+                } else {
+                    loginForm.classList.add('shake');
+                    setTimeout(() => loginForm.classList.remove('shake'), 500);
+                }
+            });
+            
+            function validateEmail() {
+                const email = emailInput.value.trim();
+                const emailError = document.getElementById('emailError');
+                const emailSuccess = document.getElementById('emailSuccess');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (email === '') {
+                    emailInput.classList.remove('success', 'error');
+                    emailError.style.display = 'none';
+                    emailSuccess.style.display = 'none';
+                    return false;
+                }
+                
+                if (emailRegex.test(email)) {
+                    emailInput.classList.remove('error');
+                    emailInput.classList.add('success');
+                    emailError.style.display = 'none';
+                    emailSuccess.style.display = 'block';
+                    return true;
+                } else {
+                    emailInput.classList.remove('success');
+                    emailInput.classList.add('error');
+                    emailError.style.display = 'block';
+                    emailSuccess.style.display = 'none';
+                    return false;
+                }
+            }
+            
+            function validatePassword() {
+                const password = passwordInput.value;
+                const passwordError = document.getElementById('passwordError');
+                const passwordSuccess = document.getElementById('passwordSuccess');
+                
+                if (password === '') {
+                    passwordInput.classList.remove('success', 'error');
+                    passwordError.style.display = 'none';
+                    passwordSuccess.style.display = 'none';
+                    return false;
+                }
+                
+                if (password.length >= 6) {
+                    passwordInput.classList.remove('error');
+                    passwordInput.classList.add('success');
+                    passwordError.style.display = 'none';
+                    passwordSuccess.style.display = 'block';
+                    return true;
+                } else {
+                    passwordInput.classList.remove('success');
+                    passwordInput.classList.add('error');
+                    passwordError.style.display = 'block';
+                    passwordSuccess.style.display = 'none';
+                    return false;
+                }
+            }
+            
+            function checkFormValidity() {
+                const isEmailValid = validateEmail();
+                const isPasswordValid = validatePassword();
+                
+                if (isEmailValid && isPasswordValid) {
+                    submitBtn.disabled = false;
+                } else {
+                    submitBtn.disabled = true;
+                }
+            }
+            
+            function resetValidation() {
+                emailInput.classList.remove('success', 'error');
+                passwordInput.classList.remove('success', 'error');
+                document.getElementById('emailError').style.display = 'none';
+                document.getElementById('emailSuccess').style.display = 'none';
+                document.getElementById('passwordError').style.display = 'none';
+                document.getElementById('passwordSuccess').style.display = 'none';
+                submitBtn.disabled = true;
+            }
+            
+            function checkLoginStatus() {
+                const session = localStorage.getItem('spaceVoyagerSession');
+                if (session) {
+                    const sessionData = JSON.parse(session);
+                    if (sessionData.isLoggedIn) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const redirect = urlParams.get('redirect');
+                        
+                        if (redirect === 'booking') {
+                            window.location.href = 'booking.html';
+                        } else {
+                            window.location.href = 'MyBooking.html';
+                        }
+                    }
+                }
+            }
+            
+            // New function to save user in the users database
+            function saveUser(userData) {
+                const users = JSON.parse(localStorage.getItem('spaceVoyagerUsers') || '{}');
+                users[userData.email] = userData;
+                localStorage.setItem('spaceVoyagerUsers', JSON.stringify(users));
+                return userData.email;
+            }
         });
     </script>
 </body>

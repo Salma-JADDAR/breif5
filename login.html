@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SpaceVoyager</title>
+    <title>Connexion - SpaceVoyager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,15 +23,6 @@
                         'orbitron': ['Orbitron', 'sans-serif'],
                         'exo': ['Exo 2', 'sans-serif'],
                     },
-                    animation: {
-                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
-                    },
-                    keyframes: {
-                        'pulse-glow': {
-                            '0%': { boxShadow: '0 0 5px rgba(14, 165, 233, 0.5)' },
-                            '100%': { boxShadow: '0 0 20px rgba(14, 165, 233, 0.8), 0 0 30px rgba(139, 92, 246, 0.6)' },
-                        }
-                    }
                 }
             }
         }
@@ -72,54 +63,30 @@
             background: rgba(22, 33, 62, 0.8);
         }
         
-        .form-input.error {
-            border-color: #ef4444;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        .form-toggle {
+            background: rgba(10, 10, 24, 0.6);
         }
         
-        .form-input.success {
-            border-color: #10b981;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        .form-toggle-btn.active {
+            background: linear-gradient(to right, #0ea5e9, #8b5cf6);
         }
         
-        .btn-login {
+        .btn-primary {
             background: white;
             color: black;
             transition: all 0.3s ease;
             font-weight: bold;
         }
         
-        .btn-login:hover {
+        .btn-primary:hover {
             background: linear-gradient(to right, #0ea5e9, #8b5cf6);
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(14, 165, 233, 0.5);
         }
         
-        .btn-login:disabled {
-            background: #6b7280;
-            color: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite alternate;
-        }
-        
         .text-glow {
             text-shadow: 0 0 10px rgba(14, 165, 233, 0.7);
-        }
-        
-        .glass-effect {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(14, 165, 233, 0.2);
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
         }
         
         .error-message {
@@ -135,374 +102,470 @@
             margin-top: 0.25rem;
             display: none;
         }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .shake {
-            animation: shake 0.5s ease-in-out;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        
-        .success-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(15, 23, 42, 0.95);
-            border: 2px solid #10b981;
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            z-index: 1000;
-            display: none;
+
+        .test-users {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
         }
     </style>
 </head>
-<body class="text-white font-exo min-h-screen flex flex-col">
-    <!-- Navigation -->
-    <nav class="glass-effect sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center pulse-glow">
-                    <i class="fas fa-rocket text-white"></i>
+<body class="text-white font-exo min-h-screen flex items-center justify-center p-4">
+    <div class="login-container w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2">
+        <!-- Left Side - Login Form -->
+        <div class="p-8 lg:p-12 flex items-center justify-center">
+            <div class="w-full max-w-md">
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-astronaut text-white text-2xl"></i>
+                    </div>
+                    <h1 class="font-orbitron text-3xl mb-2 text-glow">SpaceVoyager</h1>
+                    <p class="text-gray-300" id="form-subtitle">Connectez-vous à votre compte</p>
                 </div>
-                <a href="index.html" class="font-orbitron text-xl font-bold text-glow">SpaceVoyager</a>
-            </div>
-            
-            <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="text-gray-300 hover:text-neon-blue transition-colors">Home</a>
-                <a href="destinations.html" class="text-gray-300 hover:text-neon-blue transition-colors">Destinations</a>
-                <a href="booking.html" class="text-gray-300 hover:text-neon-blue transition-colors">Booking</a>
-                <a href="about.html" class="text-gray-300 hover:text-neon-blue transition-colors">About</a>
-                <a href="login.html" class="text-neon-blue transition-colors">Login</a>
-            </div>
-            
-            <div class="md:hidden">
-                <button class="text-white focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Success Popup -->
-    <div id="successPopup" class="success-popup">
-        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-check text-white text-2xl"></i>
+
+                <!-- Toggle Login/Register -->
+                <div class="form-toggle rounded-lg p-1 mb-6 flex">
+                    <button class="form-toggle-btn flex-1 py-2 rounded-md active" data-form="login">
+                        Connexion
+                    </button>
+                    <button class="form-toggle-btn flex-1 py-2 rounded-md" data-form="register">
+                        Inscription
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-6">
+                    <div class="relative">
+                        <label class="block text-gray-300 mb-2">Adresse Email</label>
+                        <div class="relative">
+                            <input type="email" id="login-email" class="form-input w-full px-4 py-3 pl-10" placeholder="Entrez votre email" required>
+                            <i class="fas fa-envelope absolute left-3 top-4 text-neon-blue"></i>
+                        </div>
+                        <div id="login-email-error" class="error-message">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Veuillez entrer une adresse email valide
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <label class="block text-gray-300 mb-2">Mot de passe</label>
+                        <div class="relative">
+                            <input type="password" id="login-password" class="form-input w-full px-4 py-3 pl-10" placeholder="Entrez votre mot de passe" required minlength="6">
+                            <i class="fas fa-lock absolute left-3 top-4 text-neon-blue"></i>
+                            <button type="button" id="toggle-login-password" class="absolute right-3 top-4 text-neon-blue">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="login-password-error" class="error-message">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Le mot de passe doit contenir au moins 6 caractères
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember" class="mr-2 rounded bg-space-purple border-neon-blue text-neon-blue focus:ring-neon-blue">
+                            <label for="remember" class="text-gray-300 text-sm">Se souvenir de moi</label>
+                        </div>
+                        <a href="#" class="text-neon-blue text-sm hover:underline transition-all">Mot de passe oublié ?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold">
+                        <i class="fas fa-rocket mr-2"></i> Se Connecter
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="space-y-6 hidden">
+                    <div class="relative">
+                        <label class="block text-gray-300 mb-2">Nom d'utilisateur</label>
+                        <div class="relative">
+                            <input type="text" id="register-username" class="form-input w-full px-4 py-3 pl-10" placeholder="Choisissez un nom d'utilisateur" required minlength="3">
+                            <i class="fas fa-user absolute left-3 top-4 text-neon-blue"></i>
+                        </div>
+                        <div id="register-username-error" class="error-message">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Le nom d'utilisateur doit contenir au moins 3 caractères
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <label class="block text-gray-300 mb-2">Adresse Email</label>
+                        <div class="relative">
+                            <input type="email" id="register-email" class="form-input w-full px-4 py-3 pl-10" placeholder="Entrez votre email" required>
+                            <i class="fas fa-envelope absolute left-3 top-4 text-neon-blue"></i>
+                        </div>
+                        <div id="register-email-error" class="error-message">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Veuillez entrer une adresse email valide
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <label class="block text-gray-300 mb-2">Mot de passe</label>
+                        <div class="relative">
+                            <input type="password" id="register-password" class="form-input w-full px-4 py-3 pl-10" placeholder="Créez un mot de passe" required minlength="6">
+                            <i class="fas fa-lock absolute left-3 top-4 text-neon-blue"></i>
+                            <button type="button" id="toggle-register-password" class="absolute right-3 top-4 text-neon-blue">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="register-password-error" class="error-message">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Le mot de passe doit contenir au moins 6 caractères
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <label class="block text-gray-300 mb-2">Confirmer le mot de passe</label>
+                        <div class="relative">
+                            <input type="password" id="register-confirm-password" class="form-input w-full px-4 py-3 pl-10" placeholder="Confirmez votre mot de passe" required>
+                            <i class="fas fa-lock absolute left-3 top-4 text-neon-blue"></i>
+                        </div>
+                        <div id="register-confirm-error" class="error-message">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Les mots de passe ne correspondent pas
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold">
+                        <i class="fas fa-user-plus mr-2"></i> Créer un Compte
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <a href="booking.html" class="text-neon-blue hover:underline">
+                        ← Retour à la réservation
+                    </a>
+                </div>
+            </div>
         </div>
-        <h3 class="font-orbitron text-xl mb-2 text-glow">Login Successful!</h3>
-        <p class="text-gray-300 mb-4">Welcome back, <span id="welcomeUser" class="text-neon-cyan font-bold"></span>!</p>
-        <p class="text-gray-400 text-sm">Redirecting to your dashboard...</p>
+        
+        <!-- Right Side - Space Image -->
+        <div class="space-image min-h-[400px] lg:min-h-[600px]"></div>
     </div>
 
-    <!-- Main Content - Form Left, Image Right -->
-    <main class="flex-grow flex items-center justify-center p-4 py-8">
-        <div class="login-container w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2">
-            <!-- Left Side - Login Form -->
-            <div class="p-8 lg:p-12 flex items-center justify-center order-2 lg:order-1">
-                <div class="w-full max-w-md">
-                    <div class="text-center mb-8">
-                        <div class="w-20 h-20 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center mx-auto mb-4 pulse-glow floating">
-                            <i class="fas fa-user-astronaut text-white text-2xl"></i>
-                        </div>
-                        <h1 class="font-orbitron text-3xl mb-2 text-glow">SpaceVoyager Login</h1>
-                        <p class="text-gray-300">Access your interstellar journey dashboard</p>
-                    </div>
-                    
-                    <form id="loginForm" class="space-y-6">
-                        <div class="relative">
-                            <label class="block text-gray-300 mb-2">Email Address</label>
-                            <div class="relative">
-                                <input type="email" id="email" class="form-input w-full px-4 py-3 pl-10" placeholder="Entere your email" required>
-                                <i class="fas fa-envelope absolute left-3 top-4 text-neon-blue"></i>
-                            </div>
-                            <div id="emailError" class="error-message">
-                                <i class="fas fa-exclamation-circle mr-1"></i>
-                                Please enter a valid email address
-                            </div>
-                            <div id="emailSuccess" class="success-message">
-                                <i class="fas fa-check-circle mr-1"></i>
-                                Valid email format
-                            </div>
-                        </div>
-                        
-                        <div class="relative">
-                            <label class="block text-gray-300 mb-2">Password</label>
-                            <div class="relative">
-                                <input type="password" id="password" class="form-input w-full px-4 py-3 pl-10" placeholder="Enter your password" required minlength="6">
-                                <i class="fas fa-lock absolute left-3 top-4 text-neon-blue"></i>
-                                <button type="button" id="togglePassword" class="absolute right-3 top-4 text-neon-blue">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            <div id="passwordError" class="error-message">
-                                <i class="fas fa-exclamation-circle mr-1"></i>
-                                Password must be at least 6 characters
-                            </div>
-                            <div id="passwordSuccess" class="success-message">
-                                <i class="fas fa-check-circle mr-1"></i>
-                                Password meets requirements
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="remember" class="mr-2 rounded bg-space-purple border-neon-blue text-neon-blue focus:ring-neon-blue">
-                                <label for="remember" class="text-gray-300 text-sm">Remember me</label>
-                            </div>
-                            <a href="#" class="text-neon-blue text-sm hover:underline transition-all">Forgot password?</a>
-                        </div>
-                        
-                        <button type="submit" id="submitBtn" class="btn-login w-full py-3 rounded-lg font-bold">
-                            <i class="fas fa-rocket mr-2"></i> Launch Login
-                        </button>
-                    </form>
-                    
-                    <div class="mt-6 pt-6 border-t border-neon-blue/20">
-                        <p class="text-gray-400 text-center">
-                            New space explorer? 
-                            <a href="#" class="text-neon-blue hover:underline transition-all font-medium">Create account</a>
-                        </p>
-                    </div>
-                    
-                    <!-- Social Login -->
-                    <div class="mt-6">
-                        <div class="relative flex items-center py-2">
-                            <div class="flex-grow border-t border-neon-blue/20"></div>
-                            <span class="flex-shrink mx-4 text-gray-400 text-sm">Or continue with</span>
-                            <div class="flex-grow border-t border-neon-blue/20"></div>
-                        </div>
-                        
-                        <div class="flex justify-center space-x-4 mt-4">
-                            <button class="w-12 h-12 rounded-full bg-space-purple border border-neon-blue/30 flex items-center justify-center hover:bg-neon-blue/20 transition-all">
-                                <i class="fab fa-google text-neon-cyan text-lg"></i>
-                            </button>
-                            <button class="w-12 h-12 rounded-full bg-space-purple border border-neon-blue/30 flex items-center justify-center hover:bg-neon-blue/20 transition-all">
-                                <i class="fab fa-apple text-gray-300 text-lg"></i>
-                            </button>
-                            <button class="w-12 h-12 rounded-full bg-space-purple border border-neon-blue/30 flex items-center justify-center hover:bg-neon-blue/20 transition-all">
-                                <i class="fab fa-facebook-f text-neon-blue text-lg"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Side - Space Image Only -->
-            <div class="space-image min-h-[400px] lg:min-h-[600px] order-1 lg:order-2"></div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="glass-effect py-8 mt-8">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <div class="flex items-center space-x-2 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center pulse-glow">
-                            <i class="fas fa-rocket text-white text-sm"></i>
-                        </div>
-                        <span class="font-orbitron text-lg">SpaceVoyager</span>
-                    </div>
-                    <p class="text-gray-400 text-sm">© 2023 SpaceVoyager. All rights reserved.</p>
-                </div>
-                
-                <div class="flex space-x-6 mb-4 md:mb-0">
-                    <a href="#" class="text-gray-400 hover:text-neon-blue transition-colors text-xl">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-neon-blue transition-colors text-xl">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-neon-blue transition-colors text-xl">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script>
+        // ========== TABLEAU DES UTILISATEURS PRÉDÉFINIS ==========
+        const predefinedUsers = [
+            {
+                id: 1,
+                username: "Admin",
+                email: "admin@space.com",
+                password: "admin123",
+                role: "admin",
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 2,
+                username: "UserTest",
+                email: "user@space.com",
+                password: "user123",
+                role: "user",
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 3,
+                username: "ClientVIP",
+                email: "client@space.com",
+                password: "client123",
+                role: "client",
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        // ========== INITIALISATION DES UTILISATEURS ==========
+        function initializeUsers() {
+            // Vérifier si les utilisateurs existent déjà dans le localStorage
+            const existingUsers = JSON.parse(localStorage.getItem('spaceVoyagerUsers') || '[]');
+            
+            if (existingUsers.length === 0) {
+                // Si aucun utilisateur n'existe, ajouter les utilisateurs prédéfinis
+                localStorage.setItem('spaceVoyagerUsers', JSON.stringify(predefinedUsers));
+                console.log('Utilisateurs prédéfinis initialisés:', predefinedUsers);
+            } else {
+                console.log('Utilisateurs existants trouvés:', existingUsers);
+            }
+        }
+
+        // ========== FONCTIONS D'AUTHENTIFICATION ==========
+        function isUserLoggedIn() {
+            const session = localStorage.getItem('spaceVoyagerSession');
+            if (session) {
+                try {
+                    const sessionData = JSON.parse(session);
+                    // Vérifier si la session est expirée
+                    if (sessionData.expires && new Date(sessionData.expires) > new Date()) {
+                        return sessionData.isLoggedIn === true;
+                    } else {
+                        // Session expirée, déconnecter l'utilisateur
+                        logout();
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Erreur de parsing de session:', error);
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        function getCurrentUser() {
+            if (!isUserLoggedIn()) return null;
+            const user = localStorage.getItem('spaceVoyagerUser');
+            return user ? JSON.parse(user) : null;
+        }
+
+        function logout() {
+            localStorage.removeItem('spaceVoyagerSession');
+            localStorage.removeItem('spaceVoyagerUser');
+            console.log('Utilisateur déconnecté');
+        }
+
+        // ========== GESTION DU FORMULAIRE ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already logged in
+            // Initialiser les utilisateurs prédéfinis
+            initializeUsers();
+            
+            // Vérifier si l'utilisateur est déjà connecté
             checkLoginStatus();
             
-            const loginForm = document.getElementById('loginForm');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const submitBtn = document.getElementById('submitBtn');
-            const togglePassword = document.getElementById('togglePassword');
-            const successPopup = document.getElementById('successPopup');
-            const welcomeUser = document.getElementById('welcomeUser');
-            
-            // Email validation
-            emailInput.addEventListener('input', function() {
-                validateEmail();
-                checkFormValidity();
+            const toggleBtns = document.querySelectorAll('.form-toggle-btn');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const formSubtitle = document.getElementById('form-subtitle');
+
+            // Gestion du toggle entre connexion/inscription
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const formType = this.dataset.form;
+                    
+                    // Mettre à jour les boutons
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Afficher le bon formulaire
+                    if (formType === 'login') {
+                        loginForm.classList.remove('hidden');
+                        registerForm.classList.add('hidden');
+                        formSubtitle.textContent = 'Connectez-vous à votre compte';
+                    } else {
+                        loginForm.classList.add('hidden');
+                        registerForm.classList.remove('hidden');
+                        formSubtitle.textContent = 'Créez votre compte SpaceVoyager';
+                    }
+                });
             });
-            
-            // Password validation
-            passwordInput.addEventListener('input', function() {
-                validatePassword();
-                checkFormValidity();
+
+            // Gestion de l'inscription
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('register-username').value.trim();
+                const email = document.getElementById('register-email').value.trim();
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm-password').value;
+                
+                // Réinitialiser les erreurs
+                resetErrors();
+                
+                // Validation
+                let isValid = true;
+                
+                if (username.length < 3) {
+                    showError('register-username-error', 'Le nom d\'utilisateur doit contenir au moins 3 caractères');
+                    isValid = false;
+                }
+                
+                if (!isValidEmail(email)) {
+                    showError('register-email-error', 'Veuillez entrer une adresse email valide');
+                    isValid = false;
+                }
+                
+                if (password.length < 6) {
+                    showError('register-password-error', 'Le mot de passe doit contenir au moins 6 caractères');
+                    isValid = false;
+                }
+                
+                if (password !== confirmPassword) {
+                    showError('register-confirm-error', 'Les mots de passe ne correspondent pas');
+                    isValid = false;
+                }
+                
+                if (!isValid) return;
+                
+                // Vérifier si l'utilisateur existe déjà
+                const existingUsers = JSON.parse(localStorage.getItem('spaceVoyagerUsers') || '[]');
+                const userExists = existingUsers.find(user => user.email === email);
+                
+                if (userExists) {
+                    showError('register-email-error', 'Un compte avec cet email existe déjà');
+                    return;
+                }
+                
+                // Créer le nouvel utilisateur
+                const newUser = {
+                    id: Date.now(),
+                    username: username,
+                    email: email,
+                    password: password,
+                    role: 'user',
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Sauvegarder l'utilisateur
+                existingUsers.push(newUser);
+                localStorage.setItem('spaceVoyagerUsers', JSON.stringify(existingUsers));
+                
+                // Connecter automatiquement l'utilisateur
+                loginUser(newUser);
             });
-            
-            // Toggle password visibility
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-            });
-            
-            // Form submission
+
+            // Gestion de la connexion
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                if (validateEmail() && validatePassword()) {
-                    // Simulate login process
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Launching...';
-                    submitBtn.disabled = true;
-                    
-                    setTimeout(function() {
-                        // Save user credentials and session to localStorage
-                        const userEmail = emailInput.value.trim();
-                        const username = userEmail.split('@')[0];
-                        
-                        // Save user credentials
-                        const userCredentials = {
-                            email: userEmail,
-                            username: username,
-                            loginTime: new Date().toISOString()
-                        };
-                        
-                        // Save session state
-                        const sessionState = {
-                            isLoggedIn: true,
-                            username: username,
-                            email: userEmail,
-                            loginTimestamp: new Date().getTime()
-                        };
-                        
-                        localStorage.setItem('spaceVoyagerUser', JSON.stringify(userCredentials));
-                        localStorage.setItem('spaceVoyagerSession', JSON.stringify(sessionState));
-                        
-                        // Show success popup
-                        welcomeUser.textContent = username;
-                        successPopup.style.display = 'block';
-                        
-                        // Redirect to dashboard after 2 seconds
-                        setTimeout(function() {
-                            window.location.href = 'dashboard.html';
-                        }, 2000);
-                        
-                    }, 1500);
-                } else {
-                    loginForm.classList.add('shake');
-                    setTimeout(() => loginForm.classList.remove('shake'), 500);
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+                
+                // Réinitialiser les erreurs
+                resetErrors();
+                
+                // Validation
+                let isValid = true;
+                
+                if (!isValidEmail(email)) {
+                    showError('login-email-error', 'Veuillez entrer une adresse email valide');
+                    isValid = false;
                 }
+                
+                if (password.length < 6) {
+                    showError('login-password-error', 'Le mot de passe doit contenir au moins 6 caractères');
+                    isValid = false;
+                }
+                
+                if (!isValid) return;
+                
+                // Vérifier les identifiants
+                const existingUsers = JSON.parse(localStorage.getItem('spaceVoyagerUsers') || '[]');
+                const user = existingUsers.find(u => u.email === email && u.password === password);
+                
+                if (!user) {
+                    showError('login-password-error', 'Email ou mot de passe incorrect');
+                    return;
+                }
+                
+                // Connecter l'utilisateur
+                loginUser(user);
             });
-            
-            function validateEmail() {
-                const email = emailInput.value.trim();
-                const emailError = document.getElementById('emailError');
-                const emailSuccess = document.getElementById('emailSuccess');
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                
-                if (email === '') {
-                    emailInput.classList.remove('success', 'error');
-                    emailError.style.display = 'none';
-                    emailSuccess.style.display = 'none';
-                    return false;
-                }
-                
-                if (emailRegex.test(email)) {
-                    emailInput.classList.remove('error');
-                    emailInput.classList.add('success');
-                    emailError.style.display = 'none';
-                    emailSuccess.style.display = 'block';
-                    return true;
-                } else {
-                    emailInput.classList.remove('success');
-                    emailInput.classList.add('error');
-                    emailError.style.display = 'block';
-                    emailSuccess.style.display = 'none';
-                    return false;
-                }
-            }
-            
-            function validatePassword() {
-                const password = passwordInput.value;
-                const passwordError = document.getElementById('passwordError');
-                const passwordSuccess = document.getElementById('passwordSuccess');
-                
-                if (password === '') {
-                    passwordInput.classList.remove('success', 'error');
-                    passwordError.style.display = 'none';
-                    passwordSuccess.style.display = 'none';
-                    return false;
-                }
-                
-                if (password.length >= 6) {
-                    passwordInput.classList.remove('error');
-                    passwordInput.classList.add('success');
-                    passwordError.style.display = 'none';
-                    passwordSuccess.style.display = 'block';
-                    return true;
-                } else {
-                    passwordInput.classList.remove('success');
-                    passwordInput.classList.add('error');
-                    passwordError.style.display = 'block';
-                    passwordSuccess.style.display = 'none';
-                    return false;
-                }
-            }
-            
-            function checkFormValidity() {
-                const isEmailValid = validateEmail();
-                const isPasswordValid = validatePassword();
-                
-                if (isEmailValid && isPasswordValid) {
-                    submitBtn.disabled = false;
-                } else {
-                    submitBtn.disabled = true;
-                }
-            }
-            
-            function resetValidation() {
-                emailInput.classList.remove('success', 'error');
-                passwordInput.classList.remove('success', 'error');
-                document.getElementById('emailError').style.display = 'none';
-                document.getElementById('emailSuccess').style.display = 'none';
-                document.getElementById('passwordError').style.display = 'none';
-                document.getElementById('passwordSuccess').style.display = 'none';
-                submitBtn.disabled = true;
-            }
-            
-            function checkLoginStatus() {
-                const session = localStorage.getItem('spaceVoyagerSession');
-                if (session) {
-                    const sessionData = JSON.parse(session);
-                    if (sessionData.isLoggedIn) {
-                        
-                        const urlParams = new URLSearchParams(window.location.search);
-                           const redirect = urlParams.get('redirect');
-                          if (redirect === 'booking') {
-                                 window.location.href = 'booking.html';
-                                       } else {
-                          window.location.href = 'MyBooking.html';
-                            }
-                    }
-                }
+
+            // Gestion du toggle de visibilité du mot de passe
+            document.getElementById('toggle-login-password').addEventListener('click', function() {
+                togglePasswordVisibility('login-password', this);
+            });
+
+            document.getElementById('toggle-register-password').addEventListener('click', function() {
+                togglePasswordVisibility('register-password', this);
+            });
+
+            // Vérifier si on doit afficher le formulaire d'inscription
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('register') === 'true') {
+                document.querySelector('[data-form="register"]').click();
             }
         });
+
+        // ========== FONCTIONS UTILITAIRES ==========
+        function loginUser(user) {
+            // Créer la session
+            const sessionData = {
+                isLoggedIn: true,
+                userId: user.id,
+                userEmail: user.email,
+                username: user.username,
+                role: user.role,
+                loginTime: new Date().toISOString(),
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 heures
+            };
+            
+            localStorage.setItem('spaceVoyagerSession', JSON.stringify(sessionData));
+            localStorage.setItem('spaceVoyagerUser', JSON.stringify(user));
+            
+            console.log('Utilisateur connecté:', user.username);
+            
+            // Redirection
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+            
+            if (redirect === 'booking') {
+                window.location.href = 'booking.html?login=success';
+            } else {
+                window.location.href = 'MyBooking.html?login=success';
+            }
+        }
+
+        function checkLoginStatus() {
+            if (isUserLoggedIn()) {
+                const user = getCurrentUser();
+                console.log('Utilisateur déjà connecté:', user.username);
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirect = urlParams.get('redirect');
+                
+                if (redirect === 'booking') {
+                    window.location.href = 'booking.html';
+                } else {
+                    window.location.href = 'MyBooking.html';
+                }
+            }
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+        }
+
+        function resetErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => {
+                element.style.display = 'none';
+            });
+        }
+
+        function togglePasswordVisibility(passwordFieldId, button) {
+            const passwordField = document.getElementById(passwordFieldId);
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            // Changer l'icône
+            const icon = button.querySelector('i');
+            if (type === 'password') {
+                icon.className = 'fas fa-eye';
+            } else {
+                icon.className = 'fas fa-eye-slash';
+            }
+        }
+
+        // Fonction pour tester rapidement la connexion (pour le développement)
+        function quickLogin(email, password) {
+            document.getElementById('login-email').value = email;
+            document.getElementById('login-password').value = password;
+            document.getElementById('login-form').dispatchEvent(new Event('submit'));
+        }
+
+        // Exposer la fonction pour le débogage
+        window.quickLogin = quickLogin;
     </script>
 </body>
 </html>
