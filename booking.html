@@ -2092,8 +2092,12 @@
           });
           
           // Modal events
-          document.getElementById('login-redirect').addEventListener('click', redirectToLogin);
-          document.getElementById('register-redirect').addEventListener('click', redirectToRegister);
+          document.getElementById('login-redirect').addEventListener('click', handleModalRedirect);
+          document.getElementById('register-redirect').addEventListener('click', function() {
+              localStorage.setItem('pendingBooking', JSON.stringify(currentBookingData));
+              document.getElementById('login-modal').classList.remove('active');
+              window.location.href = 'login.html?redirect=booking&register=true';
+          });
           
           // Validation en temps réel
           setupRealTimeValidation();
@@ -2940,10 +2944,10 @@
               if (!isUserLoggedIn()) {
                   // Afficher le modal de connexion
                   document.getElementById('login-modal').classList.add('active');
-                  return;
+                  return; // IMPORTANT: Arrêter l'exécution ici
               }
               
-              // Sauvegarder la réservation
+              // Si l'utilisateur est connecté, continuer avec la sauvegarde
               const bookingId = saveBooking(formData);
               
               if (bookingId) {
@@ -2960,15 +2964,13 @@
 
       // ========== GESTION DE LA CONNEXION ==========
 
-      function redirectToLogin() {
+      function handleModalRedirect() {
           // Sauvegarder les données temporairement
           localStorage.setItem('pendingBooking', JSON.stringify(currentBookingData));
+          // Fermer le modal
+          document.getElementById('login-modal').classList.remove('active');
           // Rediriger vers la page de login
           window.location.href = 'login.html?redirect=booking';
-      }
-
-      function redirectToRegister() {
-          window.location.href = 'login.html?redirect=booking&register=true';
       }
 
       function checkPendingBooking() {
@@ -2989,66 +2991,69 @@
       }
 
       function showSuccessMessage(bookingId) {
-  const section = document.getElementById('confirmation-section');
-  const user = getCurrentUser();
-  
-  section.innerHTML = `
-      <div class="text-center py-12">
-          <div class="confirmation-icon">
-              <i class="fas fa-check-circle"></i>
-          </div>
-          <h2 class="font-orbitron text-3xl mb-4 text-glow">Réservation Confirmée!</h2>
-          <p class="text-xl text-gray-300 mb-6">Votre voyage spatial a été réservé avec succès</p>
+          const section = document.getElementById('confirmation-section');
+          const user = getCurrentUser();
           
-          <div class="booking-summary max-w-md mx-auto">
-              <div class="summary-item">
-                  <span class="summary-label">Numéro de réservation:</span>
-                  <span class="summary-value">${bookingId}</span>
+          section.innerHTML = `
+              <div class="text-center py-12">
+                  <div class="confirmation-icon">
+                      <i class="fas fa-check-circle"></i>
+                  </div>
+                  <h2 class="font-orbitron text-3xl mb-4 text-glow">Réservation Confirmée!</h2>
+                  <p class="text-xl text-gray-300 mb-6">Votre voyage spatial a été réservé avec succès</p>
+                  
+                  <div class="booking-summary max-w-md mx-auto">
+                      <div class="summary-item">
+                          <span class="summary-label">Numéro de réservation:</span>
+                          <span class="summary-value">${bookingId}</span>
+                      </div>
+                      <div class="summary-item">
+                          <span class="summary-label">Client:</span>
+                          <span class="summary-value">${user ? user.username : 'Invité'}</span>
+                      </div>
+                      <div class="summary-item">
+                          <span class="summary-label">Statut:</span>
+                          <span class="summary-value text-green-400">Confirmée</span>
+                      </div>
+                      <div class="summary-item">
+                          <span class="summary-label">Montant total:</span>
+                          <span class="summary-value">${currentBookingData.totalPrice.toLocaleString()} €</span>
+                      </div>
+                  </div>
+                  
+                  <p class="text-gray-400 mt-6 mb-8">Redirection vers vos réservations dans 5 secondes...</p>
+                  
+                  <div class="flex gap-4 justify-center">
+                      <button onclick="window.location.href='MyBooking.html'" class="btn-primary text-white px-6 py-2 rounded-lg font-bold">
+                          <i class="fas fa-list mr-2"></i>Voir Mes Réservations
+                      </button>
+                      <button onclick="generateTicket('${bookingId}')" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
+                          <i class="fas fa-print mr-2"></i>Imprimer le Ticket
+                      </button>
+                  </div>
               </div>
-              <div class="summary-item">
-                  <span class="summary-label">Client:</span>
-                  <span class="summary-value">${user ? user.username : 'Invité'}</span>
-              </div>
-              <div class="summary-item">
-                  <span class="summary-label">Statut:</span>
-                  <span class="summary-value text-green-400">Confirmée</span>
-              </div>
-              <div class="summary-item">
-                  <span class="summary-label">Montant total:</span>
-                  <span class="summary-value">${currentBookingData.totalPrice.toLocaleString()} €</span>
-              </div>
-          </div>
+          `;
           
-          <p class="text-gray-400 mt-6 mb-8">Redirection vers vos réservations dans 5 secondes...</p>
+          showNotification('Réservation confirmée avec succès! Redirection en cours...');
           
-          <div class="flex gap-4 justify-center">
-              <button onclick="window.location.href='MyBooking.html'" class="btn-primary text-white px-6 py-2 rounded-lg font-bold">
-                  <i class="fas fa-list mr-2"></i>Voir Mes Réservations
-              </button>
-              <button onclick="generateTicket('${bookingId}')" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
-                  <i class="fas fa-print mr-2"></i>Imprimer le Ticket
-              </button>
-          </div>
-      </div>
-  `;
-  
-  showNotification('Réservation confirmée avec succès! Redirection en cours...');
-  
-  // Sauvegarder les données pour le ticket
-  localStorage.setItem('lastBookingData', JSON.stringify({
-    bookingId: bookingId,
-    bookingData: currentBookingData,
-    user: user
-  }));
-  
- 
-}
+          // Sauvegarder les données pour le ticket
+          localStorage.setItem('lastBookingData', JSON.stringify({
+            bookingId: bookingId,
+            bookingData: currentBookingData,
+            user: user
+          }));
+          
+          // Rediriger après 5 secondes
+          setTimeout(() => {
+              window.location.href = 'MyBooking.html';
+          }, 5000);
+      }
 
-// Nouvelle fonction pour générer le ticket
-function generateTicket(bookingId) {
-  // Ouvrir la page de ticket dans un nouvel onglet
-  window.open('ticket.html?bookingId=' + bookingId, '_blank');
-}
+      // Nouvelle fonction pour générer le ticket
+      function generateTicket(bookingId) {
+        // Ouvrir la page de ticket dans un nouvel onglet
+        window.open('ticket.html?bookingId=' + bookingId, '_blank');
+      }
 
       // Fonction pour afficher une notification
       function showNotification(message, type = 'success') {
@@ -3113,10 +3118,6 @@ function generateTicket(bookingId) {
           
           return errors;
       }
-
-      // Initialiser les événements du modal
-      document.getElementById('login-redirect').addEventListener('click', redirectToLogin);
-      document.getElementById('register-redirect').addEventListener('click', redirectToRegister);
 
       // Vérifier les réservations en attente
       checkPendingBooking();
