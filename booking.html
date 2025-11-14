@@ -816,6 +816,75 @@
           z-index: 2;
       }
 
+      /* Modal Styles */
+      .modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          z-index: 10000;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .modal.active {
+          display: flex;
+      }
+
+      .modal-content {
+          background: linear-gradient(135deg, #1a1a2e, #16213e);
+          border: 2px solid #0ea5e9;
+          border-radius: 15px;
+          padding: 2rem;
+          max-width: 500px;
+          width: 90%;
+          text-align: center;
+          box-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
+      }
+
+      .modal-buttons {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin-top: 2rem;
+      }
+
+      /* Notification Styles */
+      .notification {
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: white;
+          padding: 1rem 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+          z-index: 10000;
+          animation: slideInRight 0.3s ease-out;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+      }
+
+      .notification.error {
+          background: linear-gradient(135deg, #ef4444, #dc2626);
+          box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+      }
+
+      @keyframes slideInRight {
+          from {
+              transform: translateX(100%);
+              opacity: 0;
+          }
+          to {
+              transform: translateX(0);
+              opacity: 1;
+          }
+      }
+
       /* Responsive Design */
       @media (max-width: 768px) {
           .footer-container {
@@ -846,6 +915,15 @@
           }
 
           .radio-group {
+              flex-direction: column;
+          }
+
+          .modal-content {
+              margin: 1rem;
+              padding: 1.5rem;
+          }
+
+          .modal-buttons {
               flex-direction: column;
           }
       }
@@ -1219,13 +1297,11 @@
                 <li><a href="destinations.html">Destinations</a></li>
                 <li><a href="booking.html" class="active">Booking</a></li>
                 <li><a href="about.html">À Propos</a></li>
-                <li><a href="support.html">Support</a></li>
+                <li><a href="my-bookings.html">My Booking</a></li>
             </ul>
         </nav>
 
         <div class="user-actions">
-            <button class="icon-btn">🛒</button>
-            <button class="icon-btn">👤</button>
             <button class="cta-btn"><a href="login.html">Connexion</a></button>
         </div>
     </header>
@@ -1626,60 +1702,29 @@
 
           <!-- Confirmation Section -->
           <div class="form-section hidden" id="confirmation-section">
-            <div class="confirmation-icon">
-              <i class="fas fa-check-circle"></i>
-            </div>
-            <h2 class="font-orbitron text-3xl mb-4">Réservation Confirmée!</h2>
-            <p class="text-lg text-gray-300 mb-6">
-              Votre voyage spatial a été réservé avec succès. Vous recevrez un email de confirmation dans les prochaines minutes.
-            </p>
-
-            <!-- Booking Summary -->
-            <div class="booking-summary">
-              <h3 class="font-orbitron text-xl mb-4 text-center">Résumé de votre réservation</h3>
-              <div class="summary-item">
-                <span class="summary-label">Destination:</span>
-                <span class="summary-value" id="summary-destination">-</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Package:</span>
-                <span class="summary-value" id="summary-package">-</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Date de départ:</span>
-                <span class="summary-value" id="summary-date">-</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Nombre de passagers:</span>
-                <span class="summary-value" id="summary-passengers">-</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Durée du voyage:</span>
-                <span class="summary-value" id="summary-duration">-</span>
-              </div>
-              <div class="total-price" id="summary-total">-</div>
-            </div>
-
-            <!-- Boutons de navigation pour l'étape 3 -->
-            <div class="flex justify-center gap-4 mt-6">
-              <button
-                type="button"
-                id="back-to-personal"
-                class="btn-secondary text-white px-8 py-3 rounded-lg font-bold text-lg"
-              >
-                <i class="fas fa-arrow-left mr-2"></i>Retour
-              </button>
-              <button
-                type="submit"
-                class="btn-primary text-white px-8 py-3 rounded-lg font-bold text-lg submit-btn"
-              >
-                <i class="fas fa-rocket mr-2"></i>Finaliser la réservation
-              </button>
-            </div>
+            <!-- Le contenu sera généré dynamiquement par JavaScript -->
           </div>
         </form>
       </div>
     </main>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <h3 class="font-orbitron text-2xl mb-4 text-neon-blue">Connexion Requise</h3>
+        <p class="text-gray-300 mb-6">
+          Pour sauvegarder votre réservation et accéder à vos voyages futurs, veuillez vous connecter ou continuer en tant qu'invité.
+        </p>
+        <div class="modal-buttons">
+          <button id="login-redirect" class="btn-primary text-white px-6 py-2 rounded-lg font-bold">
+            <i class="fas fa-sign-in-alt mr-2"></i>Se Connecter
+          </button>
+          <button id="continue-guest" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
+            <i class="fas fa-user mr-2"></i>Continuer en Invité
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="pro-footer">
@@ -1721,7 +1766,147 @@
     </footer>
 
     <script>
-      // Données simulées (remplacer par un appel fetch vers data.json)
+      // ========== SYSTÈME DE SAUVEGARDE DES RÉSERVATIONS ==========
+
+      // Fonction pour générer un ID unique
+      function generateBookingId() {
+          return 'BK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+      }
+
+      // Fonction pour générer un ID de session guest
+      function generateGuestSessionId() {
+          const sessionId = 'GUEST-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+          localStorage.setItem('guestSessionId', sessionId);
+          return sessionId;
+      }
+
+      // Fonction pour vérifier si l'utilisateur est connecté
+      function isUserLoggedIn() {
+          const session = localStorage.getItem('spaceVoyagerSession');
+          if (session) {
+              const sessionData = JSON.parse(session);
+              return sessionData.isLoggedIn === true;
+          }
+          return false;
+      }
+
+      // Fonction pour obtenir les informations de l'utilisateur
+      function getCurrentUser() {
+          const user = localStorage.getItem('spaceVoyagerUser');
+          return user ? JSON.parse(user) : null;
+      }
+
+      // Fonction pour sauvegarder la réservation
+      function saveBooking(bookingData) {
+          try {
+              // Générer un ID unique pour la réservation
+              const bookingId = generateBookingId();
+              
+              // Préparer les données de réservation complètes
+              const booking = {
+                  id: bookingId,
+                  ...bookingData,
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString(),
+                  status: 'confirmed',
+                  paymentStatus: 'pending',
+                  user: getCurrentUser() ? {
+                      id: getCurrentUser().email,
+                      email: getCurrentUser().email,
+                      name: getCurrentUser().username || 'Utilisateur'
+                  } : {
+                      type: 'guest',
+                      sessionId: localStorage.getItem('guestSessionId') || generateGuestSessionId()
+                  }
+              };
+
+              // Récupérer les réservations existantes
+              let existingBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+              
+              // Ajouter la nouvelle réservation
+              existingBookings.push(booking);
+              
+              // Sauvegarder dans le localStorage
+              localStorage.setItem('userBookings', JSON.stringify(existingBookings));
+              
+              // Sauvegarder également la dernière réservation pour un accès rapide
+              localStorage.setItem('lastBooking', JSON.stringify(booking));
+              
+              console.log('Réservation sauvegardée avec ID:', bookingId);
+              return bookingId;
+              
+          } catch (error) {
+              console.error('Erreur lors de la sauvegarde de la réservation:', error);
+              throw new Error('Impossible de sauvegarder la réservation');
+          }
+      }
+
+      // Fonction pour valider les données de réservation
+      function validateBookingData(bookingData) {
+          const errors = [];
+          
+          if (!bookingData.destination || !bookingData.destination.id) {
+              errors.push('Destination requise');
+          }
+          
+          if (!bookingData.package || !bookingData.package.id) {
+              errors.push('Package requis');
+          }
+          
+          if (!bookingData.departureDate) {
+              errors.push('Date de départ requise');
+          }
+          
+          if (!bookingData.passengers || bookingData.passengers.length === 0) {
+              errors.push('Informations passagers requises');
+          }
+          
+          // Valider chaque passager
+          if (bookingData.passengers) {
+              bookingData.passengers.forEach((passenger, index) => {
+                  if (!passenger.firstName || !passenger.lastName) {
+                      errors.push(`Passager ${index + 1}: Nom complet requis`);
+                  }
+                  if (!passenger.email) {
+                      errors.push(`Passager ${index + 1}: Email requis`);
+                  }
+                  if (!passenger.phone) {
+                      errors.push(`Passager ${index + 1}: Téléphone requis`);
+                  }
+              });
+          }
+          
+          return errors;
+      }
+
+      // Fonction pour afficher une notification
+      function showNotification(message, type = 'success') {
+          // Supprimer toute notification existante
+          const existingNotification = document.querySelector('.notification');
+          if (existingNotification) {
+              existingNotification.remove();
+          }
+          
+          // Créer la nouvelle notification
+          const notification = document.createElement('div');
+          notification.className = `notification ${type === 'error' ? 'error' : ''}`;
+          notification.innerHTML = `
+              <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'check-circle'}"></i>
+              <span>${message}</span>
+          `;
+          
+          document.body.appendChild(notification);
+          
+          // Supprimer automatiquement après 5 secondes
+          setTimeout(() => {
+              if (notification.parentNode) {
+                  notification.remove();
+              }
+          }, 5000);
+      }
+
+      // ========== DONNÉES DE L'APPLICATION ==========
+
       const destinationsData = {
         "destinations": [
           {
@@ -1813,122 +1998,39 @@
                 "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
               }
             ]
-          },
-          {
-            "id": "orbital",
-            "name": "Station Orbitale",
-            "description": "Vivez l'expérience de la vie dans notre habitat orbital luxueux avec une vue à 360 degrés sur la Terre. Parfait pour les premiers voyageurs spatiaux cherchant une expérience spatiale plus courte et accessible.",
-            "duration": "2 jours",
-            "distance": "400 km",
-            "gravity": "Microgravité",
-            "temperature": "21°C contrôlé",
-            "price": "50,000",
-            "currency": "€",
-            "planet": "Orbite Terrestre Basse",
-            "diameter": "N/A",
-            "dayLength": "90 minutes (période orbitale)",
-            "atmosphere": "Similaire à la Terre (contrôlé)",
-            "bookingCode": "SV-ORBITAL",
-            "popularity": 4,
-            "safetyRating": 5,
-            "image": "images/STA.PNG",
-            "packages": [
-              {
-                "id": "basic",
-                "name": "Visiteur",
-                "description": "Visite courte de la station orbitale",
-                "price": 50000,
-                "features": ["Vol aller-retour", "Visite guidée de la station", "Repas en orbite"],
-                "conditionalFields": []
-              },
-              {
-                "id": "experience",
-                "name": "Expérience",
-                "description": "Séjour prolongé avec activités spatiales",
-                "price": 80000,
-                "features": ["Vol aller-retour", "Séjour de 2 jours", "Expériences en microgravité", "Observation de la Terre"],
-                "conditionalFields": ["spaceSickness"]
-              },
-              {
-                "id": "luxury",
-                "name": "Luxe",
-                "description": "Séjour de luxe avec toutes les commodités",
-                "price": 120000,
-                "features": ["Vol aller-retour", "Suite privée", "Repas gastronomiques", "Dôme d'observation privé", "Activités spatiales exclusives"],
-                "conditionalFields": ["spaceSickness", "preferences"]
-              }
-            ]
           }
         ]
       };
 
-      // Données des hébergements
       const accommodationsData = {
         "accommodations": [
           {
             "id": "standard",
             "name": "Cabine Standard",
             "category": "economy",
-            "description": "Quartiers privés confortables avec équipements de base, parfaits pour les voyageurs spatiaux soucieux de leur budget. Inclut un pod de sommeil personnel, un espace de stockage et un système de divertissement de base.",
+            "description": "Quartiers privés confortables avec équipements de base, parfaits pour les voyageurs spatiaux soucieux de leur budget.",
             "shortDescription": "Quartiers privés confortables avec équipements de base",
-            "features": [
-              "Pod de sommeil personnel (2m x 1.5m)",
-              "Système de divertissement de base",
-              "Casier de stockage personnel",
-              "Installations sanitaires partagées",
-              "Forfait repas standard",
-              "Accès internet de base"
-            ],
-            "amenities": [
-              "Capacité cryo-sommeil",
-              "Approvisionnement d'oxygène d'urgence",
-              "Contrôle climatique personnel",
-              "Divertissement VR de base"
-            ],
-            "size": "3 mètres carrés",
-            "occupancy": 1,
+            "features": ["Pod de sommeil personnel", "Système de divertissement de base", "Casier de stockage personnel"],
             "pricePerDay": 500,
-            "currency": "USD",
+            "currency": "€",
             "availableOn": ["moon", "mars", "orbital"],
-            "image": "/images/accommodations/standard-cabin.jpg",
-            "popularity": 4,
             "comfortRating": 3
           },
           {
             "id": "luxury",
             "name": "Suite de Luxe",
             "category": "premium",
-            "description": "Suite spacieuse avec équipements premium et grandes fenêtres offrant des vues cosmiques spectaculaires. Inclut salle de bain privée, restauration premium et fonctionnalités de confort améliorées.",
+            "description": "Suite spacieuse avec équipements premium et grandes fenêtres offrant des vues cosmiques spectaculaires.",
             "shortDescription": "Suite spacieuse avec équipements premium et fenêtres",
-            "features": [
-              "Suite privée spacieuse (6 mètres carrés)",
-              "Grande fenêtre avec vues cosmiques",
-              "Salle de bain privée avec douche spatiale",
-              "Système de divertissement premium",
-              "Forfait repas gastronomique",
-              "Internet interstellaire haut débit",
-              "Service de conciergerie personnel"
-            ],
-            "amenities": [
-              "Protection anti-radiation améliorée",
-              "Zone de détente en apesanteur",
-              "Suite de divertissement VR premium",
-              "Station d'hygiène personnelle",
-              "Système de literie de luxe"
-            ],
-            "size": "6 mètres carrés",
-            "occupancy": 2,
+            "features": ["Suite privée spacieuse", "Grande fenêtre avec vues cosmiques", "Salle de bain privée", "Service de conciergerie personnel"],
             "pricePerDay": 1200,
-            "currency": "USD",
+            "currency": "€",
             "availableOn": ["moon", "mars", "orbital"],
-            "image": "/images/accommodations/luxury-suite.jpg",
-            "popularity": 5,
             "comfortRating": 5
           }
         ]
       };
 
-      // Définition des extras optionnels
       const optionalExtras = {
         "insurance": {
           "id": "insurance",
@@ -1946,1152 +2048,1026 @@
         }
       };
 
-      // Définition des champs conditionnels
-      const conditionalFields = {
-        "suitSize": {
-          "type": "select",
-          "label": "Taille de combinaison spatiale",
-          "options": [
-            { "value": "xs", "label": "XS" },
-            { "value": "s", "label": "S" },
-            { "value": "m", "label": "M" },
-            { "value": "l", "label": "L" },
-            { "value": "xl", "label": "XL" }
-          ],
-          "required": true
-        },
-        "trainingLevel": {
-          "type": "select",
-          "label": "Niveau d'entraînement",
-          "options": [
-            { "value": "beginner", "label": "Débutant" },
-            { "value": "intermediate", "label": "Intermédiaire" },
-            { "value": "advanced", "label": "Avancé" }
-          ],
-          "required": true
-        }
-      };
+      // ========== GESTION DU FORMULAIRE ==========
 
-      // NOUVEAU SYSTÈME DE VALIDATION POUR LES INFORMATIONS PERSONNELLES
-      const passengerFields = [
-        { 
-          id: "first-name", 
-          label: "Prénom", 
-          pattern: /^[a-zA-ZÀ-ÿ\s'-]{2,}$/,
-          hint: "Seulement des lettres, minimum 2 caractères",
-          type: "name"
-        },
-        { 
-          id: "last-name", 
-          label: "Nom", 
-          pattern: /^[a-zA-ZÀ-ÿ\s'-]{2,}$/, 
-          hint: "Seulement des lettres, minimum 2 caractères",
-          type: "name"
-        },
-        { 
-          id: "email", 
-          label: "Email", 
-          pattern: /^[^ ]+@[^ ]+\.[a-z]{2,}$/i, 
-          hint: "Format attendu : exemple@mail.com",
-          type: "email"
-        },
-{ 
-  id: "phone", 
-  label: "Numéro de téléphone", 
-  pattern: /^(0[5-7][0-9]{8}|(\+|00)212[5-7][0-9]{8})$/,
-  hint: "Exemple : 0612345678 ou +212612345678",
-  type: "phone"
-}
-      ];
+      let currentBookingData = {};
 
-      document.addEventListener("DOMContentLoaded", function() {
-        // Variables globales pour stocker les données du formulaire
-        let bookingData = {
-          destination: '',
-          package: '',
-          departureDate: '',
-          passengers: 'solo',
-          passengerCount: 1,
-          conditionalFields: {},
-          selectedExtras: {},
-          selectedAccommodation: null,
-          tripDuration: 3,
-          basePrice: 0,
-          accommodationPrice: 0,
-          extrasPrice: 0,
-          totalPrice: 0,
-          validationErrors: {}
-        };
+      document.addEventListener('DOMContentLoaded', function() {
+          initializeApp();
+          checkPendingBooking();
+      });
 
-        // Éléments des étapes
-        const step1 = document.getElementById('step1');
-        const step2 = document.getElementById('step2');
-        const step3 = document.getElementById('step3');
-        const connector1 = document.getElementById('connector1');
-        const connector2 = document.getElementById('connector2');
-
-        // Sections du formulaire
-        const journeySection = document.getElementById('journey-section');
-        const personalSection = document.getElementById('personal-section');
-        const confirmationSection = document.getElementById('confirmation-section');
-
-        // Boutons de navigation
-        const nextToPersonalBtn = document.getElementById('next-to-personal');
-        const backToJourneyBtn = document.getElementById('back-to-journey');
-        const nextToConfirmationBtn = document.getElementById('next-to-confirmation');
-        const backToPersonalBtn = document.getElementById('back-to-personal');
-
-        // Initialisation du formulaire
-        initializeForm();
-
-        // Fonction d'initialisation du formulaire
-        function initializeForm() {
-          populateDestinations();
-          setupEventListeners();
-          setupExtrasSelection();
-          setupDateRestrictions();
-          initializeStepIndicator();
-          setupPassengerFormValidation(0); // Initialiser la validation pour le premier passager
-        }
-
-        // Fonction pour initialiser l'indicateur d'étape
-        function initializeStepIndicator() {
-          step1.classList.add('active');
-          step2.classList.remove('active', 'completed');
-          step3.classList.remove('active', 'completed');
-          connector1.classList.remove('completed');
-          connector2.classList.remove('completed');
+      function initializeApp() {
+          initializeDestinations();
+          initializeEventListeners();
+          updatePriceDisplay();
           
-          journeySection.classList.remove('hidden');
-          personalSection.classList.add('hidden');
-          confirmationSection.classList.add('hidden');
+          // Initialiser la date de départ (demain par défaut)
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          const formattedDate = tomorrow.toISOString().split('T')[0];
+          document.getElementById('departure-date').value = formattedDate;
+          document.getElementById('departure-date').min = formattedDate;
           
-          updateFormBackground(1);
-        }
-
-        // NOUVELLES FONCTIONS DE VALIDATION
-        function validatePassengerField(input, fieldConfig, passengerIndex = 0) {
-          const value = input.value.trim();
-          const errorElement = input.parentElement.querySelector(".error-message");
-
-          // Réinitialiser les classes
-          input.classList.remove("validation-success", "validation-error");
+          // Initialiser la validation de l'étape personnelle
+          validatePersonalSection();
           
-          if (!errorElement) return false;
-
-          if (value === "") {
-            errorElement.textContent = `${fieldConfig.label} est requis.`;
-            errorElement.style.display = 'flex';
-            input.classList.add("validation-error");
-            return false;
-          } else if (!fieldConfig.pattern.test(value)) {
-            errorElement.textContent = `${fieldConfig.label} invalide. ${fieldConfig.hint}`;
-            errorElement.style.display = 'flex';
-            input.classList.add("validation-error");
-            return false;
-          } else {
-            errorElement.textContent = "";
-            errorElement.style.display = 'none';
-            input.classList.add("validation-success");
-            return true;
+          // Générer un ID de session pour les utilisateurs non connectés
+          if (!localStorage.getItem('guestSessionId')) {
+              generateGuestSessionId();
           }
-        }
+      }
 
-        function validatePassengerForm(passengerIndex) {
-          const form = document.getElementById(`passenger-form-${passengerIndex}`);
-          if (!form) return false;
-
-          let isValid = true;
-          
-          passengerFields.forEach(field => {
-            const input = form.querySelector(`[name="${field.id}[]"]`);
-            if (input) {
-              const fieldValid = validatePassengerField(input, field, passengerIndex);
-              if (!fieldValid) isValid = false;
-            }
-          });
-
-          return isValid;
-        }
-
-        function checkAllPassengersValidity() {
-          const passengerForms = document.querySelectorAll('.passenger-form');
-          let allValid = true;
-
-          passengerForms.forEach((form, index) => {
-            const formValid = validatePassengerForm(index);
-            if (!formValid) allValid = false;
-          });
-
-          // Activer/désactiver le bouton suivant
-          if (allValid) {
-            nextToConfirmationBtn.disabled = false;
-            nextToConfirmationBtn.classList.remove('btn-invalid', 'opacity-50', 'cursor-not-allowed');
-            nextToConfirmationBtn.classList.add('btn-valid');
-          } else {
-            nextToConfirmationBtn.disabled = true;
-            nextToConfirmationBtn.classList.remove('btn-valid');
-            nextToConfirmationBtn.classList.add('btn-invalid', 'opacity-50', 'cursor-not-allowed');
-          }
-
-          return allValid;
-        }
-
-        function setupPassengerFormValidation(passengerIndex) {
-          const form = document.getElementById(`passenger-form-${passengerIndex}`);
-          if (!form) return;
-
-          passengerFields.forEach(field => {
-            const input = form.querySelector(`[name="${field.id}[]"]`);
-            if (input) {
-              // Validation en temps réel
-              input.addEventListener('input', () => {
-                validatePassengerField(input, field, passengerIndex);
-                checkAllPassengersValidity();
-              });
-
-              // Validation à la perte de focus
-              input.addEventListener('blur', () => {
-                validatePassengerField(input, field, passengerIndex);
-                checkAllPassengersValidity();
-              });
-
-              // Formatage spécial pour le téléphone
-              if (field.type === 'phone') {
-                input.addEventListener('input', function() {
-                  formatPhoneNumber(this);
-                });
-              }
-            }
-          });
-
-          // Validation pour le textarea des exigences particulières
-          const requirementsTextarea = form.querySelector('.requirements-textarea');
-          if (requirementsTextarea) {
-            requirementsTextarea.addEventListener('input', function() {
-              validateTextLength(this);
-              setupCharacterCounter(this);
-              checkAllPassengersValidity();
-            });
-          }
-        }
-
-   function formatPhoneNumber(input) {
-  let value = input.value.replace(/\D/g, '');
-  
-  if (value.startsWith('212')) {
-    input.value = `+212 ${value.substring(3)}`;
-  } else if (value.startsWith('0')) {
-   
-    input.value = value;
-  }
-}
-        function validateTextLength(textarea) {
-          const length = textarea.value.length;
-          const maxLength = parseInt(textarea.getAttribute('maxlength')) || 500;
-          const passengerIndex = textarea.dataset.passenger || '0';
-
-          if (length > maxLength) {
-            showFieldError(textarea, `Le texte ne peut pas dépasser ${maxLength} caractères (${length}/${maxLength})`);
-            return false;
-          }
-
-          clearFieldValidation(textarea);
-          return true;
-        }
-
-        function setupCharacterCounter(textarea) {
-          const length = textarea.value.length;
-          const maxLength = parseInt(textarea.getAttribute('maxlength')) || 500;
-          const passengerIndex = textarea.dataset.passenger || '0';
-          const counter = document.querySelector(`.character-count[data-for="requirements-${passengerIndex}"]`);
-          
-          if (counter) {
-            const currentSpan = counter.querySelector('.current');
-            const maxSpan = counter.querySelector('.max');
-            
-            if (currentSpan) currentSpan.textContent = length;
-            if (maxSpan) maxSpan.textContent = maxLength;
-            
-            counter.classList.remove('near-limit', 'over-limit');
-            if (length > maxLength * 0.8) {
-              counter.classList.add('near-limit');
-            }
-            if (length > maxLength) {
-              counter.classList.add('over-limit');
-            }
-          }
-        }
-
-        function showFieldError(input, message) {
-          input.classList.remove('validation-success');
-          input.classList.add('validation-error');
-          
-          const errorElement = input.parentNode.querySelector('.error-message');
-          if (errorElement) {
-            errorElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-            errorElement.style.display = 'flex';
-          }
-        }
-
-        function clearFieldValidation(input) {
-          input.classList.remove('validation-error', 'validation-success');
-          const messageElement = input.parentNode.querySelector('.error-message');
-          if (messageElement) {
-            messageElement.textContent = '';
-            messageElement.style.display = 'none';
-          }
-        }
-
-        // Remplir la liste des destinations
-        function populateDestinations() {
+      function initializeDestinations() {
           const destinationSelect = document.getElementById('destination');
+          destinationSelect.innerHTML = '<option value="">Sélectionnez votre destination</option>';
           
-          destinationsData.destinations.forEach(dest => {
-            const option = document.createElement('option');
-            option.value = dest.id;
-            option.textContent = `${dest.name} - ${dest.description.substring(0, 50)}...`;
-            destinationSelect.appendChild(option);
+          destinationsData.destinations.forEach(destination => {
+              const option = document.createElement('option');
+              option.value = destination.id;
+              option.textContent = destination.name;
+              destinationSelect.appendChild(option);
           });
-        }
+      }
 
-        // Configuration des écouteurs d'événements
-        function setupEventListeners() {
-          // Gestion de l'affichage des informations de destination
-          const destinationSelect = document.getElementById('destination');
-          destinationSelect.addEventListener('change', function() {
-            if (this.value) {
-              const dest = destinationsData.destinations.find(d => d.id === this.value);
-              updateDestinationInfo(dest);
-              updatePackages(dest);
-              bookingData.destination = dest.name;
-              clearValidationError('destination');
-            } else {
-              hideDestinationInfo();
-              clearPackages();
-              bookingData.destination = '';
-              showValidationError('destination', 'Veuillez sélectionner une destination');
-            }
-            validateStep1();
-          });
-
-          // Gestion des options de passagers
-          const passengerOptions = document.querySelectorAll('.radio-option');
-          const addPassengerContainer = document.getElementById('add-passenger-container');
-          const addPassengerBtn = document.getElementById('add-passenger-btn');
-          const passengerFormsContainer = document.getElementById('passenger-forms-container');
-          
-          let passengerCount = 1;
-          const MAX_PASSENGERS = 6;
-
-          // Fonction pour créer un formulaire de passager
-          function createPassengerForm(index) {
-            const newPassengerForm = document.createElement('div');
-            newPassengerForm.className = 'passenger-form';
-            newPassengerForm.id = `passenger-form-${index}`;
-            newPassengerForm.innerHTML = `
-              <div class="passenger-header">
-                <h3 class="font-orbitron text-neon-blue">Passager ${index + 1}</h3>
-                ${index > 0 ? '<div class="remove-passenger"><i class="fas fa-times"></i></div>' : ''}
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="form-field">
-                  <label class="block mb-2 text-gray-300">Prénom</label>
-                  <input
-                    type="text"
-                    name="first-name[]"
-                    placeholder="Entrez le prénom"
-                    required
-                    class="name-input"
-                    data-passenger="${index}"
-                  />
-                  <div class="field-requirements">Minimum 2 lettres, pas de chiffres, pas d'espaces</div>
-                  <div class="error-message" data-error="first-name"></div>
-                </div>
-                <div class="form-field">
-                  <label class="block mb-2 text-gray-300">Nom</label>
-                  <input
-                    type="text"
-                    name="last-name[]"
-                    placeholder="Entrez le nom"
-                    required
-                    class="name-input"
-                    data-passenger="${index}"
-                  />
-                  <div class="field-requirements">Minimum 2 lettres, pas de chiffres, pas d'espaces</div>
-                  <div class="error-message" data-error="last-name"></div>
-                </div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="form-field">
-                  <label class="block mb-2 text-gray-300">Adresse e-mail</label>
-                  <input
-                    type="email"
-                    name="email[]"
-                    placeholder="Entrez l'e-mail"
-                    required
-                    class="email-input"
-                    data-passenger="${index}"
-                  />
-                  <div class="field-requirements">Format: exemple@domaine.com</div>
-                  <div class="error-message" data-error="email"></div>
-                </div>
-                <div class="form-field">
-                  <label class="block mb-2 text-gray-300">Numéro de téléphone</label>
-                  <input
-                    type="tel"
-                    name="phone[]"
-                    placeholder="Ex: 0612345678 ou +212612345678"
-                    required
-                    class="phone-input"
-                    data-passenger="${index}"
-                  />
-                  <div class="field-requirements">Format: 06/07/05 XXXXXX ou +2126 XXXXXX</div>
-                  <div class="error-message" data-error="phone"></div>
-                </div>
-              </div>
-              <div class="form-field">
-                <label class="block mb-2 text-gray-300">Exigences particulières</label>
-                <textarea
-                  class="pl-3 pt-1 requirements-textarea"
-                  name="special-requirements[]"
-                  rows="4"
-                  placeholder="Toute exigence particulière ou note... (maximum 500 caractères)"
-                  maxlength="500"
-                  data-passenger="${index}"
-                ></textarea>
-                <div class="character-count" data-for="requirements-${index}">
-                  <span class="current">0</span>/<span class="max">500</span> caractères
-                </div>
-                <div class="error-message" data-error="requirements"></div>
-              </div>
-            `;
-            
-            // Configuration de la validation pour ce formulaire
-            setTimeout(() => {
-              setupPassengerFormValidation(index);
-            }, 0);
-            
-            return newPassengerForm;
-          }
-
-          // Fonction pour mettre à jour les formulaires de passagers selon le choix
-          function updatePassengerForms(passengerType) {
-            // Supprimer tous les formulaires sauf le premier
-            const existingForms = document.querySelectorAll('.passenger-form');
-            for (let i = 1; i < existingForms.length; i++) {
-              existingForms[i].remove();
-            }
-
-            let targetCount = 1;
-            
-            switch(passengerType) {
-              case 'solo':
-                targetCount = 1;
-                addPassengerContainer.classList.add('hidden');
-                break;
-              case 'couple':
-                targetCount = 2;
-                addPassengerContainer.classList.add('hidden');
-                break;
-              case 'group':
-                targetCount = 3;
-                addPassengerContainer.classList.remove('hidden');
-                break;
-            }
-
-            // Réinitialiser le compteur à 1 (le premier formulaire existe déjà)
-            passengerCount = 1;
-
-            // Ajouter les formulaires manquants
-            for (let i = passengerCount; i < targetCount; i++) {
-              const newForm = createPassengerForm(i);
-              passengerFormsContainer.appendChild(newForm);
-              
-              // Ajouter l'événement de suppression si ce n'est pas le premier formulaire
-              if (i > 0) {
-                const removeBtn = newForm.querySelector('.remove-passenger');
-                removeBtn.addEventListener('click', function() {
-                  newForm.remove();
-                  passengerCount--;
-                  bookingData.passengerCount = passengerCount;
-                  updateAddButtonState();
-                  updatePrice();
-                  checkAllPassengersValidity();
-                });
-              }
-              
-              passengerCount++;
-            }
-
-            bookingData.passengerCount = passengerCount;
-            updateAddButtonState();
-            updatePrice();
-            checkAllPassengersValidity();
-          }
-
-          // Fonction pour mettre à jour l'état du bouton d'ajout
-          function updateAddButtonState() {
-            if (passengerCount >= MAX_PASSENGERS) {
-              addPassengerBtn.disabled = true;
-              addPassengerBtn.innerHTML = '<i class="fas fa-ban mr-2"></i>Maximum atteint (6)';
-              addPassengerBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            } else {
-              addPassengerBtn.disabled = false;
-              addPassengerBtn.innerHTML = '<i class="fas fa-plus mr-2"></i>Ajouter un passager';
-              addPassengerBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            }
-          }
-
-          // Gestion du choix du type de passagers
-          passengerOptions.forEach(option => {
-            option.addEventListener('click', function() {
-              passengerOptions.forEach(o => o.classList.remove('selected'));
-              this.classList.add('selected');
-              const radio = this.querySelector('input[type="radio"]');
-              radio.checked = true;
-              bookingData.passengers = radio.value;
-              
-              // Mettre à jour les formulaires de passagers
-              updatePassengerForms(radio.value);
-            });
-          });
-
-          // Gestion de l'ajout de passagers (seulement pour groupe)
-          addPassengerBtn.addEventListener('click', function() {
-            if (passengerCount < MAX_PASSENGERS) {
-              const newPassengerForm = createPassengerForm(passengerCount);
-              passengerFormsContainer.appendChild(newPassengerForm);
-              passengerCount++;
-              bookingData.passengerCount = passengerCount;
-              
-              // Ajouter l'événement de suppression
-              const removeBtn = newPassengerForm.querySelector('.remove-passenger');
-              removeBtn.addEventListener('click', function() {
-                newPassengerForm.remove();
-                passengerCount--;
-                bookingData.passengerCount = passengerCount;
-                updateAddButtonState();
-                updatePrice();
-                checkAllPassengersValidity();
-              });
-              
-              updateAddButtonState();
-              updatePrice();
-              checkAllPassengersValidity();
-            }
-          });
-
-          // Gestion de la date de départ
-          const departureDateInput = document.getElementById('departure-date');
-          departureDateInput.addEventListener('change', function() {
-            bookingData.departureDate = this.value;
-            validateDate(this);
-            validateStep1();
-          });
-
-          // Gestion de la durée du séjour
-          const durationInput = document.getElementById('trip-duration');
-          durationInput.addEventListener('change', function() {
-            bookingData.tripDuration = parseInt(this.value) || 3;
-            updatePrice();
-            updateAccommodationPrices();
-          });
-
+      function initializeEventListeners() {
           // Navigation entre les étapes
-          nextToPersonalBtn.addEventListener('click', function() {
-            if (validateStep1()) {
-              goToStep(2);
-            }
-          });
-
-          backToJourneyBtn.addEventListener('click', function() {
-            goToStep(1);
-          });
-
-          nextToConfirmationBtn.addEventListener('click', function() {
-            if (validateStep2()) {
-              updateBookingSummary();
-              goToStep(3);
-            }
-          });
-
-          backToPersonalBtn.addEventListener('click', function() {
-            goToStep(2);
-          });
-
-          // Gestion de la soumission du formulaire
-          const bookingForm = document.getElementById('booking-form');
-          bookingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (validateAll()) {
-              alert('Votre réservation a été finalisée avec succès! Vous recevrez un email de confirmation dans les prochaines minutes.');
-              // Ici, vous pourriez ajouter une redirection ou d'autres actions
-            }
-          });
-
-          // Initialiser l'état du bouton d'ajout
-          updateAddButtonState();
+          document.getElementById('next-to-personal').addEventListener('click', nextToPersonal);
+          document.getElementById('back-to-journey').addEventListener('click', backToJourney);
+          document.getElementById('next-to-confirmation').addEventListener('click', nextToConfirmation);
           
-          // Initialiser les formulaires de passagers
-          updatePassengerForms('solo');
-        }
+          // Événements de formulaire
+          document.getElementById('destination').addEventListener('change', handleDestinationChange);
+          document.getElementById('departure-date').addEventListener('change', validateDepartureDate);
+          document.getElementById('trip-duration').addEventListener('change', updatePriceDisplay);
+          
+          // Sélection des passagers
+          document.querySelectorAll('input[name="passengers"]').forEach(radio => {
+              radio.addEventListener('change', handlePassengerCountChange);
+          });
+          
+          // Modal events
+          document.getElementById('login-redirect').addEventListener('click', redirectToLogin);
+          document.getElementById('continue-guest').addEventListener('click', continueAsGuest);
+          
+          // Validation en temps réel
+          setupRealTimeValidation();
+      }
 
-        // Fonction utilitaire pour changer d'étape
-        function goToStep(stepNumber) {
-          // Cacher toutes les sections
-          journeySection.classList.add('hidden');
-          personalSection.classList.add('hidden');
-          confirmationSection.classList.add('hidden');
-          
-          // Réinitialiser tous les indicateurs d'étape
-          step1.classList.remove('active', 'completed');
-          step2.classList.remove('active', 'completed');
-          step3.classList.remove('active', 'completed');
-          connector1.classList.remove('completed');
-          connector2.classList.remove('completed');
-          
-          switch(stepNumber) {
-            case 1:
-              journeySection.classList.remove('hidden');
-              step1.classList.add('active');
-              updateFormBackground(1);
-              break;
-            case 2:
-              personalSection.classList.remove('hidden');
-              step1.classList.add('completed');
-              step2.classList.add('active');
-              connector1.classList.add('completed');
+      // ========== GESTION DES ÉTAPES ==========
+
+      function nextToPersonal() {
+          if (validateJourneySection()) {
+              updateStepIndicator(2);
+              document.getElementById('journey-section').classList.add('hidden');
+              document.getElementById('personal-section').classList.remove('hidden');
               updateFormBackground(2);
-              break;
-            case 3:
-              confirmationSection.classList.remove('hidden');
-              step1.classList.add('completed');
-              step2.classList.add('completed');
-              step3.classList.add('active');
-              connector1.classList.add('completed');
-              connector2.classList.add('completed');
+              updatePassengerManagement();
+              validatePersonalSection(); // Valider immédiatement
+          }
+      }
+
+      function backToJourney() {
+          updateStepIndicator(1);
+          document.getElementById('personal-section').classList.add('hidden');
+          document.getElementById('journey-section').classList.remove('hidden');
+          updateFormBackground(1);
+      }
+
+      function nextToConfirmation() {
+          if (validatePersonalSection()) {
+              updateStepIndicator(3);
+              document.getElementById('personal-section').classList.add('hidden');
+              document.getElementById('confirmation-section').classList.remove('hidden');
               updateFormBackground(3);
-              break;
+              generateConfirmationSummary();
           }
-        }
+      }
 
-        // FONCTIONS DE VALIDATION DES ÉTAPES
-        function validateStep1() {
-          const errors = [];
+      function updateStepIndicator(stepNumber) {
+          document.querySelectorAll('.step').forEach(step => {
+              step.classList.remove('active', 'completed');
+          });
           
-          // Validation de la destination
-          if (!bookingData.destination) {
-            errors.push('destination');
-            showValidationError('destination', 'Veuillez sélectionner une destination');
+          document.querySelectorAll('.step-connector').forEach(connector => {
+              connector.classList.remove('completed');
+          });
+          
+          for (let i = 1; i < stepNumber; i++) {
+              const step = document.getElementById(`step${i}`);
+              const connector = document.getElementById(`connector${i}`);
+              if (step) step.classList.add('completed');
+              if (connector) connector.classList.add('completed');
+          }
+          
+          const currentStep = document.getElementById(`step${stepNumber}`);
+          if (currentStep) currentStep.classList.add('active');
+      }
+
+      function updateFormBackground(stepNumber) {
+          document.querySelectorAll('.form-bg').forEach(bg => {
+              bg.classList.remove('active');
+          });
+          
+          const currentBg = document.querySelector(`.form-bg-${stepNumber}`);
+          if (currentBg) currentBg.classList.add('active');
+      }
+
+      // ========== FONCTIONS PRINCIPALES DU FORMULAIRE ==========
+
+      function handleDestinationChange() {
+          const destinationId = document.getElementById('destination').value;
+          const destinationInfo = document.getElementById('destination-info');
+          
+          if (destinationId) {
+              const destination = destinationsData.destinations.find(d => d.id === destinationId);
+              displayDestinationInfo(destination);
+              destinationInfo.classList.remove('hidden');
+              displayPackages(destination.packages);
+              displayAccommodations(destinationId);
+              displayExtras();
           } else {
-            clearValidationError('destination');
+              destinationInfo.classList.add('hidden');
+              document.getElementById('packages-container').innerHTML = '';
+              document.getElementById('accommodation-container').innerHTML = '';
+              document.getElementById('extras-container').innerHTML = '';
           }
+          
+          updatePriceDisplay();
+      }
 
-          // Validation du package
-          if (!bookingData.package) {
-            errors.push('package');
-            showValidationError('package', 'Veuillez sélectionner un package');
-          } else {
-            clearValidationError('package');
-          }
-
-          // Validation de l'hébergement
-          if (!bookingData.selectedAccommodation) {
-            errors.push('accommodation');
-            showValidationError('accommodation', 'Veuillez sélectionner un hébergement');
-          } else {
-            clearValidationError('accommodation');
-          }
-
-          // Validation de la date
-          const dateInput = document.getElementById('departure-date');
-          if (!validateDate(dateInput)) {
-            errors.push('departure-date');
-          }
-
-          // Activer/désactiver le bouton suivant
-          if (errors.length === 0) {
-            nextToPersonalBtn.disabled = false;
-            return true;
-          } else {
-            nextToPersonalBtn.disabled = true;
-            return false;
-          }
-        }
-
-        // NOUVELLE VERSION SIMPLIFIÉE
-        function validateStep2() {
-          return checkAllPassengersValidity();
-        }
-
-        function validateAll() {
-          return validateStep1() && validateStep2();
-        }
-
-        // Fonction pour valider la date
-        function validateDate(input) {
-          const selectedDate = new Date(input.value);
-          const today = new Date();
-          const minDate = new Date();
-          minDate.setDate(today.getDate() + 1);
-          const maxDate = new Date();
-          maxDate.setDate(today.getDate() + 30);
-
-          if (!input.value) {
-            showValidationError('departure-date', 'Veuillez sélectionner une date de départ');
-            return false;
-          }
-
-          if (selectedDate < minDate) {
-            showValidationError('departure-date', 'La date de départ doit être au moins demain');
-            return false;
-          }
-
-          if (selectedDate > maxDate) {
-            showValidationError('departure-date', 'La date de départ ne peut pas dépasser 30 jours à partir d\'aujourd\'hui');
-            return false;
-          }
-
-          clearValidationError('departure-date');
-          return true;
-        }
-
-        // Fonctions d'affichage des erreurs et succès
-        function showValidationError(fieldId, message) {
-          const errorElement = document.getElementById(`${fieldId}-error`);
-          if (errorElement) {
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-          }
-        }
-
-        function clearValidationError(fieldId) {
-          const errorElement = document.getElementById(`${fieldId}-error`);
-          if (errorElement) {
-            errorElement.textContent = '';
-            errorElement.style.display = 'none';
-          }
-        }
-
-        // FONCTIONS D'AFFICHAGE ET DE MISE À JOUR
-
-        // Fonction pour mettre à jour les informations de destination
-        function updateDestinationInfo(destination) {
-          const infoElement = document.getElementById('destination-info');
-          if (!infoElement) return;
-
-          // Mettre à jour tous les champs d'information
+      function displayDestinationInfo(destination) {
           document.getElementById('destination-name').textContent = destination.name;
           document.getElementById('destination-description').textContent = destination.description;
-          document.getElementById('destination-price').textContent = `${destination.price} ${destination.currency}`;
-          document.getElementById('destination-bookingCode').textContent = `Code: ${destination.bookingCode}`;
-          document.getElementById('destination-popularity').textContent = destination.popularity;
-          document.getElementById('destination-safetyRating').textContent = destination.safetyRating;
           document.getElementById('destination-duration').textContent = destination.duration;
           document.getElementById('destination-distance').textContent = destination.distance;
           document.getElementById('destination-gravity').textContent = destination.gravity;
           document.getElementById('destination-temperature').textContent = destination.temperature;
+          document.getElementById('destination-price').textContent = `${destination.price} ${destination.currency}`;
           document.getElementById('destination-planet').textContent = destination.planet;
           document.getElementById('destination-diameter').textContent = destination.diameter;
           document.getElementById('destination-dayLength').textContent = destination.dayLength;
           document.getElementById('destination-atmosphere').textContent = destination.atmosphere;
-
-          // Mettre à jour l'image
-          const imageElement = document.getElementById('destination-image');
-          if (imageElement && destination.image) {
-            imageElement.src = destination.image;
-            imageElement.alt = `Image de ${destination.name}`;
+          document.getElementById('destination-bookingCode').textContent = `Code: ${destination.bookingCode}`;
+          document.getElementById('destination-popularity').textContent = destination.popularity;
+          document.getElementById('destination-safetyRating').textContent = destination.safetyRating;
+          
+          const destinationImage = document.getElementById('destination-image');
+          if (destination.image) {
+              destinationImage.src = destination.image;
+              destinationImage.alt = destination.name;
           }
+      }
 
-          // Afficher la section d'information
-          infoElement.classList.remove('hidden');
-
-          // Mettre à jour les hébergements disponibles
-          updateAccommodations(destination.id);
-
-          // Mettre à jour le prix de base
-          bookingData.basePrice = parseInt(destination.price.replace(/,/g, '')) || 0;
-          updatePrice();
-        }
-
-        // Fonction pour masquer les informations de destination
-        function hideDestinationInfo() {
-          const infoElement = document.getElementById('destination-info');
-          if (infoElement) {
-            infoElement.classList.add('hidden');
-          }
-        }
-
-        // Fonction pour mettre à jour les packages
-        function updatePackages(destination) {
-          const packagesContainer = document.getElementById('packages-container');
-          if (!packagesContainer) return;
-
-          packagesContainer.innerHTML = '';
-
-          destination.packages.forEach(pkg => {
-            const packageElement = document.createElement('div');
-            packageElement.className = 'accommodation-option';
-            packageElement.dataset.packageId = pkg.id;
-
-            packageElement.innerHTML = `
-              <div class="accommodation-category category-${pkg.id === 'basic' ? 'economy' : pkg.id === 'premium' ? 'premium' : 'luxury'}">
-                ${pkg.id === 'basic' ? 'Économique' : pkg.id === 'premium' ? 'Premium' : 'Luxe'}
-              </div>
-              <h4 class="font-orbitron text-lg mb-2">${pkg.name}</h4>
-              <p class="text-sm text-gray-300 mb-3">${pkg.description}</p>
-              <div class="accommodation-features mb-3">
-                ${pkg.features.map(feature => `
-                  <div class="accommodation-feature">
-                    <i class="fas fa-check text-green-400"></i>
-                    <span class="text-xs">${feature}</span>
+      function displayPackages(packages) {
+          const container = document.getElementById('packages-container');
+          container.innerHTML = '';
+          
+          packages.forEach(pkg => {
+              const packageElement = document.createElement('div');
+              packageElement.className = 'accommodation-option';
+              packageElement.innerHTML = `
+                  <div class="accommodation-category category-${pkg.id === 'basic' ? 'economy' : pkg.id === 'premium' ? 'premium' : 'luxury'}">
+                      ${pkg.id.charAt(0).toUpperCase() + pkg.id.slice(1)}
                   </div>
-                `).join('')}
-              </div>
-              <div class="accommodation-price">${pkg.price.toLocaleString()} €</div>
-            `;
-
-            packageElement.addEventListener('click', function() {
-              // Désélectionner tous les packages
-              document.querySelectorAll('.accommodation-option').forEach(opt => {
-                opt.classList.remove('selected');
-              });
-
-              // Sélectionner ce package
-              this.classList.add('selected');
-              bookingData.package = pkg.id;
-              document.getElementById('package').value = pkg.id;
-
-              // Mettre à jour les champs conditionnels
-              updateConditionalFields(pkg.conditionalFields);
-
-              // Mettre à jour le prix
-              bookingData.basePrice = pkg.price;
-              updatePrice();
-
-              // Valider l'étape
-              validateStep1();
-            });
-
-            packagesContainer.appendChild(packageElement);
-          });
-        }
-
-        // Fonction pour effacer les packages
-        function clearPackages() {
-          const packagesContainer = document.getElementById('packages-container');
-          if (packagesContainer) {
-            packagesContainer.innerHTML = '';
-          }
-          bookingData.package = '';
-          document.getElementById('package').value = '';
-        }
-
-        // Fonction pour mettre à jour les champs conditionnels
-        function updateConditionalFields(fieldNames) {
-          const container = document.getElementById('conditional-fields-container');
-          if (!container) return;
-
-          container.innerHTML = '';
-
-          fieldNames.forEach(fieldName => {
-            const fieldConfig = conditionalFields[fieldName];
-            if (!fieldConfig) return;
-
-            const fieldElement = document.createElement('div');
-            fieldElement.className = 'form-group conditional-field visible';
-            
-            let fieldHTML = `<label class="block mb-2 text-gray-300">${fieldConfig.label}</label>`;
-
-            switch(fieldConfig.type) {
-              case 'select':
-                fieldHTML += `<select class="h-12" name="${fieldName}" ${fieldConfig.required ? 'required' : ''}>`;
-                fieldHTML += `<option value="">Sélectionnez...</option>`;
-                fieldConfig.options.forEach(option => {
-                  fieldHTML += `<option value="${option.value}">${option.label}</option>`;
-                });
-                fieldHTML += `</select>`;
-                break;
-
-              case 'radio':
-                fieldHTML += `<div class="radio-group">`;
-                fieldConfig.options.forEach(option => {
-                  fieldHTML += `
-                    <label class="radio-option">
-                      <input type="radio" name="${fieldName}" value="${option.value}" ${fieldConfig.required ? 'required' : ''}>
-                      <span>${option.label}</span>
-                    </label>
-                  `;
-                });
-                fieldHTML += `</div>`;
-                break;
-            }
-
-            fieldElement.innerHTML = fieldHTML;
-            container.appendChild(fieldElement);
-
-            // Stocker les données des champs conditionnels
-            bookingData.conditionalFields[fieldName] = '';
-          });
-        }
-
-        // Fonction pour mettre à jour les hébergements
-        function updateAccommodations(destinationId) {
-          const container = document.getElementById('accommodation-container');
-          if (!container) return;
-
-          container.innerHTML = '';
-
-          const availableAccommodations = accommodationsData.accommodations.filter(acc => 
-            acc.availableOn.includes(destinationId)
-          );
-
-          availableAccommodations.forEach(acc => {
-            const accElement = document.createElement('div');
-            accElement.className = 'accommodation-option';
-            accElement.dataset.accommodationId = acc.id;
-
-            // Déterminer la classe de catégorie
-            let categoryClass = '';
-            let categoryText = '';
-            switch(acc.category) {
-              case 'economy':
-                categoryClass = 'category-economy';
-                categoryText = 'Économique';
-                break;
-              case 'premium':
-                categoryClass = 'category-premium';
-                categoryText = 'Premium';
-                break;
-              case 'luxury':
-                categoryClass = 'category-luxury';
-                categoryText = 'Luxe';
-                break;
-            }
-
-            accElement.innerHTML = `
-              <div class="accommodation-category ${categoryClass}">
-                ${categoryText}
-              </div>
-              <h4 class="font-orbitron text-lg mb-2">${acc.name}</h4>
-              <p class="text-sm text-gray-300 mb-3">${acc.shortDescription}</p>
+                  <h4 class="font-orbitron text-lg mb-2">${pkg.name}</h4>
+                  <p class="text-sm text-gray-300 mb-3">${pkg.description}</p>
+                  <div class="accommodation-price">${pkg.price.toLocaleString()} €</div>
+                  <div class="accommodation-features mt-3">
+                      ${pkg.features.map(feature => `
+                          <div class="accommodation-feature">
+                              <i class="fas fa-check text-neon-blue"></i>
+                              <span class="text-sm">${feature}</span>
+                          </div>
+                      `).join('')}
+                  </div>
+              `;
               
-              <div class="accommodation-details mb-3">
-                <div class="detail-item">
-                  <i class="fas fa-arrows-alt"></i>
-                  <span>Taille: ${acc.size}</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-users"></i>
-                  <span>Capacité: ${acc.occupancy} personne(s)</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-star"></i>
-                  <span>Confort: ${acc.comfortRating}/5</span>
-                </div>
-                <div class="detail-item">
-                  <i class="fas fa-fire"></i>
-                  <span>Popularité: ${acc.popularity}/5</span>
-                </div>
-              </div>
-
-              <div class="accommodation-features mb-3">
-                ${acc.features.slice(0, 3).map(feature => `
-                  <div class="accommodation-feature">
-                    <i class="fas fa-check text-green-400"></i>
-                    <span class="text-xs">${feature}</span>
-                  </div>
-                `).join('')}
-                ${acc.features.length > 3 ? `
-                  <div class="accommodation-feature">
-                    <i class="fas fa-plus text-neon-blue"></i>
-                    <span class="text-xs">${acc.features.length - 3} fonctionnalités supplémentaires</span>
-                  </div>
-                ` : ''}
-              </div>
-
-              <div class="flex justify-between items-center">
-                <div class="accommodation-price">${(acc.pricePerDay * bookingData.tripDuration).toLocaleString()} €</div>
-                <div class="text-sm text-gray-400">${acc.pricePerDay.toLocaleString()} €/jour</div>
-              </div>
-            `;
-
-            accElement.addEventListener('click', function() {
-              // Désélectionner tous les hébergements
-              document.querySelectorAll('.accommodation-option').forEach(opt => {
-                opt.classList.remove('selected');
+              packageElement.addEventListener('click', () => {
+                  document.querySelectorAll('.accommodation-option').forEach(opt => {
+                      opt.classList.remove('selected');
+                  });
+                  packageElement.classList.add('selected');
+                  document.getElementById('package').value = pkg.id;
+                  updatePriceDisplay();
               });
-
-              // Sélectionner cet hébergement
-              this.classList.add('selected');
-              bookingData.selectedAccommodation = acc;
-              bookingData.accommodationPrice = acc.pricePerDay * bookingData.tripDuration;
-
-              // Mettre à jour le prix
-              updatePrice();
-
-              // Valider l'étape
-              validateStep1();
-            });
-
-            container.appendChild(accElement);
+              
+              container.appendChild(packageElement);
           });
-        }
+      }
 
-        // Fonction pour mettre à jour les prix des hébergements
-        function updateAccommodationPrices() {
-          if (!bookingData.selectedAccommodation) return;
-
-          const accElement = document.querySelector(`[data-accommodation-id="${bookingData.selectedAccommodation.id}"]`);
-          if (accElement) {
-            const priceElement = accElement.querySelector('.accommodation-price');
-            const dailyPriceElement = accElement.querySelector('.text-sm.text-gray-400');
-            
-            if (priceElement) {
-              priceElement.textContent = `${(bookingData.selectedAccommodation.pricePerDay * bookingData.tripDuration).toLocaleString()} €`;
-            }
-            if (dailyPriceElement) {
-              dailyPriceElement.textContent = `${bookingData.selectedAccommodation.pricePerDay.toLocaleString()} €/jour`;
-            }
-          }
-
-          // Mettre à jour le prix dans les données
-          bookingData.accommodationPrice = bookingData.selectedAccommodation.pricePerDay * bookingData.tripDuration;
-          updatePrice();
-        }
-
-        // Fonction pour mettre à jour le prix total
-        function updatePrice() {
-          // Calculer le prix des passagers supplémentaires
-          let passengersPrice = 0;
-          if (bookingData.passengers === 'couple') {
-            passengersPrice = bookingData.basePrice * 0.8; // 20% de réduction pour le deuxième passager
-          } else if (bookingData.passengers === 'group') {
-            passengersPrice = bookingData.basePrice * (bookingData.passengerCount - 1) * 0.7; // 30% de réduction pour les passagers supplémentaires
-          }
-
-          // Calculer le prix des extras
-          let extrasPrice = 0;
-          Object.values(bookingData.selectedExtras).forEach(extra => {
-            extrasPrice += extra.price;
+      function displayAccommodations(destinationId) {
+          const container = document.getElementById('accommodation-container');
+          container.innerHTML = '';
+          
+          const availableAccommodations = accommodationsData.accommodations.filter(acc => 
+              acc.availableOn.includes(destinationId)
+          );
+          
+          availableAccommodations.forEach(acc => {
+              const accElement = document.createElement('div');
+              accElement.className = 'accommodation-option';
+              accElement.innerHTML = `
+                  <div class="accommodation-category category-${acc.category}">
+                      ${acc.category.charAt(0).toUpperCase() + acc.category.slice(1)}
+                  </div>
+                  <h4 class="font-orbitron text-lg mb-2">${acc.name}</h4>
+                  <p class="text-sm text-gray-300 mb-3">${acc.shortDescription}</p>
+                  <div class="accommodation-price">${acc.pricePerDay.toLocaleString()} €/jour</div>
+                  
+                  <div class="accommodation-details mt-3">
+                      <div class="detail-item">
+                          <i class="fas fa-users"></i>
+                          <span>Confort: ${acc.comfortRating}/5</span>
+                      </div>
+                  </div>
+                  
+                  <div class="accommodation-features mt-4">
+                      <h5 class="font-orbitron text-neon-blue mb-2">Équipements inclus:</h5>
+                      ${acc.features.map(feature => `
+                          <div class="accommodation-feature">
+                              <i class="fas fa-check text-neon-blue"></i>
+                              <span class="text-sm">${feature}</span>
+                          </div>
+                      `).join('')}
+                  </div>
+              `;
+              
+              accElement.addEventListener('click', () => {
+                  document.querySelectorAll('.accommodation-option').forEach(opt => {
+                      opt.classList.remove('selected');
+                  });
+                  accElement.classList.add('selected');
+                  updatePriceDisplay();
+              });
+              
+              container.appendChild(accElement);
           });
+      }
 
-          // Mettre à jour l'affichage des prix
-          document.getElementById('base-price').textContent = `${bookingData.basePrice.toLocaleString()} €`;
-          document.getElementById('accommodation-price').textContent = `${bookingData.accommodationPrice.toLocaleString()} €`;
+      function displayExtras() {
+          const container = document.getElementById('extras-container');
+          container.innerHTML = '';
+          
+          Object.values(optionalExtras).forEach(extra => {
+              const extraElement = document.createElement('div');
+              extraElement.className = 'extra-option';
+              extraElement.innerHTML = `
+                  <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                          <h4 class="font-orbitron text-lg mb-1">${extra.name}</h4>
+                          <p class="text-sm text-gray-300 mb-2">${extra.description}</p>
+                          <div class="extra-features">
+                              ${extra.features.map(feature => `
+                                  <div class="accommodation-feature">
+                                      <i class="fas fa-check text-neon-blue"></i>
+                                      <span class="text-sm">${feature}</span>
+                                  </div>
+                              `).join('')}
+                          </div>
+                      </div>
+                      <div class="ml-4 text-right">
+                          <div class="extra-price">${extra.price.toLocaleString()} €</div>
+                          <label class="inline-flex items-center mt-2">
+                              <input type="checkbox" class="extra-checkbox hidden" data-extra="${extra.id}" data-price="${extra.price}">
+                              <span class="checkbox-custom w-6 h-6 border-2 border-neon-blue rounded flex items-center justify-center mr-2">
+                                  <i class="fas fa-check text-white text-sm hidden"></i>
+                              </span>
+                              <span class="text-sm">Sélectionner</span>
+                          </label>
+                      </div>
+                  </div>
+              `;
+              
+              const checkbox = extraElement.querySelector('.extra-checkbox');
+              const customCheckbox = extraElement.querySelector('.checkbox-custom');
+              const checkIcon = customCheckbox.querySelector('i');
+              
+              extraElement.addEventListener('click', (e) => {
+                  if (!e.target.closest('input')) {
+                      checkbox.checked = !checkbox.checked;
+                      if (checkbox.checked) {
+                          customCheckbox.classList.add('bg-neon-blue');
+                          checkIcon.classList.remove('hidden');
+                          extraElement.classList.add('selected');
+                      } else {
+                          customCheckbox.classList.remove('bg-neon-blue');
+                          checkIcon.classList.add('hidden');
+                          extraElement.classList.remove('selected');
+                      }
+                      updatePriceDisplay();
+                  }
+              });
+              
+              container.appendChild(extraElement);
+          });
+      }
+
+      // ========== GESTION DES PASSAGERS ==========
+
+      function handlePassengerCountChange() {
+          const selectedOption = document.querySelector('input[name="passengers"]:checked').value;
+          updatePassengerForms(selectedOption);
+          updatePassengerManagement();
+          updatePriceDisplay();
+          validatePersonalSection(); // Valider après changement
+      }
+
+      function updatePassengerForms(option) {
+          const container = document.getElementById('passenger-forms-container');
+          const primaryForm = container.querySelector('#passenger-form-0');
+          container.innerHTML = '';
+          container.appendChild(primaryForm);
+          
+          let additionalPassengers = 0;
+          switch(option) {
+              case 'solo':
+                  additionalPassengers = 0;
+                  break;
+              case 'couple':
+                  additionalPassengers = 1;
+                  break;
+              case 'group':
+                  additionalPassengers = Math.floor(Math.random() * 4) + 2;
+                  break;
+          }
+          
+          for (let i = 1; i <= additionalPassengers; i++) {
+              addPassengerForm(i);
+          }
+      }
+
+      function addPassengerForm(index) {
+          const container = document.getElementById('passenger-forms-container');
+          const form = document.createElement('div');
+          form.className = 'passenger-form';
+          form.id = `passenger-form-${index}`;
+          form.innerHTML = `
+              <div class="passenger-header">
+                  <h3 class="font-orbitron text-neon-blue">
+                      Passager ${index + 1}
+                  </h3>
+                  <button type="button" class="remove-passenger" data-index="${index}">
+                      <i class="fas fa-times"></i>
+                  </button>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div class="form-field">
+                      <label class="block mb-2 text-gray-300">Prénom</label>
+                      <input
+                          type="text"
+                          name="first-name[]"
+                          placeholder="Entrez le prénom"
+                          required
+                          class="name-input"
+                      />
+                      <div class="error-message" data-error="first-name"></div>
+                  </div>
+
+                  <div class="form-field">
+                      <label class="block mb-2 text-gray-300">Nom</label>
+                      <input
+                          type="text"
+                          name="last-name[]"
+                          placeholder="Entrez le nom"
+                          required
+                          class="name-input"
+                      />
+                      <div class="error-message" data-error="last-name"></div>
+                  </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div class="form-field">
+                      <label class="block mb-2 text-gray-300">Adresse e-mail</label>
+                      <input
+                          type="email"
+                          name="email[]"
+                          placeholder="Entrez l'e-mail"
+                          required
+                          class="email-input"
+                      />
+                      <div class="error-message" data-error="email"></div>
+                  </div>
+
+                  <div class="form-field">
+                      <label class="block mb-2 text-gray-300">Numéro de téléphone</label>
+                      <input
+                          type="tel"
+                          name="phone[]"
+                          placeholder="Ex: 0612345678 ou +212612345678"
+                          required
+                          class="phone-input"
+                      />
+                      <div class="error-message" data-error="phone"></div>
+                  </div>
+              </div>
+
+              <div class="form-field">
+                  <label class="block mb-2 text-gray-300">Exigences particulières</label>
+                  <textarea
+                      class="pl-3 pt-1 requirements-textarea"
+                      name="special-requirements[]"
+                      rows="4"
+                      placeholder="Toute exigence particulière ou note... (maximum 500 caractères)"
+                      maxlength="500"
+                  ></textarea>
+                  <div class="character-count" data-for="requirements-${index}">
+                      <span class="current">0</span>/<span class="max">500</span> caractères
+                  </div>
+              </div>
+          `;
+          
+          container.appendChild(form);
+          form.querySelector('.remove-passenger').addEventListener('click', function() {
+              removePassengerForm(index);
+          });
+          initializeFormValidation(form);
+          validatePersonalSection(); // Valider après ajout
+      }
+
+      function removePassengerForm(index) {
+          const form = document.getElementById(`passenger-form-${index}`);
+          if (form) {
+              form.remove();
+              updatePassengerManagement();
+              updatePriceDisplay();
+              validatePersonalSection(); // Valider après suppression
+          }
+      }
+
+      function updatePassengerManagement() {
+          const addContainer = document.getElementById('add-passenger-container');
+          const selectedOption = document.querySelector('input[name="passengers"]:checked').value;
+          addContainer.classList.toggle('hidden', selectedOption !== 'group');
+      }
+
+      // ========== CALCUL DES PRIX ==========
+
+      function updatePriceDisplay() {
+          const basePrice = calculateBasePrice();
+          const accommodationPrice = calculateAccommodationPrice();
+          const passengersPrice = calculatePassengersPrice();
+          const extrasPrice = calculateExtrasPrice();
+          const totalPrice = basePrice + accommodationPrice + passengersPrice + extrasPrice;
+          
+          document.getElementById('base-price').textContent = `${basePrice.toLocaleString()} €`;
+          document.getElementById('accommodation-price').textContent = `${accommodationPrice.toLocaleString()} €`;
           document.getElementById('passengers-price').textContent = `${passengersPrice.toLocaleString()} €`;
           document.getElementById('extras-price').textContent = `${extrasPrice.toLocaleString()} €`;
-
-          // Calculer le prix total
-          const totalPrice = bookingData.basePrice + bookingData.accommodationPrice + passengersPrice + extrasPrice;
           document.getElementById('total-price').textContent = `${totalPrice.toLocaleString()} €`;
-
-          // Stocker le prix total
-          bookingData.totalPrice = totalPrice;
-        }
-
-        // Fonction pour mettre à jour le résumé de réservation
-        function updateBookingSummary() {
-          document.getElementById('summary-destination').textContent = bookingData.destination;
-          document.getElementById('summary-package').textContent = bookingData.package;
-          document.getElementById('summary-date').textContent = bookingData.departureDate;
-          document.getElementById('summary-passengers').textContent = bookingData.passengerCount;
-          document.getElementById('summary-duration').textContent = `${bookingData.tripDuration} jours`;
-          document.getElementById('summary-total').textContent = `${bookingData.totalPrice.toLocaleString()} €`;
-        }
-
-       
-        function updateFormBackground(step) {
-          // Désactiver tous les backgrounds
-          document.querySelectorAll('.form-bg').forEach(bg => {
-            bg.classList.remove('active');
-          });
-
-          // Activer le background de l'étape actuelle
-          const activeBg = document.querySelector(`.form-bg-${step}`);
-          if (activeBg) {
-            activeBg.classList.add('active');
-          }
-        }
-
-        // Fonction pour configurer la sélection des extras
-        function setupExtrasSelection() {
-          const extrasContainer = document.getElementById('extras-container');
           
-          // Créer les options d'extras
-          Object.values(optionalExtras).forEach(extra => {
-            const extraOption = document.createElement('div');
-            extraOption.className = 'extra-option';
-            extraOption.dataset.extraId = extra.id;
-            
-            extraOption.innerHTML = `
-              <div class="flex justify-between items-start">
-                <div class="flex-1">
-                  <h4 class="font-orbitron text-lg mb-1">${extra.name}</h4>
-                  <p class="text-sm text-gray-300 mb-2">${extra.description}</p>
-                  <div class="extra-features">
-                    ${extra.features.map(feature => `
-                      <div class="accommodation-feature">
-                        <i class="fas fa-check text-green-400"></i>
-                        <span class="text-xs">${feature}</span>
-                      </div>
-                    `).join('')}
-                  </div>
-                </div>
-                <div class="text-right ml-4">
-                  <div class="extra-price">${extra.price.toLocaleString()} €</div>
-                  <label class="inline-flex items-center mt-2">
-                    <input type="checkbox" class="extra-checkbox hidden">
-                    <span class="checkmark w-6 h-6 border-2 border-neon-blue rounded flex items-center justify-center mr-2">
-                      <i class="fas fa-check text-white text-xs hidden"></i>
-                    </span>
-                  </label>
-                </div>
-              </div>
-            `;
-            
-            extraOption.addEventListener('click', function() {
-              const checkbox = this.querySelector('.extra-checkbox');
-              const checkmark = this.querySelector('.checkmark');
-              const icon = this.querySelector('.fa-check');
-              
-              if (checkbox.checked) {
-                checkbox.checked = false;
-                this.classList.remove('selected');
-                checkmark.classList.remove('bg-neon-blue');
-                icon.classList.add('hidden');
-                delete bookingData.selectedExtras[extra.id];
-              } else {
-                checkbox.checked = true;
-                this.classList.add('selected');
-                checkmark.classList.add('bg-neon-blue');
-                icon.classList.remove('hidden');
-                bookingData.selectedExtras[extra.id] = extra;
-              }
-              
-              // Mettre à jour le prix
-              updatePrice();
-            });
-            
-            extrasContainer.appendChild(extraOption);
-          });
-        }
+          return totalPrice;
+      }
 
-        // Fonction pour configurer les restrictions de date
-        function setupDateRestrictions() {
+      function calculateBasePrice() {
+          const destinationId = document.getElementById('destination').value;
+          const packageId = document.getElementById('package').value;
+          if (!destinationId || !packageId) return 0;
+          const destination = destinationsData.destinations.find(d => d.id === destinationId);
+          const selectedPackage = destination.packages.find(p => p.id === packageId);
+          return selectedPackage ? selectedPackage.price : 0;
+      }
+
+      function calculateAccommodationPrice() {
+          const selectedAccommodation = document.querySelector('.accommodation-option.selected');
+          const duration = parseInt(document.getElementById('trip-duration').value) || 0;
+          if (!selectedAccommodation || duration === 0) return 0;
+          const priceElement = selectedAccommodation.querySelector('.accommodation-price');
+          const priceText = priceElement.textContent;
+          const pricePerDay = parseInt(priceText.replace(/[^\d]/g, ''));
+          return pricePerDay * duration;
+      }
+
+      function calculatePassengersPrice() {
+          const passengerCount = document.querySelectorAll('.passenger-form').length;
+          const basePrice = calculateBasePrice();
+          if (passengerCount <= 1) return 0;
+          const additionalPassengers = passengerCount - 1;
+          return (basePrice * 0.5) * additionalPassengers;
+      }
+
+      function calculateExtrasPrice() {
+          let total = 0;
+          document.querySelectorAll('.extra-checkbox:checked').forEach(checkbox => {
+              total += parseInt(checkbox.dataset.price);
+          });
+          return total;
+      }
+
+      // ========== VALIDATION ==========
+
+      function setupRealTimeValidation() {
+          document.addEventListener('input', function(e) {
+              if (e.target.classList.contains('name-input')) {
+                  validateNameField(e.target);
+                  validatePersonalSection();
+              }
+              if (e.target.classList.contains('email-input')) {
+                  validateEmailField(e.target);
+                  validatePersonalSection();
+              }
+              if (e.target.classList.contains('phone-input')) {
+                  validatePhoneField(e.target);
+                  validatePersonalSection();
+              }
+              if (e.target.classList.contains('requirements-textarea')) {
+                  updateCharacterCount(e.target);
+              }
+          });
+          
+          document.getElementById('add-passenger-btn').addEventListener('click', function() {
+              const currentForms = document.querySelectorAll('.passenger-form').length;
+              addPassengerForm(currentForms);
+          });
+      }
+
+      function validateNameField(field) {
+          const value = field.value.trim();
+          const errorElement = field.closest('.form-field').querySelector('.error-message');
+          const pattern = /^[a-zA-ZÀ-ÿ\s'-]{2,}$/;
+          
+          if (!value) {
+              showFieldError(field, errorElement, 'Ce champ est requis');
+              return false;
+          }
+          if (!pattern.test(value)) {
+              showFieldError(field, errorElement, 'Seulement des lettres, minimum 2 caractères');
+              return false;
+          }
+          showFieldSuccess(field, errorElement);
+          return true;
+      }
+
+      function validateEmailField(field) {
+          const value = field.value.trim();
+          const errorElement = field.closest('.form-field').querySelector('.error-message');
+          const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/i;
+          
+          if (!value) {
+              showFieldError(field, errorElement, 'Ce champ est requis');
+              return false;
+          }
+          if (!pattern.test(value)) {
+              showFieldError(field, errorElement, 'Format email invalide');
+              return false;
+          }
+          showFieldSuccess(field, errorElement);
+          return true;
+      }
+
+      function validatePhoneField(field) {
+          const value = field.value.trim();
+          const errorElement = field.closest('.form-field').querySelector('.error-message');
+          const pattern = /^(0[5-7][0-9]{8}|(\+|00)212[5-7][0-9]{8})$/;
+          
+          if (!value) {
+              showFieldError(field, errorElement, 'Ce champ est requis');
+              return false;
+          }
+          if (!pattern.test(value)) {
+              showFieldError(field, errorElement, 'Format téléphone invalide');
+              return false;
+          }
+          showFieldSuccess(field, errorElement);
+          return true;
+      }
+
+      function updateCharacterCount(textarea) {
+          const count = textarea.value.length;
+          const characterCount = textarea.closest('.form-field').querySelector('.character-count');
+          const currentSpan = characterCount.querySelector('.current');
+          currentSpan.textContent = count;
+          
+          if (count > 450) {
+              characterCount.classList.add('near-limit');
+              characterCount.classList.remove('over-limit');
+          } else if (count > 500) {
+              characterCount.classList.add('over-limit');
+              characterCount.classList.remove('near-limit');
+          } else {
+              characterCount.classList.remove('near-limit', 'over-limit');
+          }
+      }
+
+      function showFieldError(field, errorElement, message) {
+          field.classList.add('input-error');
+          field.classList.remove('input-success');
+          errorElement.textContent = message;
+          errorElement.style.display = 'block';
+      }
+
+      function showFieldSuccess(field, errorElement) {
+          field.classList.remove('input-error');
+          field.classList.add('input-success');
+          errorElement.style.display = 'none';
+      }
+
+      function validateJourneySection() {
+          let isValid = true;
+          const destination = document.getElementById('destination');
+          const destinationError = document.getElementById('destination-error');
+          const package = document.getElementById('package');
+          const packageError = document.getElementById('package-error');
+          
+          if (!destination.value) {
+              destinationError.textContent = 'Veuillez sélectionner une destination';
+              destinationError.style.display = 'block';
+              isValid = false;
+          } else {
+              destinationError.style.display = 'none';
+          }
+          
+          if (!package.value) {
+              packageError.textContent = 'Veuillez sélectionner un package';
+              packageError.style.display = 'block';
+              isValid = false;
+          } else {
+              packageError.style.display = 'none';
+          }
+          
+          if (!validateDepartureDate()) isValid = false;
+          return isValid;
+      }
+
+      function validateDepartureDate() {
           const dateInput = document.getElementById('departure-date');
-          const today = new Date();
-          const minDate = new Date();
-          minDate.setDate(today.getDate() + 1); // Demain
+          const errorElement = document.getElementById('departure-date-error');
+          const selectedDate = new Date(dateInput.value);
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          tomorrow.setHours(0, 0, 0, 0);
           
           const maxDate = new Date();
-          maxDate.setDate(today.getDate() + 30); // 30 jours dans le futur
+          maxDate.setDate(maxDate.getDate() + 30);
+          
+          if (!dateInput.value) {
+              errorElement.textContent = 'Veuillez sélectionner une date de départ';
+              errorElement.style.display = 'block';
+              return false;
+          }
+          if (selectedDate < tomorrow) {
+              errorElement.textContent = 'La date de départ doit être au moins demain';
+              errorElement.style.display = 'block';
+              return false;
+          }
+          if (selectedDate > maxDate) {
+              errorElement.textContent = 'La date de départ ne peut pas dépasser 30 jours';
+              errorElement.style.display = 'block';
+              return false;
+          }
+          errorElement.style.display = 'none';
+          return true;
+      }
 
-          dateInput.min = minDate.toISOString().split('T')[0];
-          dateInput.max = maxDate.toISOString().split('T')[0];
-        }
-      });
+      function validatePersonalSection() {
+          let isValid = true;
+          const passengerForms = document.querySelectorAll('.passenger-form');
+          
+          passengerForms.forEach((form) => {
+              const firstName = form.querySelector('input[name="first-name[]"]');
+              const lastName = form.querySelector('input[name="last-name[]"]');
+              const email = form.querySelector('input[name="email[]"]');
+              const phone = form.querySelector('input[name="phone[]"]');
+              
+              if (!validateNameField(firstName)) isValid = false;
+              if (!validateNameField(lastName)) isValid = false;
+              if (!validateEmailField(email)) isValid = false;
+              if (!validatePhoneField(phone)) isValid = false;
+          });
+          
+          const nextButton = document.getElementById('next-to-confirmation');
+          if (isValid) {
+              nextButton.classList.remove('btn-invalid');
+              nextButton.classList.add('btn-valid');
+              nextButton.disabled = false;
+          } else {
+              nextButton.classList.remove('btn-valid');
+              nextButton.classList.add('btn-invalid');
+              nextButton.disabled = true;
+          }
+          
+          return isValid;
+      }
+
+      function initializeFormValidation(form) {
+          const nameInputs = form.querySelectorAll('.name-input');
+          const emailInputs = form.querySelectorAll('.email-input');
+          const phoneInputs = form.querySelectorAll('.phone-input');
+          const textareas = form.querySelectorAll('.requirements-textarea');
+          
+          nameInputs.forEach(input => input.addEventListener('input', () => {
+              validateNameField(input);
+              validatePersonalSection();
+          }));
+          emailInputs.forEach(input => input.addEventListener('input', () => {
+              validateEmailField(input);
+              validatePersonalSection();
+          }));
+          phoneInputs.forEach(input => input.addEventListener('input', () => {
+              validatePhoneField(input);
+              validatePersonalSection();
+          }));
+          textareas.forEach(textarea => textarea.addEventListener('input', () => updateCharacterCount(textarea)));
+      }
+
+      // ========== CONFIRMATION ET SAUVEGARDE ==========
+
+      function generateConfirmationSummary() {
+          const section = document.getElementById('confirmation-section');
+          const totalPrice = updatePriceDisplay();
+          const formData = getFormData();
+          currentBookingData = formData;
+          
+          section.innerHTML = `
+              <div class="text-center mb-8">
+                  <div class="confirmation-icon">
+                      <i class="fas fa-check-circle"></i>
+                  </div>
+                  <h2 class="font-orbitron text-3xl mb-4 text-glow">Récapitulatif de Votre Réservation</h2>
+                  <p class="text-xl text-gray-300">Vérifiez les détails de votre voyage spatial avant confirmation</p>
+              </div>
+              
+              <div class="booking-summary">
+                  <h3 class="font-orbitron text-xl mb-4 text-neon-blue">Détails du Voyage</h3>
+                  <div class="summary-item">
+                      <span class="summary-label">Destination:</span>
+                      <span class="summary-value">${formData.destination.name}</span>
+                  </div>
+                  <div class="summary-item">
+                      <span class="summary-label">Package:</span>
+                      <span class="summary-value">${formData.package.name}</span>
+                  </div>
+                  <div class="summary-item">
+                      <span class="summary-label">Date de départ:</span>
+                      <span class="summary-value">${new Date(formData.departureDate).toLocaleDateString('fr-FR')}</span>
+                  </div>
+                  <div class="summary-item">
+                      <span class="summary-label">Durée du séjour:</span>
+                      <span class="summary-value">${formData.tripDuration} jours</span>
+                  </div>
+                  <div class="summary-item">
+                      <span class="summary-label">Nombre de passagers:</span>
+                      <span class="summary-value">${formData.passengers.length}</span>
+                  </div>
+              </div>
+              
+              <div class="booking-summary">
+                  <h3 class="font-orbitron text-xl mb-4 text-neon-blue">Détails des Passagers</h3>
+                  ${formData.passengers.map((passenger, index) => `
+                      <div class="mb-4 pb-4 border-b border-gray-700 last:border-b-0 last:mb-0 last:pb-0">
+                          <h4 class="font-orbitron text-neon-cyan mb-2">Passager ${index + 1}</h4>
+                          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                              <div><span class="text-gray-400">Nom:</span> ${passenger.firstName} ${passenger.lastName}</div>
+                              <div><span class="text-gray-400">Email:</span> ${passenger.email}</div>
+                              <div><span class="text-gray-400">Téléphone:</span> ${passenger.phone}</div>
+                              ${passenger.specialRequirements ? `
+                                  <div class="md:col-span-2">
+                                      <span class="text-gray-400">Exigences particulières:</span> ${passenger.specialRequirements}
+                                  </div>
+                              ` : ''}
+                          </div>
+                      </div>
+                  `).join('')}
+              </div>
+              
+              <div class="booking-summary">
+                  <h3 class="font-orbitron text-xl mb-4 text-neon-blue">Détails du Prix</h3>
+                  <div class="summary-item">
+                      <span class="summary-label">Package de base:</span>
+                      <span class="summary-value">${formData.basePrice.toLocaleString()} €</span>
+                  </div>
+                  <div class="summary-item">
+                      <span class="summary-label">Hébergement (${formData.tripDuration} jours):</span>
+                      <span class="summary-value">${formData.accommodationPrice.toLocaleString()} €</span>
+                  </div>
+                  ${formData.passengersPrice > 0 ? `
+                      <div class="summary-item">
+                          <span class="summary-label">Passagers supplémentaires:</span>
+                          <span class="summary-value">${formData.passengersPrice.toLocaleString()} €</span>
+                      </div>
+                  ` : ''}
+                  ${formData.extrasPrice > 0 ? `
+                      <div class="summary-item">
+                          <span class="summary-label">Extras optionnels:</span>
+                          <span class="summary-value">${formData.extrasPrice.toLocaleString()} €</span>
+                      </div>
+                  ` : ''}
+                  <div class="total-price mt-4 pt-4 border-t border-neon-blue">
+                      Total: ${totalPrice.toLocaleString()} €
+                  </div>
+              </div>
+              
+              <div class="flex flex-col md:flex-row gap-4 justify-center mt-8">
+                  <button
+                      type="button"
+                      id="back-to-personal-from-confirm"
+                      class="btn-secondary text-white px-8 py-3 rounded-lg font-bold text-lg"
+                  >
+                      <i class="fas fa-arrow-left mr-2"></i>Retour
+                  </button>
+                  <button
+                      type="button"
+                      id="confirm-booking"
+                      class="btn-valid text-white px-8 py-3 rounded-lg font-bold text-lg"
+                  >
+                      <i class="fas fa-rocket mr-2"></i>Confirmer la Réservation
+                  </button>
+              </div>
+          `;
+          
+          document.getElementById('back-to-personal-from-confirm').addEventListener('click', backToPersonalFromConfirm);
+          document.getElementById('confirm-booking').addEventListener('click', confirmBooking);
+      }
+
+      function getFormData() {
+          const destinationId = document.getElementById('destination').value;
+          const destination = destinationsData.destinations.find(d => d.id === destinationId);
+          const packageId = document.getElementById('package').value;
+          const selectedPackage = destination.packages.find(p => p.id === packageId);
+          
+          const selectedAccommodation = document.querySelector('.accommodation-option.selected');
+          let accommodationData = null;
+          if (selectedAccommodation) {
+              const accName = selectedAccommodation.querySelector('h4').textContent;
+              const accPriceText = selectedAccommodation.querySelector('.accommodation-price').textContent;
+              accommodationData = {
+                  name: accName,
+                  pricePerDay: parseInt(accPriceText.replace(/[^\d]/g, ''))
+              };
+          }
+          
+          const passengerForms = document.querySelectorAll('.passenger-form');
+          const passengers = Array.from(passengerForms).map(form => {
+              return {
+                  firstName: form.querySelector('input[name="first-name[]"]').value,
+                  lastName: form.querySelector('input[name="last-name[]"]').value,
+                  email: form.querySelector('input[name="email[]"]').value,
+                  phone: form.querySelector('input[name="phone[]"]').value,
+                  specialRequirements: form.querySelector('textarea[name="special-requirements[]"]').value
+              };
+          });
+          
+          const selectedExtras = Array.from(document.querySelectorAll('.extra-checkbox:checked')).map(checkbox => {
+              return {
+                  id: checkbox.dataset.extra,
+                  name: optionalExtras[checkbox.dataset.extra].name,
+                  price: parseInt(checkbox.dataset.price)
+              };
+          });
+          
+          return {
+              destination: destination,
+              package: selectedPackage,
+              accommodation: accommodationData,
+              departureDate: document.getElementById('departure-date').value,
+              tripDuration: parseInt(document.getElementById('trip-duration').value),
+              passengers: passengers,
+              extras: selectedExtras,
+              basePrice: calculateBasePrice(),
+              accommodationPrice: calculateAccommodationPrice(),
+              passengersPrice: calculatePassengersPrice(),
+              extrasPrice: calculateExtrasPrice(),
+              totalPrice: updatePriceDisplay()
+          };
+      }
+
+      function backToPersonalFromConfirm() {
+          document.getElementById('confirmation-section').classList.add('hidden');
+          document.getElementById('personal-section').classList.remove('hidden');
+          updateStepIndicator(2);
+          updateFormBackground(2);
+      }
+
+      function confirmBooking() {
+          const formData = currentBookingData;
+          
+          // Valider une dernière fois
+          const errors = validateBookingData(formData);
+          if (errors.length > 0) {
+              showNotification('Veuillez corriger les erreurs suivantes: ' + errors.join(', '), 'error');
+              return;
+          }
+          
+          try {
+              // Vérifier si l'utilisateur est connecté
+              if (!isUserLoggedIn()) {
+                  // Afficher le modal de connexion
+                  document.getElementById('login-modal').classList.add('active');
+                  return;
+              }
+              
+              // Sauvegarder la réservation
+              const bookingId = saveBooking(formData);
+              
+              if (bookingId) {
+                  showSuccessMessage(bookingId);
+              } else {
+                  throw new Error('Erreur lors de la sauvegarde');
+              }
+              
+          } catch (error) {
+              console.error('Erreur lors de la confirmation:', error);
+              showNotification('Une erreur est survenue lors de la confirmation de votre réservation. Veuillez réessayer.', 'error');
+          }
+      }
+
+      // ========== GESTION DE LA CONNEXION ==========
+
+      function redirectToLogin() {
+          // Sauvegarder les données temporairement
+          localStorage.setItem('pendingBooking', JSON.stringify(currentBookingData));
+          // Rediriger vers la page de login
+          window.location.href = 'login.html?redirect=booking';
+      }
+
+      function continueAsGuest() {
+          document.getElementById('login-modal').classList.remove('active');
+          
+          try {
+              // Sauvegarder la réservation en tant qu'invité
+              const bookingId = saveBooking(currentBookingData);
+              
+              if (bookingId) {
+                  showSuccessMessage(bookingId);
+              } else {
+                  throw new Error('Erreur lors de la sauvegarde');
+              }
+              
+          } catch (error) {
+              console.error('Erreur lors de la sauvegarde invité:', error);
+              showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
+          }
+      }
+
+      function showSuccessMessage(bookingId) {
+          const section = document.getElementById('confirmation-section');
+          section.innerHTML = `
+              <div class="text-center py-12">
+                  <div class="confirmation-icon">
+                      <i class="fas fa-check-circle"></i>
+                  </div>
+                  <h2 class="font-orbitron text-3xl mb-4 text-glow">Réservation Confirmée!</h2>
+                  <p class="text-xl text-gray-300 mb-6">Votre voyage spatial a été réservé avec succès</p>
+                  
+                  <div class="booking-summary max-w-md mx-auto">
+                      <div class="summary-item">
+                          <span class="summary-label">Numéro de réservation:</span>
+                          <span class="summary-value">${bookingId}</span>
+                      </div>
+                      <div class="summary-item">
+                          <span class="summary-label">Statut:</span>
+                          <span class="summary-value text-green-400">Confirmée</span>
+                      </div>
+                      <div class="summary-item">
+                          <span class="summary-label">Montant total:</span>
+                          <span class="summary-value">${currentBookingData.totalPrice.toLocaleString()} €</span>
+                      </div>
+                  </div>
+                  
+                  <p class="text-gray-400 mt-6 mb-8">Redirection vers vos réservations dans 5 secondes...</p>
+                  
+                  <div class="flex gap-4 justify-center">
+                      <button onclick="window.location.href='my-bookings.html'" class="btn-primary text-white px-6 py-2 rounded-lg font-bold">
+                          <i class="fas fa-list mr-2"></i>Voir Mes Réservations
+                      </button>
+                      <button onclick="window.print()" class="btn-secondary text-white px-6 py-2 rounded-lg font-bold">
+                          <i class="fas fa-print mr-2"></i>Imprimer
+                      </button>
+                  </div>
+              </div>
+          `;
+          
+          showNotification('Réservation confirmée avec succès! Redirection en cours...');
+          
+          // Rediriger après 5 secondes
+          setTimeout(() => {
+              window.location.href = 'MyBooking.html';
+          }, 5000);
+      }
+
+      // Vérifier s'il y a une réservation en attente après connexion
+      function checkPendingBooking() {
+          const pendingBooking = localStorage.getItem('pendingBooking');
+          if (pendingBooking && isUserLoggedIn()) {
+              currentBookingData = JSON.parse(pendingBooking);
+              localStorage.removeItem('pendingBooking');
+              
+             
+              updateStepIndicator(3);
+              document.getElementById('journey-section').classList.add('hidden');
+              document.getElementById('personal-section').classList.add('hidden');
+              document.getElementById('confirmation-section').classList.remove('hidden');
+              updateFormBackground(3);
+              generateConfirmationSummary();
+              
+              showNotification('Réservation restaurée. Vous pouvez maintenant confirmer.', 'success');
+          }
+      }
+
+      // Exposer les fonctions globales
+      window.continueAsGuest = continueAsGuest;
     </script>
   </body>
 </html>

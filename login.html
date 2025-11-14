@@ -491,8 +491,14 @@
                 if (session) {
                     const sessionData = JSON.parse(session);
                     if (sessionData.isLoggedIn) {
-                        // User is already logged in, redirect to dashboard
-                        window.location.href = 'dashboard.html';
+                        
+                        const urlParams = new URLSearchParams(window.location.search);
+                           const redirect = urlParams.get('redirect');
+                          if (redirect === 'booking') {
+                                 window.location.href = 'booking.html';
+                                       } else {
+                          window.location.href = 'MyBooking.html';
+                            }
                     }
                 }
             }
