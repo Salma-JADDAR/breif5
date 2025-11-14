@@ -1888,130 +1888,335 @@
 
       // ========== DONNÉES DE L'APPLICATION ==========
 
-      const destinationsData = {
-        "destinations": [
-          {
-            "id": "moon",
-            "name": "Lune",
-            "description": "Voyage touristique lunaire - Découvrez notre satellite naturel avec un voyage de 3 jours. Profitez de vues imprenables sur la Terre depuis la surface lunaire et visitez les sites historiques d'atterrissage Apollo.",
-            "duration": "3 jours",
-            "distance": "384,400 km",
-            "gravity": "0.16g",
-            "temperature": "-173°C à 127°C",
-            "price": "25,000",
-            "currency": "€",
-            "planet": "Lune de la Terre",
-            "diameter": "3,474 km",
-            "dayLength": "27.3 jours terrestres",
-            "atmosphere": "Traces",
-            "bookingCode": "SV-LUNE",
-            "popularity": 5,
-            "safetyRating": 5,
-            "image": "images/MM.PNG",
-            "packages": [
-              {
-                "id": "basic",
-                "name": "Basique",
-                "description": "Package économique pour une expérience spatiale essentielle",
-                "price": 25000,
-                "features": ["Vol aller-retour", "Séjour en habitat lunaire", "Repas de base"],
-                "conditionalFields": []
-              },
-              {
-                "id": "premium",
-                "name": "Premium",
-                "description": "Package complet avec activités lunaires incluses",
-                "price": 50000,
-                "features": ["Vol aller-retour", "Séjour en habitat lunaire premium", "Repas gastronomiques", "Visite guidée des sites Apollo"],
-                "conditionalFields": ["suitSize"]
-              },
-              {
-                "id": "explorer",
-                "name": "Explorateur",
-                "description": "Pour les aventuriers cherchant une expérience lunaire complète",
-                "price": 75000,
-                "features": ["Vol aller-retour", "Séjour en habitat lunaire luxueux", "Repas gastronomiques", "Visite guidée des sites Apollo", "Moonwalk", "Collecte d'échantillons"],
-                "conditionalFields": ["suitSize", "trainingLevel"]
-              }
-            ]
-          },
-          {
-            "id": "mars",
-            "name": "Mars",
-            "description": "Mission scientifique sur Mars - Un voyage de 6 mois vers la planète rouge. Participez à des expériences scientifiques uniques et explorez les paysages martiens, ses canyons massifs et ses volcans imposants.",
-            "duration": "6 mois",
-            "distance": "225 million km",
-            "gravity": "0.38g",
-            "temperature": "-87°C à -5°C",
-            "price": "75,000",
-            "currency": "€",
-            "planet": "Mars",
-            "diameter": "6,779 km",
-            "dayLength": "24.6 heures",
-            "atmosphere": "CO₂ mince (95%)",
-            "bookingCode": "SV-MARS",
-            "popularity": 4,
-            "safetyRating": 4,
-            "image": "images/mars.PNG",
-            "packages": [
-              {
-                "id": "basic",
-                "name": "Observation",
-                "description": "Package d'observation de la planète rouge",
-                "price": 75000,
-                "features": ["Vol aller-retour", "Séjour en station martienne", "Observation des paysages martiens"],
-                "conditionalFields": []
-              },
-              {
-                "id": "explorer",
-                "name": "Explorateur",
-                "description": "Package d'exploration de la surface martienne",
-                "price": 120000,
-                "features": ["Vol aller-retour", "Séjour en station martienne", "Randonnées martiennes", "Collecte d'échantillons"],
-                "conditionalFields": ["suitSize", "fitnessLevel"]
-              },
-              {
-                "id": "scientist",
-                "name": "Scientifique",
-                "description": "Package complet pour participer à des recherches scientifiques",
-                "price": 200000,
-                "features": ["Vol aller-retour", "Séjour en station martienne", "Participation à des expériences", "Accès aux laboratoires", "Formation scientifique"],
-                "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
-              }
-            ]
-          }
-        ]
-      };
+    // ========== DONNÉES DE L'APPLICATION ==========
 
-      const accommodationsData = {
-        "accommodations": [
-          {
-            "id": "standard",
-            "name": "Cabine Standard",
-            "category": "economy",
-            "description": "Quartiers privés confortables avec équipements de base, parfaits pour les voyageurs spatiaux soucieux de leur budget.",
-            "shortDescription": "Quartiers privés confortables avec équipements de base",
-            "features": ["Pod de sommeil personnel", "Système de divertissement de base", "Casier de stockage personnel"],
-            "pricePerDay": 500,
-            "currency": "€",
-            "availableOn": ["moon", "mars", "orbital"],
-            "comfortRating": 3
-          },
-          {
-            "id": "luxury",
-            "name": "Suite de Luxe",
-            "category": "premium",
-            "description": "Suite spacieuse avec équipements premium et grandes fenêtres offrant des vues cosmiques spectaculaires.",
-            "shortDescription": "Suite spacieuse avec équipements premium et fenêtres",
-            "features": ["Suite privée spacieuse", "Grande fenêtre avec vues cosmiques", "Salle de bain privée", "Service de conciergerie personnel"],
-            "pricePerDay": 1200,
-            "currency": "€",
-            "availableOn": ["moon", "mars", "orbital"],
-            "comfortRating": 5
-          }
-        ]
-      };
-
+const destinationsData = {
+  "destinations": [
+    {
+      "id": "moon",
+      "name": "Lune",
+      "description": "Voyage touristique lunaire - Découvrez notre satellite naturel avec un voyage de 3 jours. Profitez de vues imprenables sur la Terre depuis la surface lunaire et visitez les sites historiques d'atterrissage Apollo.",
+      "duration": "3 jours",
+      "distance": "384,400 km",
+      "gravity": "0.16g",
+      "temperature": "-173°C à 127°C",
+      "price": "25,000",
+      "currency": "€",
+      "planet": "Lune de la Terre",
+      "diameter": "3,474 km",
+      "dayLength": "27.3 jours terrestres",
+      "atmosphere": "Traces",
+      "bookingCode": "SV-LUNE",
+      "popularity": 5,
+      "safetyRating": 5,
+      "image": "images/MM.PNG",
+      "packages": [
+        {
+          "id": "basic",
+          "name": "Basique",
+          "description": "Package économique pour une expérience spatiale essentielle",
+          "price": 25000,
+          "features": ["Vol aller-retour", "Séjour en habitat lunaire", "Repas de base"],
+          "conditionalFields": []
+        },
+        {
+          "id": "premium",
+          "name": "Premium",
+          "description": "Package complet avec activités lunaires incluses",
+          "price": 50000,
+          "features": ["Vol aller-retour", "Séjour en habitat lunaire premium", "Repas gastronomiques", "Visite guidée des sites Apollo"],
+          "conditionalFields": ["suitSize"]
+        },
+        {
+          "id": "explorer",
+          "name": "Explorateur",
+          "description": "Pour les aventuriers cherchant une expérience lunaire complète",
+          "price": 75000,
+          "features": ["Vol aller-retour", "Séjour en habitat lunaire luxueux", "Repas gastronomiques", "Visite guidée des sites Apollo", "Moonwalk", "Collecte d'échantillons"],
+          "conditionalFields": ["suitSize", "trainingLevel"]
+        }
+      ]
+    },
+    {
+      "id": "mars",
+      "name": "Mars",
+      "description": "Mission scientifique sur Mars - Un voyage de 6 mois vers la planète rouge. Participez à des expériences scientifiques uniques et explorez les paysages martiens, ses canyons massifs et ses volcans imposants.",
+      "duration": "6 mois",
+      "distance": "225 million km",
+      "gravity": "0.38g",
+      "temperature": "-87°C à -5°C",
+      "price": "75,000",
+      "currency": "€",
+      "planet": "Mars",
+      "diameter": "6,779 km",
+      "dayLength": "24.6 heures",
+      "atmosphere": "CO₂ mince (95%)",
+      "bookingCode": "SV-MARS",
+      "popularity": 4,
+      "safetyRating": 4,
+      "image": "images/mars.PNG",
+      "packages": [
+        {
+          "id": "basic",
+          "name": "Observation",
+          "description": "Package d'observation de la planète rouge",
+          "price": 75000,
+          "features": ["Vol aller-retour", "Séjour en station martienne", "Observation des paysages martiens"],
+          "conditionalFields": []
+        },
+        {
+          "id": "explorer",
+          "name": "Explorateur",
+          "description": "Package d'exploration de la surface martienne",
+          "price": 120000,
+          "features": ["Vol aller-retour", "Séjour en station martienne", "Randonnées martiennes", "Collecte d'échantillons"],
+          "conditionalFields": ["suitSize", "fitnessLevel"]
+        },
+        {
+          "id": "scientist",
+          "name": "Scientifique",
+          "description": "Package complet pour participer à des recherches scientifiques",
+          "price": 200000,
+          "features": ["Vol aller-retour", "Séjour en station martienne", "Participation à des expériences", "Accès aux laboratoires", "Formation scientifique"],
+          "conditionalFields": ["suitSize", "fitnessLevel", "scientificBackground"]
+        }
+      ]
+    },
+    // NOUVELLES DESTINATIONS AJOUTÉES
+    {
+      "id": "europa",
+      "name": "Europe",
+      "description": "La lune glacée de Jupiter cache un vaste océan souterrain qui pourrait abriter la vie. Découvrez des formations de glace incroyables et expérimentez les puissantes ceintures de radiation de Jupiter.",
+      "duration": "5-6 ans",
+      "distance": "628.3 million km",
+      "gravity": "0.13g",
+      "temperature": "-160°C en moyenne",
+      "price": "450,000",
+      "currency": "€",
+      "planet": "Lune de Jupiter",
+      "diameter": "3,122 km",
+      "dayLength": "3.5 jours terrestres",
+      "atmosphere": "Oxygène mince",
+      "bookingCode": "SV-EUROPA",
+      "popularity": 3,
+      "safetyRating": 3,
+      "image": "images/EY.PNG",
+      "packages": [
+        {
+          "id": "basic",
+          "name": "Exploration",
+          "description": "Package d'exploration des surfaces glacées",
+          "price": 450000,
+          "features": ["Vol aller-retour", "Séjour en station scientifique", "Observation des geysers de glace"],
+          "conditionalFields": []
+        },
+        {
+          "id": "explorer",
+          "name": "Scientifique",
+          "description": "Package complet pour l'étude des océans souterrains",
+          "price": 650000,
+          "features": ["Vol aller-retour", "Séjour en station scientifique avancée", "Forage de glace", "Étude des océans souterrains", "Observation de Jupiter"],
+          "conditionalFields": ["suitSize", "scientificBackground"]
+        },
+        {
+          "id": "pioneer",
+          "name": "Pionnier",
+          "description": "Expédition ultime vers les mystères d'Europe",
+          "price": 900000,
+          "features": ["Vol aller-retour", "Séjour en habitat de luxe", "Forage profond", "Exploration sous-glaciaire", "Observation VIP de Jupiter", "Accès aux données scientifiques"],
+          "conditionalFields": ["suitSize", "scientificBackground", "advancedTraining"]
+        }
+      ]
+    },
+    {
+      "id": "titan",
+      "name": "Titan",
+      "description": "La plus grande lune de Saturne possède une atmosphère épaisse, des lacs de méthane et une chimie organique complexe. Expérimentez le seul autre corps de notre système solaire avec des liquides stables à sa surface.",
+      "duration": "7 ans",
+      "distance": "1.2 milliard km",
+      "gravity": "0.14g",
+      "temperature": "-179°C",
+      "price": "600,000",
+      "currency": "€",
+      "planet": "Lune de Saturne",
+      "diameter": "5,150 km",
+      "dayLength": "16 jours terrestres",
+      "atmosphere": "Azote épais avec méthane",
+      "bookingCode": "SV-TITAN",
+      "popularity": 2,
+      "safetyRating": 3,
+      "image": "images/TITAN.PNG",
+      "packages": [
+        {
+          "id": "basic",
+          "name": "Découverte",
+          "description": "Package de découverte des paysages titaniens",
+          "price": 600000,
+          "features": ["Vol aller-retour", "Séjour en habitat orbital", "Observation des lacs de méthane"],
+          "conditionalFields": []
+        },
+        {
+          "id": "explorer",
+          "name": "Aventurier",
+          "description": "Exploration approfondie de la surface de Titan",
+          "price": 850000,
+          "features": ["Vol aller-retour", "Séjour en surface", "Navigation sur lacs de méthane", "Étude de la chimie organique", "Observation des anneaux de Saturne"],
+          "conditionalFields": ["suitSize", "fitnessLevel"]
+        },
+        {
+          "id": "pioneer",
+          "name": "Visionnaire",
+          "description": "Expédition historique vers les mystères de Titan",
+          "price": 1200000,
+          "features": ["Vol aller-retour", "Séjour en habitat de luxe", "Navigation avancée", "Recherche scientifique participative", "Observation VIP des anneaux", "Accès exclusif aux données"],
+          "conditionalFields": ["suitSize", "scientificBackground", "advancedTraining"]
+        }
+      ]
+    },
+    {
+      "id": "venus-clouds",
+      "name": "Cités des Nuages de Vénus",
+      "description": "Flottez parmi les nuages de Vénus dans nos cités nuageuses de pointe. Expérimentez des conditions semblables à la Terre à 50km d'altitude tout en observant l'atmosphère mystérieuse de Vénus.",
+      "duration": "5 mois",
+      "distance": "41 million km",
+      "gravity": "0.91g",
+      "temperature": "30°C (au niveau des nuages)",
+      "price": "300,000",
+      "currency": "€",
+      "planet": "Vénus",
+      "diameter": "12,104 km",
+      "dayLength": "243 jours terrestres",
+      "atmosphere": "CO₂ avec nuages d'acide sulfurique",
+      "bookingCode": "SV-VENUS",
+      "popularity": 3,
+      "safetyRating": 4,
+      "image": "images/VENUS.PNG",
+      "packages": [
+        {
+          "id": "basic",
+          "name": "Séjour Nuageux",
+          "description": "Package de séjour dans les cités flottantes",
+          "price": 300000,
+          "features": ["Vol aller-retour", "Séjour en cité nuageuse", "Observation atmosphérique"],
+          "conditionalFields": []
+        },
+        {
+          "id": "explorer",
+          "name": "Explorateur Atmosphérique",
+          "description": "Exploration approfondie de l'atmosphère vénusienne",
+          "price": 500000,
+          "features": ["Vol aller-retour", "Séjour en cité nuageuse premium", "Navigation atmosphérique", "Étude des nuages", "Observation des phénomènes météorologiques"],
+          "conditionalFields": ["suitSize", "fitnessLevel"]
+        },
+        {
+          "id": "pioneer",
+          "name": "Pionnier Vénusien",
+          "description": "Expérience ultime dans les hautes couches de Vénus",
+          "price": 750000,
+          "features": ["Vol aller-retour", "Séjour en suite exclusive", "Navigation personnalisée", "Recherche atmosphérique", "Observation des super-rotations", "Accès aux données exclusives"],
+          "conditionalFields": ["suitSize", "scientificBackground"]
+        }
+      ]
+    },
+    {
+      "id": "orbital-station",
+      "name": "Station Orbital",
+      "description": "Expérimentez la vie dans notre habitat orbital luxueux avec des vues à 360 degrés sur la Terre. Parfait pour les voyageurs spatiaux débutants cherchant une expérience spatiale plus courte et plus accessible.",
+      "duration": "2 jours",
+      "distance": "400 km",
+      "gravity": "Microgravité",
+      "temperature": "21°C contrôlé",
+      "price": "50,000",
+      "currency": "€",
+      "planet": "Orbite Terrestre Basse",
+      "diameter": "N/A",
+      "dayLength": "90 minutes (période orbitale)",
+      "atmosphere": "Semblable à la Terre (contrôlé)",
+      "bookingCode": "SV-ORBITAL",
+      "popularity": 4,
+      "safetyRating": 5,
+      "image": "images/orbital.PNG",
+      "packages": [
+        {
+          "id": "basic",
+          "name": "Séjour Orbital",
+          "description": "Package de découverte de la vie en orbite",
+          "price": 50000,
+          "features": ["Vol aller-retour", "Séjour en station", "Observation de la Terre"],
+          "conditionalFields": []
+        },
+        {
+          "id": "explorer",
+          "name": "Aventurier Spatial",
+          "description": "Expérience spatiale complète avec activités",
+          "price": 85000,
+          "features": ["Vol aller-retour", "Séjour en module premium", "Entraînement sortie spatiale", "Sports en microgravité", "Photographie orbitale"],
+          "conditionalFields": ["suitSize", "fitnessLevel"]
+        },
+        {
+          "id": "premium",
+          "name": "Expérience VIP",
+          "description": "Séjour orbital de luxe avec activités exclusives",
+          "price": 150000,
+          "features": ["Vol aller-retour", "Suite privée spacieuse", "Sortie spatiale guidée", "Accès aux observatoires", "Repas gastronomiques", "Service personnel"],
+          "conditionalFields": ["suitSize", "advancedTraining"]
+        }
+      ]
+    }
+  ]
+};
+const accommodationsData = {
+  "accommodations": [
+    {
+      "id": "standard",
+      "name": "Cabine Standard",
+      "category": "economy",
+      "description": "Quartiers privés confortables avec équipements de base, parfaits pour les voyageurs spatiaux soucieux de leur budget.",
+      "shortDescription": "Quartiers privés confortables avec équipements de base",
+      "features": ["Pod de sommeil personnel", "Système de divertissement de base", "Casier de stockage personnel"],
+      "pricePerDay": 500,
+      "currency": "€",
+      "availableOn": ["moon", "mars", "europa", "titan", "venus-clouds", "orbital-station"],
+      "comfortRating": 3
+    },
+    {
+      "id": "luxury",
+      "name": "Suite de Luxe",
+      "category": "premium",
+      "description": "Suite spacieuse avec équipements premium et grandes fenêtres offrant des vues cosmiques spectaculaires.",
+      "shortDescription": "Suite spacieuse avec équipements premium et fenêtres",
+      "features": ["Suite privée spacieuse", "Grande fenêtre avec vues cosmiques", "Salle de bain privée", "Service de conciergerie personnel"],
+      "pricePerDay": 1200,
+      "currency": "€",
+      "availableOn": ["moon", "mars", "europa", "titan", "venus-clouds", "orbital-station"],
+      "comfortRating": 5
+    },
+    {
+      "id": "zero-g",
+      "name": "Module Zéro-G",
+      "category": "special",
+      "description": "Expérience unique de sommeil en apesanteur avec vue panoramique sur l'espace.",
+      "shortDescription": "Expérience de sommeil en apesanteur",
+      "features": ["Sommeil en microgravité", "Vue panoramique à 360°", "Système de climatisation avancé", "Isolation sonore premium"],
+      "pricePerDay": 2000,
+      "currency": "€",
+      "availableOn": ["orbital-station", "moon", "mars"],
+      "comfortRating": 4
+    },
+    {
+      "id": "scientific",
+      "name": "Module Scientifique",
+      "category": "special",
+      "description": "Hébergement équipé pour les recherches scientifiques avec accès aux laboratoires.",
+      "shortDescription": "Hébergement pour chercheurs et scientifiques",
+      "features": ["Accès aux laboratoires", "Station de travail scientifique", "Équipement d'analyse", "Connexion données haute vitesse"],
+      "pricePerDay": 1500,
+      "currency": "€",
+      "availableOn": ["europa", "titan", "mars"],
+      "comfortRating": 4
+    }
+  ]
+};
       const optionalExtras = {
         "insurance": {
           "id": "insurance",
@@ -2609,6 +2814,107 @@
           });
       }
 
+      function displayConditionalFields(package) {
+  const container = document.getElementById('conditional-fields-container');
+  container.innerHTML = '';
+
+  package.conditionalFields.forEach(field => {
+    let fieldHTML = '';
+    
+    switch(field) {
+      case 'suitSize':
+        fieldHTML = `
+          <div class="form-group">
+            <label class="block mb-2 text-gray-300">Taille de combinaison spatiale</label>
+            <select class="h-12" name="suit-size" required>
+              <option value="">Sélectionnez votre taille</option>
+              <option value="xs">XS (Extra Small)</option>
+              <option value="s">S (Small)</option>
+              <option value="m">M (Medium)</option>
+              <option value="l">L (Large)</option>
+              <option value="xl">XL (Extra Large)</option>
+              <option value="xxl">XXL (Double Extra Large)</option>
+            </select>
+          </div>
+        `;
+        break;
+      
+      case 'fitnessLevel':
+        fieldHTML = `
+          <div class="form-group">
+            <label class="block mb-2 text-gray-300">Niveau de condition physique</label>
+            <select class="h-12" name="fitness-level" required>
+              <option value="">Sélectionnez votre niveau</option>
+              <option value="beginner">Débutant</option>
+              <option value="intermediate">Intermédiaire</option>
+              <option value="advanced">Avancé</option>
+              <option value="athlete">Athlète</option>
+            </select>
+          </div>
+        `;
+        break;
+      
+      case 'scientificBackground':
+        fieldHTML = `
+          <div class="form-group">
+            <label class="block mb-2 text-gray-300">Formation scientifique</label>
+            <select class="h-12" name="scientific-background" required>
+              <option value="">Sélectionnez votre niveau</option>
+              <option value="none">Aucune formation spécifique</option>
+              <option value="basic">Formation de base en sciences</option>
+              <option value="bachelor">Licence/Bac+3 en sciences</option>
+              <option value="master">Master/Bac+5 en sciences</option>
+              <option value="phd">Doctorat en sciences</option>
+            </select>
+          </div>
+        `;
+        break;
+      
+      case 'trainingLevel':
+        fieldHTML = `
+          <div class="form-group">
+            <label class="block mb-2 text-gray-300">Niveau de formation spatiale</label>
+            <select class="h-12" name="training-level" required>
+              <option value="">Sélectionnez votre niveau</option>
+              <option value="basic">Formation de base</option>
+              <option value="intermediate">Formation intermédiaire</option>
+              <option value="advanced">Formation avancée</option>
+              <option value="expert">Expert certifié</option>
+            </select>
+          </div>
+        `;
+        break;
+      
+      case 'advancedTraining':
+        fieldHTML = `
+          <div class="form-group">
+            <label class="block mb-3 text-gray-300">Formations spécialisées complétées</label>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input type="checkbox" name="advanced-training[]" value="survival" class="mr-2">
+                <span>Formation survie en environnement extrême</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="advanced-training[]" value="research" class="mr-2">
+                <span>Méthodologie de recherche scientifique</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="advanced-training[]" value="equipment" class="mr-2">
+                <span>Utilisation d'équipement scientifique avancé</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="advanced-training[]" value="emergency" class="mr-2">
+                <span>Procédures d'urgence avancées</span>
+              </label>
+            </div>
+          </div>
+        `;
+        break;
+    }
+    
+    container.innerHTML += fieldHTML;
+  });
+}
       function validateNameField(field) {
           const value = field.value.trim();
           const errorElement = field.closest('.form-field').querySelector('.error-message');
